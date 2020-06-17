@@ -15,4 +15,10 @@ my_favorite_movies = 'Терминатор, Пятый элемент, Ават�
 # Использовать .split() или .find()или другие методы строки нельзя - пользуйтесь только срезами,
 # как указано в задании!
 
-# TODO здесь ваш код
+movie1 = my_favorite_movies[:10]
+movie2 = my_favorite_movies[12: 24]
+movie3 = my_favorite_movies[27: 33]
+movie4 = my_favorite_movies[35: 40]
+movie5 = my_favorite_movies[42:]
+
+print(movie1, movie5, movie2, movie4)
