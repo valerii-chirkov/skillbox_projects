@@ -6,6 +6,8 @@
 # где a, это число которое надо округлить, а b количество знаков после запятой
 # более подробно про функцию round смотрите в документации https://docs.python.org/3/search.html?q=round
 
+# Начиная с третьего модуля буду обращать внимание на то что подчеркивает Пайчар. Придерживаемся PEP8
+# TODO Данные комментарии в коде излишне, тем более подчеркнуты
 violator_songs_list = [
     ['World in My Eyes', 4.86], #0
     ['Sweetest Perfection', 4.43], #1
@@ -38,8 +40,12 @@ violator_songs_dict = {
 
 # Распечатайте общее время звучания трех песен: 'Sweetest Perfection', 'Policy of Truth' и 'Blue Dress'
 #   А другие три песни звучат приблизительно ХХХ минут
-
-three_songs_time = violator_songs_dict['Sweetest Perfection'] + violator_songs_dict['Policy of Truth'] + violator_songs_dict['Blue Dress']
+# TODO Все вычисления и преобразования лучше выполнять до, а в принте выводить эту переменную
+# TODO Нужно функцией раудн сделать так чтобы не было дробной части у числа!
+# Строка сильно длинная и вылезла за границы документа, ее нужно перенести
+# При переносе строк лучше не использовать /, а взять все в () тогда данный символ не требуется. Вот так
+three_songs_time = (violator_songs_dict['Sweetest Perfection'] + violator_songs_dict['Policy of Truth'] +
+                    violator_songs_dict['Blue Dress'])
 print(f'Общее время звучания трех песен: \'Sweetest Perfection\', \'Policy of Truth\' и \'Blue Dress\' - {round(three_songs_time, 2)} минут')
 
 # Обратите внимание, что делать много вычислений внутри print() - плохой стиль.
