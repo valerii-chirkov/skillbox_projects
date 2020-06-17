@@ -31,45 +31,41 @@ store = {
     ],
 }
 
-# Рассчитать на какую сумму лежит каждого товара на складе
-# например для ламп
-
-#Присваиваем переменной код товара:
+# Присваиваем переменной код товара:
 lamp_code = goods['Лампа']
 table_code = goods['Стол']
 sofa_code = goods['Диван']
 chair_code = goods['Стул']
 
-#Присваиваем переменной первое значение кода:
+# Присваиваем переменной первое значение кода:
 lamps_item = store[lamp_code][0]
 tables_item = store[table_code][0]
 sofas_item = store[sofa_code][0]
 chairs_item = store[chair_code][0]
 
-#Присваиваем переменной количество по ключу:
+# Присваиваем переменной количество по ключу:
 lamps_quantity = lamps_item['quantity']
 tables_quantity = tables_item['quantity']
 sofas_quantity = sofas_item['quantity']
 chairs_quantity = chairs_item['quantity']
 
-#Присваиваем переменной стоимость по ключу:
+# Присваиваем переменной стоимость по ключу:
 lamps_price = lamps_item['price']
 tables_price = tables_item['price']
 sofas_price = sofas_item['price']
 chairs_price = chairs_item['price']
 
-#Присваиваем переменной сумму значений:
+# Присваиваем переменной сумму значений:
 lamps_cost = lamps_quantity * lamps_price
 tables_cost = tables_quantity * tables_price
 sofas_cost = sofas_quantity * sofas_price
 chairs_cost = chairs_quantity * chairs_price
 
-#Выводим в консоль:
+# Выводим в консоль:
 print('Лампа -', lamps_quantity, 'шт, стоимость', lamps_cost, 'руб')
 print('Стол -', tables_quantity, 'шт, стоимость', tables_cost, 'руб')
 print('Диван -', sofas_quantity, 'шт, стоимость', sofas_cost, 'руб')
 print('Стул -', chairs_quantity, 'шт, стоимость', chairs_cost, 'руб')
-
 
 
 # Вывести стоимость каждого вида товара на складе:
