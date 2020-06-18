@@ -24,3 +24,4 @@ sum_height = mother_height + father_height + uncle_height + granny_height
 print(f'Рост отца - {father_height} см')
 print(f'Общий рост моей семьи (без учета меня) - {sum_height} см')
 
+# зачет!

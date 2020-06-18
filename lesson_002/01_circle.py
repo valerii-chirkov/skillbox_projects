@@ -51,4 +51,4 @@ print(distance2 < radius)
 # False
 # False
 
-
+# зачет!
