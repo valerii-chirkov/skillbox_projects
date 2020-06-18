@@ -18,6 +18,25 @@ violator_songs_list = [
     ['Clean', 5.83],
 ]
 
+# TODO Куда делся словарик ? добавил его снова!
+
+# Есть словарь песен группы Depeche Mode
+violator_songs_dict = {
+    'World in My Eyes': 4.76,
+    'Sweetest Perfection': 4.43,
+    'Personal Jesus': 4.56,
+    'Halo': 4.30,
+    'Waiting for the Night': 6.07,
+    'Enjoy the Silence': 4.6,
+    'Policy of Truth': 4.88,
+    'Blue Dress': 4.18,
+    'Clean': 5.68,
+}
+
+# Распечатайте общее время звучания трех песен: 'Sweetest Perfection', 'Policy of Truth' и 'Blue Dress'
+#   А другие три песни звучат приблизительно ХХХ минут
+
+# TODO константы отлично, нужные оставляем не нужные удаляем
 WORLD_IN_MY_EYES = violator_songs_list[0][1]
 SWEETEST_PERFECTION = violator_songs_list[1][1]
 PERSONAL_JESUS = violator_songs_list[2][1]
@@ -29,7 +48,10 @@ BLUE_DRESS = violator_songs_list[7][1]
 CLEAN = violator_songs_list[8][1]
 three_songs_time = round(SWEETEST_PERFECTION + POLICY_OF_TRUTH + BLUE_DRESS)
 
+# TODO отлично f строки
+# TODO Вычисления и преобразования из принта выносим в отдельную переменную
 print(f'Три песни звучат {round(HALO + ENJOY_THE_SILENCE + CLEAN)} минут')
+# TODO Этот вывод должен быть по словарю violator_songs_dict
 print(f'Общее время звучания трех песен: Sweetest Perfection, Policy of Truth и Blue Dress -'
       f' {round(three_songs_time, 2)} минут')
 
