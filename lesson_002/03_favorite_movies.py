@@ -21,5 +21,7 @@ movie3 = my_favorite_movies[27: 33]
 movie4 = my_favorite_movies[35: 40]
 movie5 = my_favorite_movies[42:]
 
-# TODO По заданию нужно вывести в столбик
-print(movie1, movie5, movie2, movie4)
+print(movie1)
+print(movie5)
+print(movie2)
+print(movie4)
