@@ -30,8 +30,6 @@ store = {
         {'quantity': 43, 'price': 97},
     ],
 }
-# TODO отлично вы посчитали количество и цену на первом складе, по заданию нужно посчитать остатки на каждом складе
-# TODO и их общею стоимость каждой позиции товара
 # Присваиваем переменной код товара:
 lamp_code = goods['Лампа']
 table_code = goods['Стол']
@@ -40,33 +38,47 @@ chair_code = goods['Стул']
 
 # Присваиваем переменной первое значение кода:
 lamps_item = store[lamp_code][0]
-tables_item = store[table_code][0]
-sofas_item = store[sofa_code][0]
-chairs_item = store[chair_code][0]
-
+tables_item1 = store[table_code][0]
+tables_item2 = store[table_code][1]
+sofas_item1 = store[sofa_code][0]
+sofas_item2 = store[sofa_code][1]
+chairs_item1 = store[chair_code][0]
+chairs_item2 = store[chair_code][1]
+chairs_item3 = store[chair_code][2]
 # Присваиваем переменной количество по ключу:
 lamps_quantity = lamps_item['quantity']
-tables_quantity = tables_item['quantity']
-sofas_quantity = sofas_item['quantity']
-chairs_quantity = chairs_item['quantity']
+tables_quantity1 = tables_item1['quantity']
+tables_quantity2 = tables_item2['quantity']
+sofas_quantity1 = sofas_item1['quantity']
+sofas_quantity2 = sofas_item2['quantity']
+chairs_quantity1 = chairs_item1['quantity']
+chairs_quantity2 = chairs_item2['quantity']
+chairs_quantity3 = chairs_item3['quantity']
 
 # Присваиваем переменной стоимость по ключу:
 lamps_price = lamps_item['price']
-tables_price = tables_item['price']
-sofas_price = sofas_item['price']
-chairs_price = chairs_item['price']
+tables_price1 = tables_item1['price']
+tables_price2 = tables_item2['price']
+sofas_price1 = sofas_item1['price']
+sofas_price2 = sofas_item2['price']
+chairs_price1 = chairs_item1['price']
+chairs_price2 = chairs_item2['price']
+chairs_price3 = chairs_item3['price']
 
 # Присваиваем переменной сумму значений:
 lamps_cost = lamps_quantity * lamps_price
-tables_cost = tables_quantity * tables_price
-sofas_cost = sofas_quantity * sofas_price
-chairs_cost = chairs_quantity * chairs_price
+tables_cost = tables_quantity1 * tables_price1 + tables_quantity2 * tables_price2
+sofas_cost = sofas_quantity1 * sofas_price1 + sofas_quantity2 * sofas_price2
+chairs_cost = chairs_quantity1 * chairs_price1 + chairs_quantity2 * chairs_price2 + chairs_quantity3 * chairs_price3
 
+tables_quantity_overall = tables_quantity1 + tables_quantity2
+sofas_quantity_overall = sofas_quantity1 + sofas_quantity2
+chairs_quantity_overall = chairs_quantity1 + chairs_quantity2 + chairs_quantity3
 # Выводим в консоль:
 print('Лампа -', lamps_quantity, 'шт, стоимость', lamps_cost, 'руб')
-print('Стол -', tables_quantity, 'шт, стоимость', tables_cost, 'руб')
-print('Диван -', sofas_quantity, 'шт, стоимость', sofas_cost, 'руб')
-print('Стул -', chairs_quantity, 'шт, стоимость', chairs_cost, 'руб')
+print('Стол -', tables_quantity_overall, 'шт, стоимость', tables_cost, 'руб')
+print('Диван -', sofas_quantity_overall, 'шт, стоимость', sofas_cost, 'руб')
+print('Стул -', chairs_quantity_overall, 'шт, стоимость', chairs_cost, 'руб')
 
 
 # Вывести стоимость каждого вида товара на складе:
