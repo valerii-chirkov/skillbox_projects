@@ -32,12 +32,10 @@ secret_message = [
 #   Требуется задать конкретные индексы, например secret_message[3][12:23:4]
 #   4е и 5е слова нужно получить за 1 срез
 #   Если нужны вычисления и разные пробы - делайте это в консоли пайтона, тут нужен только результат
+first_word = secret_message[0][3]
+second_word = secret_message[1][9:13]
+third_word = secret_message[2][5:15:2]
+fourth_word = secret_message[3][12:6:-1]
+fifth_word = secret_message[4][20:15:-1]
+print(first_word, second_word, third_word, fourth_word, fifth_word)
 
-# Строка сильно длинная и вылезла за границы документа, ее нужно перенести
-print(secret_message[0][3],
-      secret_message[1][9:13],
-      secret_message[2][5:15:2],
-      secret_message[3][12:6:-1],
-      secret_message[4][20:15:-1])
-
-# зачет!
