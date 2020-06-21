@@ -54,3 +54,5 @@ for title, code in goods.items():
         quantity += goods['quantity']
         price += goods['quantity'] * goods['price']
     print(f'{title} - Количество: {quantity}, Стоимость: {price}')
+
+# зачет!
