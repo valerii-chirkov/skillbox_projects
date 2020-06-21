@@ -29,9 +29,4 @@ def bricks1():
             end1 = simple_draw.get_point(x22, y22)
             lines1 = simple_draw.line(start_point=start1, end_point=end1, color=COLOR_BEIGE, width=5)
 
-        y1 -= 50
-        y2 -= 50
-
-
-bricks1()
 simple_draw.pause()
