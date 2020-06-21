@@ -10,6 +10,7 @@
 #   Студенту надо попросить ХХХ.ХХ рублей
 
 educational_grant, expenses = 10000, 12000
+# TODO Давайте более осмысленные имена переменным, это скорее месяц
 time = 0
 
 expenses_year = 0
@@ -23,4 +24,5 @@ while time < 9:
 
 expenses_year += 12000
 needs = round(expenses_year) - educational_grant_sum
+# TODO Нужно добавить описание что это выводится на консоль, вывод должен быть Студенту надо попросить ХХХ.ХХ рублей
 print(needs)
