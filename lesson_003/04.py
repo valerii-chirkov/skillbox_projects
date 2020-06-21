@@ -10,19 +10,16 @@
 #   Студенту надо попросить ХХХ.ХХ рублей
 
 educational_grant, expenses = 10000, 12000
-# TODO Давайте более осмысленные имена переменным, это скорее месяц
-time = 0
-
+month = 0
 expenses_year = 0
 educational_grant_sum = educational_grant * 10
 
 # 9 периодов, так как 1 месяц расходы не увеличиваются
-while time < 9:
-    time += 1
+while month < 9:
+    month += 1
     expenses += expenses * 103/100 - expenses
     expenses_year += expenses
 
 expenses_year += 12000
 needs = round(expenses_year) - educational_grant_sum
-# TODO Нужно добавить описание что это выводится на консоль, вывод должен быть Студенту надо попросить ХХХ.ХХ рублей
-print(needs)
+print(f'Студенту надо попросить {needs} рублей')
