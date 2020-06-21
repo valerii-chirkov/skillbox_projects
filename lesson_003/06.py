@@ -7,48 +7,45 @@ rainbow_colors = (sd.COLOR_RED, sd.COLOR_ORANGE, sd.COLOR_YELLOW, sd.COLOR_GREEN
                   sd.COLOR_CYAN, sd.COLOR_BLUE, sd.COLOR_PURPLE)
 
 # Нарисовать радугу: 7 линий разного цвета толщиной 4 с шагом 5 из точки (50, 50) в точку (350, 450)
-
-# TODO Используйте комментирование через #, поправил
-
-point = sd.get_point(50, 50)
-# TODO Это переменную будем получать в цикле ее можно не объявлять
-color = None
-# TODO Данная переменная тут не пригодится все на много проще
-distance = ((50 - 350) ** 2 + (50 - 450) ** 2) ** 0.5
+start_x = 50
+start_y = 50
+end_x = 350
+end_y = 350
 
 
-# TODO код не работает
-def bubble(point, step):
-    radius = distance
-    # TODO Цикл нужно заводить сразу по тьюплу rainbow_colors и брать от туда color
+def line(point_start_x, point_start_y, point_end_x, point_end_y, step):
     for i in range(7):
+        start = sd.get_point(point_start_x, point_start_y)
+        end = sd.get_point(point_end_x, point_end_y)
+
+        point_start_x += step
+        point_end_x += step
         color = rainbow_colors[i]
-        radius += step
-        # TODO По заданию нужно нарисовать 7 линий
-        sd.circle(center_position=point, radius=radius, color=color, width=5)
+
+        sd.line(start, end, color=color, width=4)
 
 
-bubble(point=point, step=5)
+line(point_start_x=start_x, point_start_y=start_y, point_end_x=end_x, point_end_y=end_y, step=5)
 
 # Усложненное задание, делать по желанию.
 # Нарисовать радугу дугами от окружности (cсм sd.circle) за нижним краем экрана,
 # поэкспериментировать с параметрами, что бы было красиво
+
+
 # sd.set_screen_size(width=350, height=600)
 # point = sd.get_point(460, -200)
-# color = sd.COLOR_BLACK
-# distance = ((50 - 350) ** 2 + (50 - 450) ** 2) ** 0.5
+# sd.background_color = (15, 116, 235)
 #
-# TODO код не работает
-# TODO все комментарии аналогичные
-# def bubble(point, step):
-#     radius = distance
+#
+# def rainbow(point, step):
+#     radius = 500
 #     for i in range(7):
 #         color = rainbow_colors[i]
 #         radius += step
-          # TODO тут все верно нужно использовать circle
 #         sd.circle(center_position=point, radius=radius, color=color, width=30)
 #
 #
-# bubble(point=point, step=30)
+# rainbow(point=point, step=30)
+
 
 sd.pause()
