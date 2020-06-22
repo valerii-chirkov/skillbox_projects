@@ -16,3 +16,4 @@ while counter1 < num1:
     counter1 += num2
     counter2 += 1
 print(f'Целочисленное деление {num1} на {num2} дает {counter2}')
+
