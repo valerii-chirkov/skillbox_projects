@@ -27,3 +27,4 @@ if month in months:
 
 if month not in months:
     print('Ошибка')
+
