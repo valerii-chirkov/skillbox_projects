@@ -34,4 +34,4 @@ three_songs_time_HEC = round(HALO + ENJOY_THE_SILENCE + CLEAN)
 print(f'Три песни звучат {three_songs_time_HEC} минут')
 print(f'Общее время звучания трех песен: {three_songs_titles_SPB} = {three_songs_time_SPB} минут')
 
-
+# зачет!

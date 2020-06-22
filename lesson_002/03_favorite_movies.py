@@ -19,9 +19,11 @@ movie1 = my_favorite_movies[:10]
 movie2 = my_favorite_movies[12: 24]
 movie3 = my_favorite_movies[27: 33]
 movie4 = my_favorite_movies[35: 40]
-movie5 = my_favorite_movies[42:]
+movie5 = my_favorite_movies[42:]  # Есть вариант взять с конца строки отрицательным индексом [-15:]
 
 print(movie1)
 print(movie5)
 print(movie2)
 print(movie4)
+
+# зачет!

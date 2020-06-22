@@ -38,6 +38,4 @@ distances = {moscow_distance['Москва Лондон'], moscow_distance['Мо
 # Выводим дистанции по ключу
 pprint(distances)
 
-
-
-
+# зачет!
