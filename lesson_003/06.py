@@ -13,7 +13,13 @@ end_x = 350
 end_y = 350
 
 
+# TODO Если параметров при вызове - больше 2х то надо уже именовать.
+# TODO всегда - это будет полезно в будущем: добавим новый параметр, изменим порядок параметров.параметр,
+# TODO изменим порядок параметров.
+
+# TODO Имя функции должно отображать ее суть что она делает!
 def line(point_start_x, point_start_y, point_end_x, point_end_y, step):
+    # TODO Цикл заводить сразу по тьюплу rainbow_colors и получать из него color
     for i in range(7):
         start = sd.get_point(point_start_x, point_start_y)
         end = sd.get_point(point_end_x, point_end_y)
@@ -32,20 +38,21 @@ line(point_start_x=start_x, point_start_y=start_y, point_end_x=end_x, point_end_
 # поэкспериментировать с параметрами, что бы было красиво
 
 
-# sd.set_screen_size(width=350, height=600)
-# point = sd.get_point(460, -200)
-# sd.background_color = (15, 116, 235)
-#
-#
-# def rainbow(point, step):
-#     radius = 500
-#     for i in range(7):
-#         color = rainbow_colors[i]
-#         radius += step
-#         sd.circle(center_position=point, radius=radius, color=color, width=30)
-#
-#
-# rainbow(point=point, step=30)
+sd.set_screen_size(width=350, height=600)
+point = sd.get_point(460, -200)
+sd.background_color = (15, 116, 235)
+
+
+def rainbow(point, step):
+    radius = 500
+    # TODO Цикл заводить сразу по тьюплу rainbow_colors и получать из него color
+    for i in range(7):
+        color = rainbow_colors[i]
+        radius += step
+        sd.circle(center_position=point, radius=radius, color=color, width=30)
+
+
+rainbow(point=point, step=30)
 
 
 sd.pause()
