@@ -56,3 +56,4 @@ for title, code in goods.items():
     print(f'{title} - Количество: {quantity}, Стоимость: {price}')
 
 # зачет!
+
