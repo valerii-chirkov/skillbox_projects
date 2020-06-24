@@ -24,13 +24,13 @@ colors = [
 start_coordinate_x, start_coordinate_y = 100, 100
 color = colors[0]
 
-
+# TODO Сама функция должна рисовать один смайлик в произвольной точки
 def smile(start_coordinate_x, start_coordinate_y, color):
     sd.resolution = (1200, 600)
     sd.background_color = color
-    ###############
-
-    ###############
+    # TODO Данный цикл нужно вынести из функции, в глобальную область
+    # TODO для того чтобы можно было задать нужное колличество смайликов
+    # TODO вызывая функцию smile
     for _ in range(10):
         start_point = sd.get_point(start_coordinate_x, start_coordinate_y)
 
@@ -60,7 +60,6 @@ def smile(start_coordinate_x, start_coordinate_y, color):
 
         start_coordinate_x += 110
         start_coordinate_y = sd.random_number(a=100, b=500)
-    ###############
 
 
 smile(start_coordinate_x, start_coordinate_y, color)
