@@ -10,11 +10,11 @@
 # Использовать только операторы if/elif/else, можно вложенные
 
 envelop_x, envelop_y = 10, 7
-paper_x, paper_y = 8, 9
+# paper_x, paper_y = 8, 9
 # проверить для
 # paper_x, paper_y = 9, 8
 # paper_x, paper_y = 6, 8
-# paper_x, paper_y = 8, 6
+paper_x, paper_y = 8, 6
 # paper_x, paper_y = 3, 4
 # paper_x, paper_y = 11, 9
 # paper_x, paper_y = 9, 11
@@ -24,6 +24,9 @@ paper_x, paper_y = 8, 9
 fit = (envelop_x - paper_x) | (envelop_y - paper_y) >= 0
 fit1 = (envelop_x - paper_y) | (envelop_y - paper_x) >= 0
 
+# Можно упростить, вот так
+# TODO не совсем верное условие, если одна из переменных будет форс то алгоритм выдаст фолс
+# TODO После корректировки условия, его можно будет упростить не проверяя принадлежит ли переменная boolean типу
 if fit and fit1 is True:
     print('ДА')
 else:
@@ -36,7 +39,7 @@ else:
 
 # переименовал, тк путаюсь в переменных
 hole_a, hole_b = 8, 9
-brick_x, brick_y, brick_z = 11, 10, 2
+# brick_x, brick_y, brick_z = 11, 10, 2
 # brick_x, brick_y, brick_z = 11, 2, 10
 # brick_x, brick_y, brick_z = 10, 11, 2
 # brick_x, brick_y, brick_z = 10, 2, 11
@@ -52,7 +55,7 @@ brick_x, brick_y, brick_z = 11, 10, 2
 # brick_x, brick_y, brick_z = 11, 6, 3
 # brick_x, brick_y, brick_z = 6, 11, 3
 # brick_x, brick_y, brick_z = 6, 3, 11
-# brick_x, brick_y, brick_z = 3, 6, 11
+brick_x, brick_y, brick_z = 3, 6, 11
 # brick_x, brick_y, brick_z = 3, 11, 6
 # (просто раскоментировать нужную строку и проверить свой код)
 
