@@ -18,6 +18,7 @@ educational_grant_sum = educational_grant * 10
 while month < 9:
     month += 1
     # TODO Тут мы и так считаем расходы за 9 месяцев
+    # TODO Данную строку нужно упростить на две слишком усложнено! проценты можно заменить на * 1.03
     expenses += expenses * 103/100 - expenses
     # TODO Дублирование переменной
     expenses_year += expenses
