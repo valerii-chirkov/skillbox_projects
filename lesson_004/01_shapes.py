@@ -43,54 +43,37 @@ start_point_hexagon = sd.get_point(360, 10)
 delta = 0
 length = 100
 
-# TODO Рисуем все линии через цикл! В цикле сразу получаем нужный угол.
 
 def triangle(start_point, delta, length):
-    shape_triangle_1 = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
-    shape_triangle_1.draw()
-    shape_triangle_2 = sd.get_vector(start_point=shape_triangle_1.end_point, angle=delta+120, length=length, width=2)
-    shape_triangle_2.draw()
-    shape_triangle_3 = sd.get_vector(start_point=shape_triangle_2.end_point, angle=delta+240, length=length, width=2)
-    shape_triangle_3.draw()
+    for _ in range(3):
+        shape_triangle = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
+        shape_triangle.draw()
+        delta += 120
+        start_point = shape_triangle.end_point
 
 
 def square(start_point, delta, length):
-    shape_square_1 = sd.get_vector(start_point=start_point, angle=delta, length=length-10, width=2)
-    shape_square_1.draw()
-    shape_square_2 = sd.get_vector(start_point=shape_square_1.end_point, angle=delta+90, length=length-10, width=2)
-    shape_square_2.draw()
-    shape_square_3 = sd.get_vector(start_point=shape_square_2.end_point, angle=delta+180, length=length-10, width=2)
-    shape_square_3.draw()
-    shape_square_4 = sd.get_vector(start_point=shape_square_3.end_point, angle=delta+270, length=length-10, width=2)
-    shape_square_4.draw()
+    for _ in range(4):
+        shape_square = sd.get_vector(start_point=start_point, angle=delta, length=length-10, width=2)
+        shape_square.draw()
+        delta += 90
+        start_point = shape_square.end_point
 
 
 def pentagon(start_point, delta, length):
-    shape_pentagon_1 = sd.get_vector(start_point=start_point, angle=delta, length=length-40, width=2)
-    shape_pentagon_1.draw()
-    shape_pentagon_2 = sd.get_vector(start_point=shape_pentagon_1.end_point, angle=delta+72, length=length-40, width=2)
-    shape_pentagon_2.draw()
-    shape_pentagon_3 = sd.get_vector(start_point=shape_pentagon_2.end_point, angle=delta+144, length=length-40, width=2)
-    shape_pentagon_3.draw()
-    shape_pentagon_4 = sd.get_vector(start_point=shape_pentagon_3.end_point, angle=delta+216, length=length-40, width=2)
-    shape_pentagon_4.draw()
-    shape_pentagon_5 = sd.get_vector(start_point=shape_pentagon_4.end_point, angle=delta+288, length=length-40, width=2)
-    shape_pentagon_5.draw()
+    for _ in range(5):
+        shape_pentagon = sd.get_vector(start_point=start_point, angle=delta, length=length-40, width=2)
+        shape_pentagon.draw()
+        delta += 72
+        start_point = shape_pentagon.end_point
 
 
 def hexagon(start_point, delta, length):
-    shape_hexagon_1 = sd.get_vector(start_point=start_point, angle=delta, length=length-45, width=2)
-    shape_hexagon_1.draw()
-    shape_hexagon_2 = sd.get_vector(start_point=shape_hexagon_1.end_point, angle=delta+60, length=length-45, width=2)
-    shape_hexagon_2.draw()
-    shape_hexagon_3 = sd.get_vector(start_point=shape_hexagon_2.end_point, angle=delta+120, length=length-45, width=2)
-    shape_hexagon_3.draw()
-    shape_hexagon_4 = sd.get_vector(start_point=shape_hexagon_3.end_point, angle=delta+180, length=length-45, width=2)
-    shape_hexagon_4.draw()
-    shape_hexagon_5 = sd.get_vector(start_point=shape_hexagon_4.end_point, angle=delta+240, length=length-45, width=2)
-    shape_hexagon_5.draw()
-    shape_hexagon_6 = sd.get_vector(start_point=shape_hexagon_5.end_point, angle=delta+300, length=length-45, width=2)
-    shape_hexagon_6.draw()
+    for _ in range(6):
+        shape_hexagon = sd.get_vector(start_point=start_point, angle=delta, length=length-45, width=2)
+        shape_hexagon.draw()
+        delta += 60
+        start_point = shape_hexagon.end_point
 
 
 triangle(start_point=start_point_triangle, delta=delta, length=length)
