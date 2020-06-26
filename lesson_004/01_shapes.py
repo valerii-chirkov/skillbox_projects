@@ -43,6 +43,7 @@ start_point_hexagon = sd.get_point(360, 10)
 delta = 0
 length = 100
 
+# TODO Рисуем все линии через цикл! В цикле сразу получаем нужный угол.
 
 def triangle(start_point, delta, length):
     shape_triangle_1 = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
