@@ -13,6 +13,14 @@ import simple_draw as sd
 # sd.get_vector()
 # и константы COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_CYAN, COLOR_BLUE, COLOR_PURPLE
 # Результат решения см lesson_004/results/exercise_02_global_color.jpg
+
+# TODO А что будет если попросят еще один цвет добавить? в скольких местах надо будет правки вносить?
+# TODO нужно сделать хранения цвета, его названия и его номера для выбора - в специальной структуре данных
+# TODO (список/словарь). Проверяем вхождения введенного номера в словаре по ключу, если есть берем все данные по нему!
+# TODO Это нужно для расширения кода, минимальными доработками! В Будущем.
+
+# TODO Используем код из второго задания первого урока
+
 colors = [sd.COLOR_RED, sd.COLOR_ORANGE, sd.COLOR_YELLOW, sd.COLOR_GREEN, sd.COLOR_CYAN, sd.COLOR_BLUE, sd.COLOR_PURPLE]
 start_point_triangle = sd.get_point(10, 10)
 start_point_square = sd.get_point(120, 10)
@@ -30,6 +38,10 @@ input_color = int(input('''Введите номер желаемого цвет
                     6. Фиолетовый
                     
                     '''))
+# TODO Код для работы с переменными переместить вниз документа
+
+# TODO В условии, если номер есть в словаре мы сможем сразу вытащить все нужные данные.
+# TODO Если нет то завершаем работу, выводом нужного сообщения
 if 0 <= input_color < 7:
     print('Вы ввели ', input_color)
     color = colors[input_color]
@@ -38,7 +50,9 @@ else:
     random_number = sd.random_number(0, 7)
     color = colors[random_number]
 
+# TODO функции обьявляются как и переменные(константы)в начале файла а сам код их вызова в конце
 
+# TODO Рисуем все линии через цикл! В цикле сразу получаем нужный угол.
 def triangle(start_point, delta, length):
     shape_triangle_1 = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
     shape_triangle_1.draw(color=color)
