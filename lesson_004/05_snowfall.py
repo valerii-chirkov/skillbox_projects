@@ -41,7 +41,7 @@ while i < N:
 while True:
     sd.clear_screen()
     # TODO Почему мы итерируемся только по 20?, нейминг переменной i
-    # TODO Можно стразу завести цикл по списку писков и брать нужный список с данными для снежинки
+    # TODO Можно стразу завести цикл по списку списков и брать нужный список с данными для снежинки
     for i in range(20):
         point = sd.get_point(list_x[i], list_y[i])
         sd.snowflake(center=point, length=random_length[i])
