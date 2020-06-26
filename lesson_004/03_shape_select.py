@@ -8,7 +8,7 @@ import simple_draw as sd
 
 # Код функций из упр lesson_004/02_global_color.py скопировать сюда
 # Результат решения см lesson_004/results/exercise_03_shape_select.jpg
-
+# TODO Константы из списка заносим в словарь по нужному ключу
 colors = [sd.COLOR_RED, sd.COLOR_ORANGE, sd.COLOR_YELLOW, sd.COLOR_GREEN, sd.COLOR_CYAN, sd.COLOR_BLUE, sd.COLOR_PURPLE]
 start_point_triangle = sd.get_point(250, 250)
 start_point_square = sd.get_point(250, 250)
@@ -33,6 +33,10 @@ input_shape = int(input('''Введите номер желаемой фигур
                     3. Шестиугольник
                     
                     '''))
+
+# TODO Тут делаем аналогично с поправками от прошлых уроков, + в словарях можно также хранить и функции.
+# TODO В условии, если номер есть в словаре мы сможем сразу вытащить все нужные данные и функцию рисования.
+# TODO Если нет то завершаем работу, выводом нужного сообщения
 if 0 <= input_color < 7:
     print('Вы ввели ', input_color)
     color = colors[input_color]
@@ -99,6 +103,8 @@ def hexagon(start_point, delta, length):
     shape_hexagon_6.draw(color=color)
 
 
+# TODO Делаем код всегда более расширяемым!
+# TODO В данном случае если мы введем еще одну фигуру нужно будет дописывать еще и тут пару строк!
 if input_shape == 0:
     print('Вы ввели ', input_shape)
     triangle(start_point=start_point_triangle, delta=delta, length=length)
