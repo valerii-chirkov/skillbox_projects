@@ -14,20 +14,48 @@ import simple_draw as sd
 # и константы COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_GREEN, COLOR_CYAN, COLOR_BLUE, COLOR_PURPLE
 # Результат решения см lesson_004/results/exercise_02_global_color.jpg
 
-# TODO А что будет если попросят еще один цвет добавить? в скольких местах надо будет правки вносить?
-# TODO нужно сделать хранения цвета, его названия и его номера для выбора - в специальной структуре данных
-# TODO (список/словарь). Проверяем вхождения введенного номера в словаре по ключу, если есть берем все данные по нему!
-# TODO Это нужно для расширения кода, минимальными доработками! В Будущем.
-
-# TODO Используем код из второго задания первого урока
-
-colors = [sd.COLOR_RED, sd.COLOR_ORANGE, sd.COLOR_YELLOW, sd.COLOR_GREEN, sd.COLOR_CYAN, sd.COLOR_BLUE, sd.COLOR_PURPLE]
+colors = [(0, sd.COLOR_RED), (1, sd.COLOR_ORANGE), (2, sd.COLOR_YELLOW),
+          (3, sd.COLOR_GREEN), (4, sd.COLOR_CYAN), (5, sd.COLOR_BLUE), (6, sd.COLOR_PURPLE)]
 start_point_triangle = sd.get_point(10, 10)
 start_point_square = sd.get_point(120, 10)
 start_point_pentagon = sd.get_point(240, 10)
 start_point_hexagon = sd.get_point(360, 10)
 delta = 0
 length = 100
+
+
+def triangle(start_point, delta, length):
+    for _ in range(3):
+        shape_triangle = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
+        shape_triangle.draw(color=color)
+        delta += 120
+        start_point = shape_triangle.end_point
+
+
+def square(start_point, delta, length):
+    for _ in range(4):
+        shape_square = sd.get_vector(start_point=start_point, angle=delta, length=length-10, width=2)
+        shape_square.draw(color=color)
+        delta += 90
+        start_point = shape_square.end_point
+
+
+def pentagon(start_point, delta, length):
+    for _ in range(5):
+        shape_pentagon = sd.get_vector(start_point=start_point, angle=delta, length=length-40, width=2)
+        shape_pentagon.draw(color=color)
+        delta += 72
+        start_point = shape_pentagon.end_point
+
+
+def hexagon(start_point, delta, length):
+    for _ in range(6):
+        shape_hexagon = sd.get_vector(start_point=start_point, angle=delta, length=length-45, width=2)
+        shape_hexagon.draw(color=color)
+        delta += 60
+        start_point = shape_hexagon.end_point
+
+
 input_color = int(input('''Введите номер желаемого цвета:
                     0. Красный 
                     1. Оранжевый
@@ -36,69 +64,15 @@ input_color = int(input('''Введите номер желаемого цвет
                     4. Циан
                     5. Синий
                     6. Фиолетовый
-                    
+
                     '''))
-# TODO Код для работы с переменными переместить вниз документа
 
-# TODO В условии, если номер есть в словаре мы сможем сразу вытащить все нужные данные.
-# TODO Если нет то завершаем работу, выводом нужного сообщения
-if 0 <= input_color < 7:
+if input_color in range(len(colors)):
     print('Вы ввели ', input_color)
-    color = colors[input_color]
+    color = colors[input_color][1]
 else:
-    print('Вы ввели неверное число, поэтому мы нарисуем своим цветом')
-    random_number = sd.random_number(0, 7)
-    color = colors[random_number]
-
-# TODO функции обьявляются как и переменные(константы)в начале файла а сам код их вызова в конце
-
-# TODO Рисуем все линии через цикл! В цикле сразу получаем нужный угол.
-def triangle(start_point, delta, length):
-    shape_triangle_1 = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
-    shape_triangle_1.draw(color=color)
-    shape_triangle_2 = sd.get_vector(start_point=shape_triangle_1.end_point, angle=delta+120, length=length, width=2)
-    shape_triangle_2.draw(color=color)
-    shape_triangle_3 = sd.get_vector(start_point=shape_triangle_2.end_point, angle=delta+240, length=length, width=2)
-    shape_triangle_3.draw(color=color)
-
-
-def square(start_point, delta, length):
-    shape_square_1 = sd.get_vector(start_point=start_point, angle=delta, length=length-10, width=2)
-    shape_square_1.draw(color=color)
-    shape_square_2 = sd.get_vector(start_point=shape_square_1.end_point, angle=delta+90, length=length-10, width=2)
-    shape_square_2.draw(color=color)
-    shape_square_3 = sd.get_vector(start_point=shape_square_2.end_point, angle=delta+180, length=length-10, width=2)
-    shape_square_3.draw(color=color)
-    shape_square_4 = sd.get_vector(start_point=shape_square_3.end_point, angle=delta+270, length=length-10, width=2)
-    shape_square_4.draw(color=color)
-
-
-def pentagon(start_point, delta, length):
-    shape_pentagon_1 = sd.get_vector(start_point=start_point, angle=delta, length=length-40, width=2)
-    shape_pentagon_1.draw(color=color)
-    shape_pentagon_2 = sd.get_vector(start_point=shape_pentagon_1.end_point, angle=delta+72, length=length-40, width=2)
-    shape_pentagon_2.draw(color=color)
-    shape_pentagon_3 = sd.get_vector(start_point=shape_pentagon_2.end_point, angle=delta+144, length=length-40, width=2)
-    shape_pentagon_3.draw(color=color)
-    shape_pentagon_4 = sd.get_vector(start_point=shape_pentagon_3.end_point, angle=delta+216, length=length-40, width=2)
-    shape_pentagon_4.draw(color=color)
-    shape_pentagon_5 = sd.get_vector(start_point=shape_pentagon_4.end_point, angle=delta+288, length=length-40, width=2)
-    shape_pentagon_5.draw(color=color)
-
-
-def hexagon(start_point, delta, length):
-    shape_hexagon_1 = sd.get_vector(start_point=start_point, angle=delta, length=length-45, width=2)
-    shape_hexagon_1.draw(color=color)
-    shape_hexagon_2 = sd.get_vector(start_point=shape_hexagon_1.end_point, angle=delta+60, length=length-45, width=2)
-    shape_hexagon_2.draw(color=color)
-    shape_hexagon_3 = sd.get_vector(start_point=shape_hexagon_2.end_point, angle=delta+120, length=length-45, width=2)
-    shape_hexagon_3.draw(color=color)
-    shape_hexagon_4 = sd.get_vector(start_point=shape_hexagon_3.end_point, angle=delta+180, length=length-45, width=2)
-    shape_hexagon_4.draw(color=color)
-    shape_hexagon_5 = sd.get_vector(start_point=shape_hexagon_4.end_point, angle=delta+240, length=length-45, width=2)
-    shape_hexagon_5.draw(color=color)
-    shape_hexagon_6 = sd.get_vector(start_point=shape_hexagon_5.end_point, angle=delta+300, length=length-45, width=2)
-    shape_hexagon_6.draw(color=color)
+    print('Вы ввели неверное число')
+    sd.pause()
 
 
 triangle(start_point=start_point_triangle, delta=delta, length=length)
