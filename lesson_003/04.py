@@ -17,14 +17,9 @@ educational_grant_sum = educational_grant * 10
 # 9 периодов, так как 1 месяц расходы не увеличиваются
 while month < 9:
     month += 1
-    # TODO Тут мы и так считаем расходы за 9 месяцев
-    # TODO Данную строку нужно упростить на две слишком усложнено! проценты можно заменить на * 1.03
-    expenses += expenses * 103/100 - expenses
-    # TODO Дублирование переменной
+    expenses = expenses * 1.03
     expenses_year += expenses
-# TODO Можно тут сразу обьявить эту переменную, прибавив к расходам за 9 месяцев, первый месяц
 expenses_year += 12000
-# TODO По заданию нужно вывести в формате ХХХ.ХХ рублей
-needs = round(expenses_year) - educational_grant_sum
+needs = round((expenses_year - educational_grant_sum), 2)
 print(f'Студенту надо попросить {needs} рублей')
 
