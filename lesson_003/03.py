@@ -8,15 +8,12 @@
 # Формат вывода:
 #   Целочисленное деление ХХХ на YYY дает ZZZ
 
-# TODO Нейминг cильно обширно назвали, это скорее делимое и делитель!
-num1, num2 = 179, 37
-# TODO Нейминг, имя переменной должно отражать ее суть
-counter1 = 0
-# TODO Если это счетчик то так ее и назовите
-counter2 = -1
-# TODO Доработать алгоритм, допустим 100 \\ 25 == 4. Сейчас он работает не верно
-while counter1 < num1:
-    counter1 += num2
-    counter2 += 1
-print(f'Целочисленное деление {num1} на {num2} дает {counter2}')
+dividend, divider = 100, 25
+counter = 0
+sum = -1
+
+while counter <= dividend:
+    counter += divider
+    sum += 1
+print(f'Целочисленное деление {dividend} на {divider} дает {counter}')
 
