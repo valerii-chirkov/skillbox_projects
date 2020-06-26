@@ -12,24 +12,18 @@
 envelop_x, envelop_y = 10, 7
 # paper_x, paper_y = 8, 9
 # проверить для
-# paper_x, paper_y = 9, 8
+paper_x, paper_y = 9, 8
 # paper_x, paper_y = 6, 8
-paper_x, paper_y = 8, 6
+# paper_x, paper_y = 8, 6
 # paper_x, paper_y = 3, 4
 # paper_x, paper_y = 11, 9
 # paper_x, paper_y = 9, 11
 # (просто раскоментировать нужную строку и проверить свой код)
 
 # Бумагу можно развернуть, если одной стороной не проходит, поэтому в цикле проверим и другое условие
-# TODO перепутали побитовое или с логическим или | это побитовое, а or логическое, нужно переделать
-# TODO на сравнение размеров и объединение условий с помощью ЛОГИЧЕСКОГО and
-fit = (envelop_x - paper_x) | (envelop_y - paper_y) >= 0
-fit1 = (envelop_x - paper_y) | (envelop_y - paper_x) >= 0
+fit = ((envelop_x - paper_x) and (envelop_y - paper_y)) or ((envelop_x - paper_y) and (envelop_y - paper_x)) >= 0
 
-# Можно упростить, вот так
-# TODO не совсем верное условие, если одна из переменных будет форс то алгоритм выдаст фолс
-# TODO После корректировки условия, его можно будет упростить не проверяя принадлежит ли переменная boolean типу
-if fit and fit1 is True:
+if fit is True:
     print('ДА')
 else:
     print('НЕТ')
@@ -41,7 +35,7 @@ else:
 
 # переименовал, тк путаюсь в переменных
 hole_a, hole_b = 8, 9
-# brick_x, brick_y, brick_z = 11, 10, 2
+brick_x, brick_y, brick_z = 11, 10, 2
 # brick_x, brick_y, brick_z = 11, 2, 10
 # brick_x, brick_y, brick_z = 10, 11, 2
 # brick_x, brick_y, brick_z = 10, 2, 11
@@ -57,23 +51,18 @@ hole_a, hole_b = 8, 9
 # brick_x, brick_y, brick_z = 11, 6, 3
 # brick_x, brick_y, brick_z = 6, 11, 3
 # brick_x, brick_y, brick_z = 6, 3, 11
-brick_x, brick_y, brick_z = 3, 6, 11
-# brick_x, brick_y, brick_z = 3, 11, 6
+# brick_x, brick_y, brick_z = 3, 6, 11
+brick_x, brick_y, brick_z = 3, 11, 6
 # (просто раскоментировать нужную строку и проверить свой код)
 
 # Если две стороны кирпича меньше размера отверстия, то он пройдет, тк оставшаяся сторона будет длинной
 # и не влияет на прохождения кирпича
 
-# TODO Тут аналогично
-appropriate_hole1 = hole_a | hole_b > brick_x | brick_y
-appropriate_hole2 = hole_a | hole_b > brick_x | brick_z
-appropriate_hole3 = hole_a | hole_b > brick_y | brick_z
+appropriate_hole1 = hole_a > brick_x and hole_b > brick_y
+appropriate_hole2 = hole_a > brick_x and hole_b > brick_z
+appropriate_hole3 = hole_a > brick_y and hole_b > brick_z
 
-if appropriate_hole1 is True:
-    print('Влезет')
-elif appropriate_hole2 is True:
-    print('Влезет')
-elif appropriate_hole3 is True:
+if appropriate_hole1 or appropriate_hole2 or appropriate_hole3 is True:
     print('Влезет')
 else:
     print('Не влезет')
