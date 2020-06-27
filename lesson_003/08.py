@@ -21,46 +21,50 @@ colors = [
         COLOR_HOOD,
         COLOR_ORANGE
     ]
-start_coordinate_x, start_coordinate_y = 100, 100
+
+
+amount = int(input('Введите количество смайликов: '))
 color = colors[0]
 
-# TODO Сама функция должна рисовать один смайлик в произвольной точки
-def smile(start_coordinate_x, start_coordinate_y, color):
+
+def smile(amount):
+    for _ in range(amount):
+        start_coordinate_x, start_coordinate_y = sd.random_number(0, 1200), sd.random_number(0, 600)
+        draw_smiles(start_coordinate_x=start_coordinate_x, start_coordinate_y=start_coordinate_y, color=color)
+
+
+def draw_smiles(start_coordinate_x, start_coordinate_y, color):
     sd.resolution = (1200, 600)
     sd.background_color = color
-    # TODO Данный цикл нужно вынести из функции, в глобальную область
-    # TODO для того чтобы можно было задать нужное колличество смайликов
-    # TODO вызывая функцию smile
-    for _ in range(10):
-        start_point = sd.get_point(start_coordinate_x, start_coordinate_y)
 
-        start_point_left_eye = sd.get_point(start_coordinate_x - 15, start_coordinate_y)
-        start_point_right_eye = sd.get_point(start_coordinate_x + 15, start_coordinate_y)
+    start_point = sd.get_point(start_coordinate_x, start_coordinate_y)
 
-        start_point_eyes_line = sd.get_point(start_coordinate_x, start_coordinate_y + 3)
-        end_point_eyes_line = sd.get_point(start_coordinate_x, start_coordinate_y - 3)
+    start_point_left_eye = sd.get_point(start_coordinate_x - 15, start_coordinate_y)
+    start_point_right_eye = sd.get_point(start_coordinate_x + 15, start_coordinate_y)
 
-        start_point_left_pupil = sd.get_point(start_coordinate_x - 10, start_coordinate_y - 1)
-        start_point_right_pupil = sd.get_point(start_coordinate_x + 10, start_coordinate_y - 1)
+    start_point_eyes_line = sd.get_point(start_coordinate_x, start_coordinate_y + 3)
+    end_point_eyes_line = sd.get_point(start_coordinate_x, start_coordinate_y - 3)
 
-        start_point_mouth = sd.get_point(start_coordinate_x + 5, start_coordinate_y - 30)
-        end_point_mouth = sd.get_point(start_coordinate_x - 5, start_coordinate_y - 30)
+    start_point_left_pupil = sd.get_point(start_coordinate_x - 10, start_coordinate_y - 1)
+    start_point_right_pupil = sd.get_point(start_coordinate_x + 10, start_coordinate_y - 1)
 
-        sd.circle(start_point, radius=50, color=colors[6], width=50)
-        sd.circle(start_point, radius=50, color=colors[5], width=1)
+    start_point_mouth = sd.get_point(start_coordinate_x + 5, start_coordinate_y - 30)
+    end_point_mouth = sd.get_point(start_coordinate_x - 5, start_coordinate_y - 30)
 
-        sd.circle(start_point_left_eye, radius=15, color=colors[0], width=15)
-        sd.circle(start_point_right_eye, radius=15, color=colors[0], width=15)
+    sd.circle(start_point, radius=50, color=colors[6], width=50)
+    sd.circle(start_point, radius=50, color=colors[5], width=1)
 
-        sd.circle(start_point_left_pupil, radius=3, color=colors[5], width=3)
-        sd.circle(start_point_right_pupil, radius=3, color=colors[5], width=3)
+    sd.circle(start_point_left_eye, radius=15, color=colors[0], width=15)
+    sd.circle(start_point_right_eye, radius=15, color=colors[0], width=15)
 
-        sd.line(start_point_eyes_line, end_point_eyes_line, color=colors[5], width=1)
-        sd.line(start_point_mouth, end_point_mouth, color=colors[5], width=2)
+    sd.circle(start_point_left_pupil, radius=3, color=colors[5], width=3)
+    sd.circle(start_point_right_pupil, radius=3, color=colors[5], width=3)
 
-        start_coordinate_x += 110
-        start_coordinate_y = sd.random_number(a=100, b=500)
+    sd.line(start_point_eyes_line, end_point_eyes_line, color=colors[5], width=1)
+    sd.line(start_point_mouth, end_point_mouth, color=colors[5], width=2)
 
 
-smile(start_coordinate_x, start_coordinate_y, color)
+smile(amount=amount)
+
+
 sd.pause()
