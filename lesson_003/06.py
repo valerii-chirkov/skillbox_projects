@@ -15,14 +15,12 @@ end_line_y = 350
 
 
 def rainbow_lines(start_x, start_y, end_x, end_y, step):
-    # TODO заводим цикл сразу по тьюплу rainbow_colors, и получаем в цикле переменную color
-    for i in range(len(rainbow_colors)):
+    for color in rainbow_colors:
         start = sd.get_point(start_x, start_y)
         end = sd.get_point(end_x, end_y)
 
         start_x += step
         end_x += step
-        color = rainbow_colors[i]  # тогда данную строку можно будет опустить из данного алгоритма
 
         sd.line(start, end, color=color, width=4)
 
@@ -42,8 +40,7 @@ sd.background_color = (15, 116, 235)
 def rainbow(point, step):
     radius = 500
     # TODO Аналогично поступаем и тут
-    for i in range(len(rainbow_colors)):
-        color = rainbow_colors[i]
+    for color in rainbow_colors:
         radius += step
         sd.circle(center_position=point, radius=radius, color=color, width=30)
 
