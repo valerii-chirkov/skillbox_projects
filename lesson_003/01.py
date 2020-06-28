@@ -17,3 +17,5 @@ if month in months:
     print(months[month])
 else:
     print('Вы ввели не корректное число или строку')
+
+# зачет!
