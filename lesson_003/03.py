@@ -10,12 +10,9 @@
 
 dividend, divider = 100, 25
 counter = 0
-# TODO по PEP8 не допускается никакого сокращения транслитом, называем переменные полным именем
-sum = -1
-# TODO Данный алгоритм не работает, вывод не верный
-# TODO Целочисленное деление 100 на 25 не дает 125 !
+total = -1
 while counter <= dividend:
     counter += divider
-    sum += 1
-print(f'Целочисленное деление {dividend} на {divider} дает {counter}')
+    total += 1
+print(f'Целочисленное деление {dividend} на {divider} дает {total}')
 

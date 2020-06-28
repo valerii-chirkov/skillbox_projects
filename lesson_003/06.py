@@ -39,7 +39,6 @@ sd.background_color = (15, 116, 235)
 
 def rainbow(point, step):
     radius = 500
-    # TODO Аналогично поступаем и тут
     for color in rainbow_colors:
         radius += step
         sd.circle(center_position=point, radius=radius, color=color, width=30)
