@@ -10,27 +10,21 @@
 # Использовать только операторы if/elif/else, можно вложенные
 
 envelop_x, envelop_y = 10, 7
-# paper_x, paper_y = 8, 9
+paper_x, paper_y = 8, 9
 # проверить для
 # paper_x, paper_y = 9, 8
-paper_x, paper_y = 6, 8
-# paper_x, paper_y = 8, 6
+# paper_x, paper_y = 6, 8
+paper_x, paper_y = 8, 6
 # paper_x, paper_y = 3, 4
 # paper_x, paper_y = 11, 9
 # paper_x, paper_y = 9, 11
 # (просто раскоментировать нужную строку и проверить свой код)
 
 # Бумагу можно развернуть, если одной стороной не проходит, поэтому в цикле проверим и другое условие
-# TODO при данных условиях если принтануть fit = -1, данное условие не работает. Т.к. лист бумаги должен проходить
-# TODO Подсказка: итоговый вариант должен выглядеть так:
-# TODO      if ... and ...:
-# TODO          ...
-# TODO      elif ... and ...:
-# TODO          ...
-# TODO      else:
-# TODO          ...
-fit = ((envelop_x - paper_x) and (envelop_y - paper_y)) or ((envelop_x - paper_y) and (envelop_y - paper_x)) >= 0
-if fit is True:
+
+if (envelop_x - paper_x) >= 0 and (envelop_y - paper_y) >= 0:
+    print('ДА')
+elif (envelop_x - paper_y) >= 0 and (envelop_y - paper_x) >= 0:
     print('ДА')
 else:
     print('НЕТ')
@@ -66,15 +60,18 @@ brick_x, brick_y, brick_z = 11, 9, 8
 # Если две стороны кирпича меньше размера отверстия, то он пройдет, тк оставшаяся сторона будет длинной
 # и не влияет на прохождения кирпича
 
-# TODO А при таких условиях кирпич должен лезть в отверстие.
-appropriate_hole1 = hole_a > brick_x and hole_b > brick_y
-appropriate_hole2 = hole_a > brick_x and hole_b > brick_z
-appropriate_hole3 = hole_a > brick_y and hole_b > brick_z
 
-# TODO appropriate_hole3 is True такое написание при прочих условиях сработает только для последней переменной
-# TODO is True можно опустить, оператор if и так проверит каждую переменную на истину!
-# TODO что бы не писать большое количество (or) воспользуйтесь функцией any()
-if appropriate_hole1 or appropriate_hole2 or appropriate_hole3 is True:
+appropriate_hole1 = hole_a >= brick_x and hole_b >= brick_y
+appropriate_hole2 = hole_a >= brick_x and hole_b >= brick_z
+appropriate_hole3 = hole_a >= brick_y and hole_b >= brick_z
+appropriate_hole4 = hole_a >= brick_y and hole_b >= brick_x
+appropriate_hole5 = hole_a >= brick_z and hole_b >= brick_x
+appropriate_hole6 = hole_a >= brick_z and hole_b >= brick_y
+
+appropriates = [appropriate_hole1, appropriate_hole2, appropriate_hole3,
+                appropriate_hole4, appropriate_hole5, appropriate_hole6]
+
+if any(appropriates):
     print('Влезет')
 else:
     print('Не влезет')
