@@ -12,8 +12,8 @@
 envelop_x, envelop_y = 10, 7
 # paper_x, paper_y = 8, 9
 # проверить для
-paper_x, paper_y = 9, 8
-# paper_x, paper_y = 6, 8
+# paper_x, paper_y = 9, 8
+paper_x, paper_y = 6, 8
 # paper_x, paper_y = 8, 6
 # paper_x, paper_y = 3, 4
 # paper_x, paper_y = 11, 9
@@ -21,8 +21,15 @@ paper_x, paper_y = 9, 8
 # (просто раскоментировать нужную строку и проверить свой код)
 
 # Бумагу можно развернуть, если одной стороной не проходит, поэтому в цикле проверим и другое условие
+# TODO при данных условиях если принтануть fit = -1, данное условие не работает. Т.к. лист бумаги должен проходить
+# TODO Подсказка: итоговый вариант должен выглядеть так:
+# TODO      if ... and ...:
+# TODO          ...
+# TODO      elif ... and ...:
+# TODO          ...
+# TODO      else:
+# TODO          ...
 fit = ((envelop_x - paper_x) and (envelop_y - paper_y)) or ((envelop_x - paper_y) and (envelop_y - paper_x)) >= 0
-
 if fit is True:
     print('ДА')
 else:
@@ -35,7 +42,7 @@ else:
 
 # переименовал, тк путаюсь в переменных
 hole_a, hole_b = 8, 9
-brick_x, brick_y, brick_z = 11, 10, 2
+# brick_x, brick_y, brick_z = 11, 10, 2
 # brick_x, brick_y, brick_z = 11, 2, 10
 # brick_x, brick_y, brick_z = 10, 11, 2
 # brick_x, brick_y, brick_z = 10, 2, 11
@@ -46,22 +53,27 @@ brick_x, brick_y, brick_z = 11, 10, 2
 # brick_x, brick_y, brick_z = 6, 3, 5
 # brick_x, brick_y, brick_z = 6, 5, 3
 # brick_x, brick_y, brick_z = 5, 6, 3
+brick_x, brick_y, brick_z = 11, 9, 8
 # brick_x, brick_y, brick_z = 5, 3, 6
 # brick_x, brick_y, brick_z = 11, 3, 6
 # brick_x, brick_y, brick_z = 11, 6, 3
 # brick_x, brick_y, brick_z = 6, 11, 3
 # brick_x, brick_y, brick_z = 6, 3, 11
 # brick_x, brick_y, brick_z = 3, 6, 11
-brick_x, brick_y, brick_z = 3, 11, 6
+# brick_x, brick_y, brick_z = 3, 11, 6
 # (просто раскоментировать нужную строку и проверить свой код)
 
 # Если две стороны кирпича меньше размера отверстия, то он пройдет, тк оставшаяся сторона будет длинной
 # и не влияет на прохождения кирпича
 
+# TODO А при таких условиях кирпич должен лезть в отверстие.
 appropriate_hole1 = hole_a > brick_x and hole_b > brick_y
 appropriate_hole2 = hole_a > brick_x and hole_b > brick_z
 appropriate_hole3 = hole_a > brick_y and hole_b > brick_z
 
+# TODO appropriate_hole3 is True такое написание при прочих условиях сработает только для последней переменной
+# TODO is True можно опустить, оператор if и так проверит каждую переменную на истину!
+# TODO что бы не писать большое количество (or) воспользуйтесь функцией any()
 if appropriate_hole1 or appropriate_hole2 or appropriate_hole3 is True:
     print('Влезет')
 else:
