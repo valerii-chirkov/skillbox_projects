@@ -10,7 +10,7 @@
 # Использовать только операторы if/elif/else, можно вложенные
 
 envelop_x, envelop_y = 10, 7
-paper_x, paper_y = 8, 9
+# paper_x, paper_y = 8, 9
 # проверить для
 # paper_x, paper_y = 9, 8
 # paper_x, paper_y = 6, 8
@@ -75,3 +75,5 @@ if any(appropriates):
     print('Влезет')
 else:
     print('Не влезет')
+
+# зачет!
