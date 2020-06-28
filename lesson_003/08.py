@@ -36,9 +36,19 @@ def smile(amount):
 def draw_smiles(start_coordinate_x, start_coordinate_y, color):
     sd.resolution = (1200, 600)
     sd.background_color = color
+    draw_face(start_coordinate_x, start_coordinate_y)
+    draw_eyes(start_coordinate_x, start_coordinate_y)
+    draw_mouth(start_coordinate_x, start_coordinate_y)
 
+
+def draw_face(start_coordinate_x, start_coordinate_y):
     start_point = sd.get_point(start_coordinate_x, start_coordinate_y)
 
+    sd.circle(start_point, radius=50, color=colors[6], width=50)
+    sd.circle(start_point, radius=50, color=colors[5], width=1)
+
+
+def draw_eyes(start_coordinate_x, start_coordinate_y):
     start_point_left_eye = sd.get_point(start_coordinate_x - 15, start_coordinate_y)
     start_point_right_eye = sd.get_point(start_coordinate_x + 15, start_coordinate_y)
 
@@ -48,12 +58,6 @@ def draw_smiles(start_coordinate_x, start_coordinate_y, color):
     start_point_left_pupil = sd.get_point(start_coordinate_x - 10, start_coordinate_y - 1)
     start_point_right_pupil = sd.get_point(start_coordinate_x + 10, start_coordinate_y - 1)
 
-    start_point_mouth = sd.get_point(start_coordinate_x + 5, start_coordinate_y - 30)
-    end_point_mouth = sd.get_point(start_coordinate_x - 5, start_coordinate_y - 30)
-
-    sd.circle(start_point, radius=50, color=colors[6], width=50)
-    sd.circle(start_point, radius=50, color=colors[5], width=1)
-
     sd.circle(start_point_left_eye, radius=15, color=colors[0], width=15)
     sd.circle(start_point_right_eye, radius=15, color=colors[0], width=15)
 
@@ -61,6 +65,12 @@ def draw_smiles(start_coordinate_x, start_coordinate_y, color):
     sd.circle(start_point_right_pupil, radius=3, color=colors[5], width=3)
 
     sd.line(start_point_eyes_line, end_point_eyes_line, color=colors[5], width=1)
+
+
+def draw_mouth(start_coordinate_x, start_coordinate_y):
+    start_point_mouth = sd.get_point(start_coordinate_x + 5, start_coordinate_y - 30)
+    end_point_mouth = sd.get_point(start_coordinate_x - 5, start_coordinate_y - 30)
+
     sd.line(start_point_mouth, end_point_mouth, color=colors[5], width=2)
 
 
@@ -70,3 +80,4 @@ smile(amount=amount)
 sd.pause()
 
 # зачет!
+#
