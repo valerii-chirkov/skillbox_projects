@@ -8,7 +8,7 @@
 # Формат вывода:
 #   Целочисленное деление ХХХ на YYY дает ZZZ
 
-dividend, divider = 100, 25
+dividend, divider = 100, 24
 counter = 0
 total = -1
 while counter <= dividend:
@@ -16,3 +16,4 @@ while counter <= dividend:
     total += 1
 print(f'Целочисленное деление {dividend} на {divider} дает {total}')
 
+# зачет!
