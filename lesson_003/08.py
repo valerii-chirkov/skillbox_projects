@@ -80,3 +80,4 @@ smile(amount=amount)
 sd.pause()
 
 # зачет!
+#
