@@ -33,3 +33,5 @@ def bricks():
 bricks()
 
 sd.pause()
+
+# зачет!
