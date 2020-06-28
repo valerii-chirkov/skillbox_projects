@@ -23,3 +23,4 @@ expenses_year += 12000
 needs = round((expenses_year - educational_grant_sum), 2)
 print(f'Студенту надо попросить {needs} рублей')
 
+# зачет!
