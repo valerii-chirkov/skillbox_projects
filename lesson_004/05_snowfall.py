@@ -7,53 +7,45 @@ sd.resolution = (1200, 600)
 # - нарисовать падение этих N снежинок
 # - создать список рандомных длинн лучей снежинок (от 10 до 100) и пусть все снежинки будут разные
 
-N = 20
-
-# TODO в Python слово list зарезервировано, использовать его нельзя доже вторым поясняющим словом!
-# TODO Потому что название слишком общие. В наших программах все или данные или значения или списки/словари.
-# TODO И программисту, читающему код, такие названия ничего не говорят.
-# TODO Название переменной должно отражать суть того объекта, на который она ссылается.
-list_y = []
-list_x = []
-random_length = []
-# TODO Это счетчик чего?
-i = 0
-# TODO Чтобы не заводить лишний раз переменную i воспользуйтесь for _ in range(N)
-while i < N:
-    list1 = sd.random_number(0, 1200)
-    list2 = sd.random_number(400, 600)
-    random_list = sd.random_number(10, 100)
-    # TODO Давай те сделаем один список списков со всеми параметрами для дальнейшей работы
-    list_x.append(list1)
-    list_y.append(list2)
-    random_length.append(random_list)
-    i += 1
-
-
 # Пригодятся функции
 # sd.get_point()
 # sd.snowflake()
 # sd.sleep()
 # sd.random_number()
 # sd.user_want_exit()
+input_amount = int(input('Введите количество снежинок: '))
+snowflakes_coordinates_rays = []
 
 
-while True:
-    sd.clear_screen()
-    # TODO Почему мы итерируемся только по 20?, нейминг переменной i
-    # TODO Можно стразу завести цикл по списку списков и брать нужный список с данными для снежинки
-    for i in range(20):
-        point = sd.get_point(list_x[i], list_y[i])
-        sd.snowflake(center=point, length=random_length[i])
-        list_y[i] -= 10
-        # TODO Данная переменная не где не используется нужно брать нужный параметр из списка и изменять его
-        x = list_x[i] + 10
-    if list_y[i] < 10:
-        break
+def snowflakes_params(input_amount):
+    for _ in range(input_amount):
+        snowflakes_coordinates_rays.append([sd.random_number(0, 800), sd.random_number(550, 600),
+                                            sd.random_number(10, 100), sd.random_number(10, 20)])
 
-    sd.sleep(0.1)
-    if sd.user_want_exit():
-        break
+
+def snowflakes_fall():
+    snowflakes_params(input_amount)
+    while True:
+        sd.clear_screen()
+        for i in range(input_amount):
+            sd.start_drawing()
+            point = sd.get_point(snowflakes_coordinates_rays[i][0], snowflakes_coordinates_rays[i][1])
+            sd.snowflake(center=point, length=snowflakes_coordinates_rays[i][2])
+            snowflakes_coordinates_rays[i][1] -= snowflakes_coordinates_rays[i][3]
+
+            # тут мы выходим из цикла, когда последний элемент касается границы
+            if snowflakes_coordinates_rays[len(snowflakes_coordinates_rays)-1][1] < 50:
+                break
+            snowflakes_coordinates_rays[i][0] = snowflakes_coordinates_rays[i][0] + 10
+
+            sd.finish_drawing()
+            sd.sleep(0.01)
+            if sd.user_want_exit():
+                break
+
+
+snowflakes_fall()
+
 sd.pause()
 
 # Примерный алгоритм отрисовки снежинок
