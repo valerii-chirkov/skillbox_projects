@@ -2,6 +2,7 @@
 
 import simple_draw as sd
 
+sd.resolution = (1000, 600)
 # 1) Написать функцию draw_branches, которая должна рисовать две ветви дерева из начальной точки
 # Функция должна принимать параметры:
 # - точка начала рисования,
@@ -12,8 +13,8 @@ import simple_draw as sd
 
 # point = sd.get_point(300, 10)
 # angle = (60, 120)
-
-
+#
+#
 # def draw_branches(point, angle, length):
 #     v1 = sd.get_vector(start_point=point, angle=angle[0], length=length, width=5)
 #     v1.draw(color=sd.COLOR_WHITE)
@@ -31,29 +32,25 @@ import simple_draw as sd
 #   и параметром "длинна ветвей" в 0.75 меньшей чем длина только что нарисованной ветви
 
 
-point = sd.get_point(300, 10)
-angle = 90
-
-
-def draw_branches(point, angle, length, delta):
-    if length < 10:
-        return
-    v1 = sd.get_vector(start_point=point, angle=angle, length=length, width=5)
-    v1.draw(color=sd.COLOR_WHITE)
-    next_point = v1.end_point
-    # TODO тут нужно два раза описать вызов самой функции но с другими параметрами, для отклонения
-    next_angle = angle - delta
-    next_length = length * .75
-    draw_branches(point=next_point, angle=next_angle, length=next_length, delta=delta)
-
-
-# TODO Вызов функции должен быть один, а рекурсии нужно написать в самой функции,
-# TODO отклонение ветвей влево и в право 
-for delta in range(0, 51, 10):
-    draw_branches(point=point, angle=angle, length=100, delta=delta)
-
-for delta in range(-50, 1, 10):
-    draw_branches(point=point, angle=angle, length=100, delta=delta)
+# point = sd.get_point(500, 10)
+# angle = 90
+#
+#
+# def draw_branches(point, angle, length):
+#     if length < 10:
+#         return
+#     v1 = sd.get_vector(start_point=point, angle=angle, length=length, width=5)
+#     v1.draw(color=sd.COLOR_WHITE)
+#
+#     next_point = v1.end_point
+#     next_angle1 = angle - 30
+#     next_angle2 = angle + 30
+#     next_length = length * 0.75
+#     draw_branches(next_point, next_angle1, next_length)
+#     draw_branches(next_point, next_angle2, next_length)
+#
+#
+# draw_branches(point, angle, 150)
 
 
 # 3) Запустить вашу рекурсивную функцию, используя следующие параметры:
@@ -69,23 +66,22 @@ for delta in range(-50, 1, 10):
 
 # root_point = sd.get_point(300, 30)
 #
-#  TODO Аналогично делаем и тут
-# def draw_branches(point, angle, length, delta):
+#
+# def draw_branches(root_point, angle, length):
 #     if length < 10:
 #         return
-#     v1 = sd.get_vector(start_point=point, angle=angle, length=length)
-#     v1.draw()
+#     v1 = sd.get_vector(start_point=root_point, angle=angle, length=length, width=5)
+#     v1.draw(color=sd.COLOR_WHITE)
+#
 #     next_point = v1.end_point
-#     next_angle = angle - delta
-#     next_length = length * .75
-#     draw_branches(point=next_point, angle=next_angle, length=next_length, delta=delta)
+#     next_angle1 = angle - 30
+#     next_angle2 = angle + 30
+#     next_length = length * 0.75
+#     draw_branches(next_point, next_angle1, next_length)
+#     draw_branches(next_point, next_angle2, next_length)
 #
 #
-# for delta in range(0, 51, 10):
-#     draw_branches(point=root_point, angle=90, length=100, delta=delta)
-#
-# for delta in range(-50, 1, 10):
-#     draw_branches(point=root_point, angle=90, length=100, delta=delta)
+# draw_branches(root_point, angle=90, length=150)
 
 
 
@@ -99,28 +95,27 @@ for delta in range(-50, 1, 10):
 
 # Пока-что думаю над решением
 
-root_point = sd.get_point(300, 30)
+point = sd.get_point(500, 10)
+angle = 90
 
 
-def draw_branches(point, angle, length, delta):
+def draw_branches(point, angle, length):
     if length < 10:
         return
-    v1 = sd.get_vector(start_point=point, angle=angle, length=length)
-    v1.draw()
+    v1 = sd.get_vector(start_point=point, angle=angle, length=length, width=2)
+    v1.draw(color=sd.COLOR_WHITE)
+
     next_point = v1.end_point
-    # TODO Нужно немного упростить данный алгоритм без дельта
-    next_angle = angle - (delta * sd.random_number(100, 140) / 100)
-    next_length = length * (.75 * sd.random_number(100, 120) / 100)
-    # TODO ТутНужно сделать по аналогии от прошлых комментариев
-    draw_branches(point=next_point, angle=next_angle, length=next_length, delta=delta)
+    next_angle1 = angle - (sd.random_number(100, 140) / 100 * 30)
+    next_angle2 = angle + (sd.random_number(100, 140) / 100 * 30)
+    next_length = length * (sd.random_number(100, 120) / 100 * 0.75)
+    draw_branches(next_point, next_angle1, next_length)
+    draw_branches(next_point, next_angle2, next_length)
 
 
-# TODO Данные два цикла не требуются нужно сделать только один вызов функции с параметрами
-for delta in range(0, 51, 10):
-    if delta >= 0:
-        draw_branches(point=root_point, angle=90, length=100, delta=delta)
-
-for delta in range(-50, 1, 10):
-    draw_branches(point=root_point, angle=90, length=100, delta=delta)
+draw_branches(point, angle, 100)
 
 sd.pause()
+
+
+# TODO у меня виснит ноутбук от последнего задания, но думаю все условия сделал верно
