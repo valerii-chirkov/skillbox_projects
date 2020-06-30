@@ -10,6 +10,7 @@ import simple_draw as sd
 # Результат решения см lesson_004/results/exercise_03_shape_select.jpg
 
 
+# TODO аналогично комментарии из строго урока
 def triangle(start_point=sd.get_point(250, 250), delta=0, length=100):
     for _ in range(3):
         shape_triangle = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
@@ -42,6 +43,7 @@ def hexagon(start_point=sd.get_point(270, 270), delta=0, length=100):
         start_point = shape_hexagon.end_point
 
 
+# TODO пишем код более расширяемым, комментарии от второго урока
 input_shape = input('''Введите номер желаемой фигуры:
                     1. Треугольник
                     2. Квадрат
@@ -49,12 +51,13 @@ input_shape = input('''Введите номер желаемой фигуры:
                     4. Шестиугольник
 
                     ''')
-
+# TODO тут пробуем все данные поместить в этот словарь, чтобы он был один, незабываем про нейминг
 funcs = {'1': triangle, '2': square, '3': pentagon, '4': hexagon}
 
 if input_shape in funcs:
     funcs[input_shape]()
 else:
+    # TODO Отображается пустое окно
     print('Вы ввели неправильное число')
     sd.pause()
 
