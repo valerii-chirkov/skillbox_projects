@@ -45,10 +45,11 @@ length = 100
 
 
 def triangle(start_point, delta, length):
+    # TODO delta должно сразу получаться в форе из рандж(начало, конечная, шаг)
     for _ in range(3):
         shape_triangle = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
         shape_triangle.draw()
-        delta += 120
+        delta += 120  # Тогда эта строка нам не понадобистя
         start_point = shape_triangle.end_point
 
 
@@ -76,6 +77,8 @@ def hexagon(start_point, delta, length):
         start_point = shape_hexagon.end_point
 
 
+# TODO вывод по заданию должен быть как на картинке в примере.
+# TODO каждая фигура должна быть наклонена, данный параметр должен регулироваться
 triangle(start_point=start_point_triangle, delta=delta, length=length)
 square(start_point=start_point_square, delta=delta, length=length)
 pentagon(start_point=start_point_pentagon, delta=delta, length=length)
