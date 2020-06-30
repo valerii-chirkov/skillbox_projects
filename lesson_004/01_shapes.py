@@ -36,17 +36,17 @@ import simple_draw as sd
 # sd.line()
 # Результат решения см lesson_004/results/exercise_01_shapes.jpg
 
-start_point_triangle = sd.get_point(10, 10)
-start_point_square = sd.get_point(120, 10)
-start_point_pentagon = sd.get_point(240, 10)
-start_point_hexagon = sd.get_point(360, 10)
+start_point_triangle = sd.get_point(100, 100)
+start_point_square = sd.get_point(400, 100)
+start_point_pentagon = sd.get_point(100, 350)
+start_point_hexagon = sd.get_point(400, 350)
 delta = 0
 length = 100
+incline = 20
 
 
 def triangle(start_point, delta, length):
-    # TODO delta должно сразу получаться в форе из рандж(начало, конечная, шаг)
-    for _ in range(3):
+    for delta in range(incline, incline + 251, 120):
         shape_triangle = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
         shape_triangle.draw()
         delta += 120  # Тогда эта строка нам не понадобистя
@@ -54,31 +54,27 @@ def triangle(start_point, delta, length):
 
 
 def square(start_point, delta, length):
-    for _ in range(4):
-        shape_square = sd.get_vector(start_point=start_point, angle=delta, length=length-10, width=2)
+    for delta in range(incline, incline + 351, 90):
+        shape_square = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
         shape_square.draw()
-        delta += 90
         start_point = shape_square.end_point
 
 
 def pentagon(start_point, delta, length):
-    for _ in range(5):
-        shape_pentagon = sd.get_vector(start_point=start_point, angle=delta, length=length-40, width=2)
+    for delta in range(incline, incline + 289, 72):
+        shape_pentagon = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
         shape_pentagon.draw()
         delta += 72
         start_point = shape_pentagon.end_point
 
 
 def hexagon(start_point, delta, length):
-    for _ in range(6):
-        shape_hexagon = sd.get_vector(start_point=start_point, angle=delta, length=length-45, width=2)
+    for delta in range(incline, incline + 301, 60):
+        shape_hexagon = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
         shape_hexagon.draw()
-        delta += 60
         start_point = shape_hexagon.end_point
 
 
-# TODO вывод по заданию должен быть как на картинке в примере.
-# TODO каждая фигура должна быть наклонена, данный параметр должен регулироваться
 triangle(start_point=start_point_triangle, delta=delta, length=length)
 square(start_point=start_point_square, delta=delta, length=length)
 pentagon(start_point=start_point_pentagon, delta=delta, length=length)
