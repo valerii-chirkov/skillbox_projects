@@ -19,6 +19,8 @@ snowflakes_coordinates_rays = []
 
 def snowflakes_params(input_amount):
     for _ in range(input_amount):
+        # TODO вынести все функции из списка координат в отдельные переменные, называть их именами для удобочитаемости
+        # TODO координата Y может быть статичной поскольку 600 это потолок они все от туда начинают падать
         snowflakes_coordinates_rays.append([sd.random_number(0, 800), sd.random_number(550, 600),
                                             sd.random_number(10, 100), sd.random_number(10, 20)])
 
@@ -28,16 +30,19 @@ def snowflakes_fall():
     while True:
         sd.clear_screen()
         for i in range(input_amount):
+            # TODO Если мы используем это, то посетить за место clear_screen
             sd.start_drawing()
             point = sd.get_point(snowflakes_coordinates_rays[i][0], snowflakes_coordinates_rays[i][1])
             sd.snowflake(center=point, length=snowflakes_coordinates_rays[i][2])
             snowflakes_coordinates_rays[i][1] -= snowflakes_coordinates_rays[i][3]
 
-            # тут мы выходим из цикла, когда последний элемент касается границы
+            # TODO Тут мы не должны выходить из цикла когда последний элемент коснулся
+            # TODO Когда Y коснулся края границы нижней
+            # TODO мы этой снежинке задаем начальную точку по дефолту верхней гранцы
             if snowflakes_coordinates_rays[len(snowflakes_coordinates_rays)-1][1] < 50:
                 break
             snowflakes_coordinates_rays[i][0] = snowflakes_coordinates_rays[i][0] + 10
-
+            # TODO Этот блок использовать нужно в цикле while, а не внутри фор
             sd.finish_drawing()
             sd.sleep(0.01)
             if sd.user_want_exit():
