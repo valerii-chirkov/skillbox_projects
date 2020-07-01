@@ -28,7 +28,6 @@ def triangle(start_point, delta, length):
     for delta in range(incline, incline + 251, 120):
         shape_triangle = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
         shape_triangle.draw(color=color)
-        delta += 120  # Тогда эта строка нам не понадобистя
         start_point = shape_triangle.end_point
 
 
@@ -43,7 +42,6 @@ def pentagon(start_point, delta, length):
     for delta in range(incline, incline + 289, 72):
         shape_pentagon = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
         shape_pentagon.draw(color=color)
-        delta += 72
         start_point = shape_pentagon.end_point
 
 
@@ -54,38 +52,31 @@ def hexagon(start_point, delta, length):
         start_point = shape_hexagon.end_point
 
 
-colors = [sd.COLOR_RED, sd.COLOR_ORANGE, sd.COLOR_YELLOW, sd.COLOR_GREEN, sd.COLOR_CYAN, sd.COLOR_BLUE, sd.COLOR_PURPLE]
-
-colors_dict = {0: '0. Красный', 1: '1. Оранжевый', 2: '2. Желтый', 3: '3. Зеленый', 4: '4. Циан',
-               5: '5. Синий', 6: '6. Фиолетовый'}
+colors_dict = {'0': ['0. Красный', sd.COLOR_RED],
+               '1': ['1. Оранжевый', sd.COLOR_ORANGE],
+               '2': ['2. Желтый', sd.COLOR_YELLOW],
+               '3': ['3. Зеленый', sd.COLOR_GREEN],
+               '4': ['4. Циан', sd.COLOR_CYAN],
+               '5': ['5. Синий', sd.COLOR_BLUE],
+               '6': ['6. Фиолетовый', sd.COLOR_PURPLE]}
 
 for i in range(len(colors_dict)):
-    print(colors_dict[i])
+    print(colors_dict[str(i)][0])
 
 input_color = input('Введите цифру вашего цвета: ')
 
-try:
-    if int(input_color) in colors_dict:
-        print('Вы ввели ', input_color)
-        color = colors[int(input_color)]
-        triangle(start_point=start_point_triangle, delta=delta, length=length)
-        square(start_point=start_point_square, delta=delta, length=length)
-        pentagon(start_point=start_point_pentagon, delta=delta, length=length)
-        hexagon(start_point=start_point_hexagon, delta=delta, length=length)
-    else:
-        print('Вы ввели неверное число')
-        sd.pause()
-except (RuntimeError, TypeError, NameError, ValueError):
+if input_color in colors_dict:
+    print('Вы ввели ', input_color)
+    color = colors_dict[input_color][1]
+
+    triangle(start_point=start_point_triangle, delta=delta, length=length)
+    square(start_point=start_point_square, delta=delta, length=length)
+    pentagon(start_point=start_point_pentagon, delta=delta, length=length)
+    hexagon(start_point=start_point_hexagon, delta=delta, length=length)
+else:
     print('Вы ввели неверное число')
     sd.pause()
 
-# TODO Я не понял как можно объединить эти условия
-# TODO объединим colors с инпут_колорс
-# TODO Сделаем общий словарь по номерам цвета, это будет ключ
-# TODO в данных будет хранится имя цвета и его цветовая переменная
-
-# TODO Делаем проверку на вхождение ключа в словаре
-# TODO Тем самым пофиксим баг когда пользователь вводит не цифры
 
 sd.pause()
 
