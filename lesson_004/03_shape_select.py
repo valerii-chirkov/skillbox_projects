@@ -9,57 +9,53 @@ import simple_draw as sd
 # Код функций из упр lesson_004/02_global_color.py скопировать сюда
 # Результат решения см lesson_004/results/exercise_03_shape_select.jpg
 
+delta = 0
+length = 100
 
-# TODO аналогично комментарии из строго урока
-def triangle(start_point=sd.get_point(250, 250), delta=0, length=100):
-    for _ in range(3):
+
+def triangle(start_point=sd.get_point(250, 250), *, delta, length):
+    for delta in range(0, 251, 120):
         shape_triangle = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
-        shape_triangle.draw(color=sd.COLOR_RED)
-        delta += 120
+        shape_triangle.draw()
         start_point = shape_triangle.end_point
 
 
-def square(start_point=sd.get_point(250, 250), delta=0, length=100):
-    for _ in range(4):
-        shape_square = sd.get_vector(start_point=start_point, angle=delta, length=length-10, width=2)
-        shape_square.draw(color=sd.COLOR_RED)
-        delta += 90
+def square(start_point=sd.get_point(250, 250), *, delta, length):
+    for delta in range(0, 351, 90):
+        shape_square = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
+        shape_square.draw()
         start_point = shape_square.end_point
 
 
-def pentagon(start_point=sd.get_point(270, 270), delta=0, length=100):
-    for _ in range(5):
-        shape_pentagon = sd.get_vector(start_point=start_point, angle=delta, length=length-40, width=2)
-        shape_pentagon.draw(color=sd.COLOR_RED)
-        delta += 72
+def pentagon(start_point=sd.get_point(250, 250), *, delta, length):
+    for delta in range(0, 289, 72):
+        shape_pentagon = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
+        shape_pentagon.draw()
         start_point = shape_pentagon.end_point
 
 
-def hexagon(start_point=sd.get_point(270, 270), delta=0, length=100):
-    for _ in range(6):
-        shape_hexagon = sd.get_vector(start_point=start_point, angle=delta, length=length-45, width=2)
-        shape_hexagon.draw(color=sd.COLOR_RED)
-        delta += 60
+def hexagon(start_point=sd.get_point(250, 200), *, delta, length):
+    for delta in range(0, 301, 60):
+        shape_hexagon = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
+        shape_hexagon.draw()
         start_point = shape_hexagon.end_point
 
 
-# TODO пишем код более расширяемым, комментарии от второго урока
-input_shape = input('''Введите номер желаемой фигуры:
-                    1. Треугольник
-                    2. Квадрат
-                    3. Пятиугольник
-                    4. Шестиугольник
+shapes_dict = {'0': ['0. Треугольник', triangle],
+               '1': ['1. Квадрат', square],
+               '2': ['2. Пятиугольник', pentagon],
+               '3': ['3. Шестиугольник', hexagon]}
 
-                    ''')
-# TODO тут пробуем все данные поместить в этот словарь, чтобы он был один, незабываем про нейминг
-funcs = {'1': triangle, '2': square, '3': pentagon, '4': hexagon}
+for i in range(len(shapes_dict)):
+    print(shapes_dict[str(i)][0])
 
-if input_shape in funcs:
-    funcs[input_shape]()
+input_shape = input('Введите номер желаемой фигуры: ')
+
+if input_shape in shapes_dict:
+    print('Вы ввели ', input_shape)
+    shapes_dict[input_shape][1](delta=delta, length=length)
 else:
-    # TODO Отображается пустое окно
-    print('Вы ввели неправильное число')
+    print('Вы ввели неверное число')
     sd.pause()
-
 sd.pause()
 
