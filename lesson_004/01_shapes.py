@@ -49,7 +49,6 @@ def triangle(start_point, delta, length):
     for delta in range(incline, incline + 251, 120):
         shape_triangle = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
         shape_triangle.draw()
-        delta += 120  # Тогда эта строка нам не понадобистя
         start_point = shape_triangle.end_point
 
 
@@ -64,7 +63,6 @@ def pentagon(start_point, delta, length):
     for delta in range(incline, incline + 289, 72):
         shape_pentagon = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
         shape_pentagon.draw()
-        delta += 72
         start_point = shape_pentagon.end_point
 
 
