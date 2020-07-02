@@ -14,45 +14,43 @@ sd.resolution = (1200, 600)
 # sd.random_number()
 # sd.user_want_exit()
 input_amount = int(input('Введите количество снежинок: '))
-snowflakes_coordinates_rays = []
+add_parameters = []
 
 
-def snowflakes_params(input_amount):
+def snowflake_parameters(input_amount):
     for _ in range(input_amount):
-        # TODO вынести все функции из списка координат в отдельные переменные, называть их именами для удобочитаемости
-        # TODO координата Y может быть статичной поскольку 600 это потолок они все от туда начинают падать
-        snowflakes_coordinates_rays.append([sd.random_number(0, 800), sd.random_number(550, 600),
-                                            sd.random_number(10, 100), sd.random_number(10, 20)])
+        add_parameters.append([sd.random_number(100, 800), sd.random_number(10, 100), 600])
 
 
 def snowflakes_fall():
-    snowflakes_params(input_amount)
+    # snowflake_coordinate_x = sd.random_number(100, 800)
+    # snowflake_coordinate_y = 600
+    # snowflake_ray = sd.random_number(10, 100)
+    snowflake_parameters(input_amount)
     while True:
         sd.clear_screen()
-        for i in range(input_amount):
-            # TODO Если мы используем это, то посетить за место clear_screen
-            sd.start_drawing()
-            point = sd.get_point(snowflakes_coordinates_rays[i][0], snowflakes_coordinates_rays[i][1])
-            sd.snowflake(center=point, length=snowflakes_coordinates_rays[i][2])
-            snowflakes_coordinates_rays[i][1] -= snowflakes_coordinates_rays[i][3]
 
-            # TODO Тут мы не должны выходить из цикла когда последний элемент коснулся
-            # TODO Когда Y коснулся края границы нижней
-            # TODO мы этой снежинке задаем начальную точку по дефолту верхней гранцы
-            if snowflakes_coordinates_rays[len(snowflakes_coordinates_rays)-1][1] < 50:
+        for i in range(input_amount):
+            point = sd.get_point(add_parameters[i][0], add_parameters[i][2])
+            sd.snowflake(center=point, length=add_parameters[i][1])
+
+            add_parameters[i][2] = add_parameters[i][2] - 10
+            add_parameters[i][0] = add_parameters[i][0] + 10
+            if add_parameters[i][2] < 50:
                 break
-            snowflakes_coordinates_rays[i][0] = snowflakes_coordinates_rays[i][0] + 10
-            # TODO Этот блок использовать нужно в цикле while, а не внутри фор
-            sd.finish_drawing()
-            sd.sleep(0.01)
-            if sd.user_want_exit():
-                break
+
+        sd.sleep(0.1)
+        if sd.user_want_exit():
+            break
 
 
 snowflakes_fall()
 
 sd.pause()
 
+
+# TODO если переменные инициализировать в функции, то ничего не работает, поэтому оставил пока что так,
+# TODO и теперь снежинка не останавливается, хотя break стоит
 # Примерный алгоритм отрисовки снежинок
 #   навсегда
 #     очистка экрана
