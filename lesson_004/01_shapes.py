@@ -45,6 +45,7 @@ length = 100
 incline = 20
 
 
+# TODO Мы получаем delta в форе, зачем мы его указываем как аргумент у функции ?
 def triangle(start_point, delta, length):
     for delta in range(incline, incline + 251, 120):
         shape_triangle = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
