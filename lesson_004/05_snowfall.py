@@ -43,6 +43,7 @@ def snowflakes_fall():
             add_parameters[i][2] -= 10
 
             if parameter_y < 50:
+                # TODO дублирование кода
                 sd.clear_screen()
                 add_parameters[i][0] = sd.random_number(100, 800)
                 add_parameters[i][2] = 600
@@ -56,6 +57,7 @@ snowflakes_fall()
 
 sd.pause()
 
+# Можно делать вторую часть
 
 # Примерный алгоритм отрисовки снежинок
 #   навсегда
