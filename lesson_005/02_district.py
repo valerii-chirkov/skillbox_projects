@@ -5,18 +5,28 @@
 # подсказка: для вывода элементов списка через запятую можно использовать функцию строки .join()
 # https://docs.python.org/3/library/stdtypes.html#str.join
 
-# TODO еще есть жители на районе
-from lesson_005.district.central_street.house1 import room1 as room1_h1_central_street, room2 as room2_h1_central_street
-from lesson_005.district.soviet_street.house1 import room1 as room1_h1_soviet_street, room2 as room2_h1_soviet_street
-from lesson_005.district.soviet_street.house2 import room1 as room1_h2_soviet_street, room2 as room2_h2_soviet_street
 
-# TODO При переносе не используем знак \, ищем альтернативный вариант! Скобки и перенос по арифметическому знаку
-district_inhabitants = room1_h1_central_street.folks + room2_h1_central_street.folks + \
-      room1_h1_soviet_street.folks + room2_h1_soviet_street.folks + \
-      room1_h2_soviet_street.folks + room2_h2_soviet_street.folks
+from lesson_005.district.central_street.house1.room1 import folks as room1_h1_central_street_room1
+from lesson_005.district.central_street.house1.room2 import folks as room1_h1_central_street_room2
+from lesson_005.district.central_street.house2.room1 import folks as room1_h2_central_street_room1
+from lesson_005.district.central_street.house2.room2 import folks as room1_h2_central_street_room2
 
-# TODO Разбить вывод на несколько строк(районов домов).
-print('На районе живут: ', district_inhabitants)
+from lesson_005.district.soviet_street.house1.room1 import folks as room1_h1_soviet_street_room1
+from lesson_005.district.soviet_street.house1.room2 import folks as room1_h1_soviet_street_room2
+from lesson_005.district.soviet_street.house2.room1 import folks as room1_h2_soviet_street_room1
+from lesson_005.district.soviet_street.house2.room2 import folks as room1_h2_soviet_street_room2
 
-# TODO Он ругается на то что у списка нет атрибута join
-# .join почему-то выводил ошибку AttributeError: 'list' object has no attribute 'join'
+separator = ', '
+
+central_house1 = separator.join(room1_h1_central_street_room1) + ', ' + separator.join(room1_h1_central_street_room2)
+central_house2 = separator.join(room1_h2_central_street_room1) + ', ' + separator.join(room1_h2_central_street_room2)
+central_street = 'На центральной улице: ' + central_house1 + ', ' + central_house2
+
+soviet_house1 = separator.join(room1_h1_soviet_street_room1) + ', ' + separator.join(room1_h1_soviet_street_room2)
+soviet_house2 = separator.join(room1_h2_soviet_street_room1) + ', ' + separator.join(room1_h2_soviet_street_room2)
+soviet_street = 'На советской улице: ' + soviet_house1 + ', ' + soviet_house2
+
+print('На районе живут: ')
+print(central_street)
+print(soviet_street)
+
