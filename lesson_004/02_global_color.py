@@ -24,29 +24,28 @@ length = 100
 incline = 20
 
 
-# TODO решить вопрос с delta
-def triangle(start_point, delta, length):
+def triangle(start_point, length):
     for delta in range(incline, incline + 251, 120):
         shape_triangle = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
         shape_triangle.draw(color=color)
         start_point = shape_triangle.end_point
 
 
-def square(start_point, delta, length):
+def square(start_point, length):
     for delta in range(incline, incline + 351, 90):
         shape_square = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
         shape_square.draw(color=color)
         start_point = shape_square.end_point
 
 
-def pentagon(start_point, delta, length):
+def pentagon(start_point, length):
     for delta in range(incline, incline + 289, 72):
         shape_pentagon = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
         shape_pentagon.draw(color=color)
         start_point = shape_pentagon.end_point
 
 
-def hexagon(start_point, delta, length):
+def hexagon(start_point, length):
     for delta in range(incline, incline + 301, 60):
         shape_hexagon = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
         shape_hexagon.draw(color=color)
@@ -70,10 +69,10 @@ if input_color in colors_dict:
     print('Вы ввели ', input_color)
     color = colors_dict[input_color][1]
 
-    triangle(start_point=start_point_triangle, delta=delta, length=length)
-    square(start_point=start_point_square, delta=delta, length=length)
-    pentagon(start_point=start_point_pentagon, delta=delta, length=length)
-    hexagon(start_point=start_point_hexagon, delta=delta, length=length)
+    triangle(start_point=start_point_triangle, length=length)
+    square(start_point=start_point_square, length=length)
+    pentagon(start_point=start_point_pentagon, length=length)
+    hexagon(start_point=start_point_hexagon, length=length)
 else:
     print('Вы ввели неверное число')
     sd.pause()
