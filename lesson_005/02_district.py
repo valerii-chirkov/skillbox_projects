@@ -30,3 +30,4 @@ print('На районе живут: ')
 print(central_street)
 print(soviet_street)
 
+# зачет!
