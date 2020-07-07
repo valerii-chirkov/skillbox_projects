@@ -59,3 +59,4 @@ else:
     sd.pause()
 sd.pause()
 
+# зачет!
