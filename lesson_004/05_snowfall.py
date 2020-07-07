@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+from dis import dis
 import simple_draw as sd
 sd.resolution = (1200, 600)
 # На основе кода из практической части реализовать снегопад:
@@ -27,22 +27,25 @@ def snowflakes_fall():
     # snowflake_coordinate_y = 600
     # snowflake_ray = sd.random_number(10, 100)
     snowflake_parameters(input_amount)
+
     while True:
         sd.clear_screen()
 
         for i in range(input_amount):
-            # TODO для удобочитаемости вынести X Y length в отдельные переменные из списка и их изменять.
-            point = sd.get_point(add_parameters[i][0], add_parameters[i][2])
-            sd.snowflake(center=point, length=add_parameters[i][1])
-            # TODO незабываем измененные переменные записывать обратно в список
-            # можно сократить запись вот так
-            add_parameters[i][2] -= 10
-            add_parameters[i][0] += 10
-            if add_parameters[i][2] < 50:
-                # TODO break работает только на один цикл внутренний
-                # TODO допишем за место брейка add_parameters[i][2] = 600
-                break
+            parameter_x = add_parameters[i][0]
+            parameter_y = add_parameters[i][2]
+            parameter_length = add_parameters[i][1]
 
+            point = sd.get_point(parameter_x, parameter_y)
+            sd.snowflake(center=point, length=parameter_length)
+
+            add_parameters[i][0] += 10
+            add_parameters[i][2] -= 10
+
+            if parameter_y < 50:
+                sd.clear_screen()
+                add_parameters[i][0] = sd.random_number(100, 800)
+                add_parameters[i][2] = 600
         sd.sleep(0.1)
         if sd.user_want_exit():
             break
@@ -50,11 +53,10 @@ def snowflakes_fall():
 
 snowflakes_fall()
 
+
 sd.pause()
 
 
-# TODO если переменные инициализировать в функции, то ничего не работает, поэтому оставил пока что так,
-# TODO и теперь снежинка не останавливается, хотя break стоит
 # Примерный алгоритм отрисовки снежинок
 #   навсегда
 #     очистка экрана
