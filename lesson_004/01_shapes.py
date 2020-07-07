@@ -77,6 +77,9 @@ triangle(start_point=start_point_triangle, length=length)
 square(start_point=start_point_square, length=length)
 pentagon(start_point=start_point_pentagon, length=length)
 hexagon(start_point=start_point_hexagon, length=length)
+
+# первая часть зачет!
+
 # Часть 1-бис.
 # Попробуйте прикинуть обьем работы, если нужно будет внести изменения в этот код.
 # Скажем, связывать точки не линиями, а дугами. Или двойными линиями. Или рисовать круги в угловых точках. Или...
