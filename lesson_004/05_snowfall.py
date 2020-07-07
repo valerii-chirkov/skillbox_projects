@@ -31,12 +31,16 @@ def snowflakes_fall():
         sd.clear_screen()
 
         for i in range(input_amount):
+            # TODO для удобочитаемости вынести X Y length в отдельные переменные из списка и их изменять.
             point = sd.get_point(add_parameters[i][0], add_parameters[i][2])
             sd.snowflake(center=point, length=add_parameters[i][1])
-
-            add_parameters[i][2] = add_parameters[i][2] - 10
-            add_parameters[i][0] = add_parameters[i][0] + 10
+            # TODO незабываем измененные переменные записывать обратно в список
+            # можно сократить запись вот так
+            add_parameters[i][2] -= 10
+            add_parameters[i][0] += 10
             if add_parameters[i][2] < 50:
+                # TODO break работает только на один цикл внутренний
+                # TODO допишем за место брейка add_parameters[i][2] = 600
                 break
 
         sd.sleep(0.1)
