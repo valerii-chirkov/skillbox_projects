@@ -12,7 +12,7 @@ import simple_draw as sd
 delta = 0
 length = 100
 
-
+# TODO решить вопрос с delta
 def triangle(start_point=sd.get_point(250, 250), *, delta, length):
     for delta in range(0, 251, 120):
         shape_triangle = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
