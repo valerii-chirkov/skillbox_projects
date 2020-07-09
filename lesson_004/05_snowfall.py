@@ -13,49 +13,48 @@ sd.resolution = (1200, 600)
 # sd.sleep()
 # sd.random_number()
 # sd.user_want_exit()
-input_amount = int(input('Введите количество снежинок: '))
-add_parameters = []
-
-
-def snowflake_parameters(input_amount):
-    for _ in range(input_amount):
-        add_parameters.append([sd.random_number(100, 800), sd.random_number(10, 100), 600])
-
-
-def snowflakes_fall():
-    # snowflake_coordinate_x = sd.random_number(100, 800)
-    # snowflake_coordinate_y = 600
-    # snowflake_ray = sd.random_number(10, 100)
-    snowflake_parameters(input_amount)
-
-    while True:
-        sd.clear_screen()
-
-        for i in range(input_amount):
-            parameter_x = add_parameters[i][0]
-            parameter_y = add_parameters[i][2]
-            parameter_length = add_parameters[i][1]
-
-            point = sd.get_point(parameter_x, parameter_y)
-            sd.snowflake(center=point, length=parameter_length)
-
-            add_parameters[i][0] += 10
-            add_parameters[i][2] -= 10
-
-            if parameter_y < 50:
-                # TODO дублирование кода
-                sd.clear_screen()
-                add_parameters[i][0] = sd.random_number(100, 800)
-                add_parameters[i][2] = 600
-        sd.sleep(0.1)
-        if sd.user_want_exit():
-            break
-
-
-snowflakes_fall()
-
-
-sd.pause()
+# input_amount = int(input('Введите количество снежинок: '))
+# add_parameters = []
+#
+#
+# def snowflake_parameters(input_amount):
+#     for _ in range(input_amount):
+#         add_parameters.append([sd.random_number(100, 800), sd.random_number(10, 100), 600])
+#
+#
+# def snowflakes_fall():
+#     # snowflake_coordinate_x = sd.random_number(100, 800)
+#     # snowflake_coordinate_y = 600
+#     # snowflake_ray = sd.random_number(10, 100)
+#     snowflake_parameters(input_amount)
+#
+#     while True:
+#         sd.clear_screen()
+#
+#         for i in range(input_amount):
+#             parameter_x = add_parameters[i][0]
+#             parameter_y = add_parameters[i][2]
+#             parameter_length = add_parameters[i][1]
+#
+#             point = sd.get_point(parameter_x, parameter_y)
+#             sd.snowflake(center=point, length=parameter_length)
+#
+#             add_parameters[i][0] += 10
+#             add_parameters[i][2] -= 10
+#
+#             if parameter_y < 50:
+#                 sd.clear_screen()
+#                 add_parameters[i][0] = sd.random_number(100, 800)
+#                 add_parameters[i][2] = 600
+#         sd.sleep(0.1)
+#         if sd.user_want_exit():
+#             break
+#
+#
+# snowflakes_fall()
+#
+#
+# sd.pause()
 
 # Можно делать вторую часть
 
@@ -99,6 +98,53 @@ sd.pause()
 #     немного поспать
 #     если пользователь хочет выйти
 #       прервать цикл
+
+# TODO все сделал по алгоритму, почему-то не работает
+
+input_amount = int(input('Введите количество снежинок: '))
+add_parameters = []
+
+
+def snowflake_parameters(input_amount):
+    for _ in range(input_amount):
+        add_parameters.append([sd.random_number(100, 800), sd.random_number(10, 100), 600])
+
+
+def snowflakes_fall():
+    # snowflake_coordinate_x = sd.random_number(100, 800)
+    # snowflake_coordinate_y = 600
+    # snowflake_ray = sd.random_number(10, 100)
+    snowflake_parameters(input_amount)
+    while True:  # навсегда
+        sd.start_drawing()  # начать рисование кадра
+        for i in range(input_amount):
+            parameter_x = add_parameters[i][0]  # для индекс, координата_х из списка координат снежинок
+            parameter_y = add_parameters[i][2]  # получить координата_у по индексу
+
+            point = sd.get_point(parameter_x, parameter_y)  # создать точку отрисовки снежинки
+            sd.snowflake(center=point, length=add_parameters[i][1], color=sd.background_color)  # нарис снеж цветом фона
+            add_parameters[i][2] -= 10  # изменить координата_у и запомнить её в списке по индексу
+
+            point = sd.get_point(parameter_x, parameter_y)  # создать новую точку отрисовки снежинки
+            sd.snowflake(center=point, length=add_parameters[i][1])  # нарисовать снежинку на новом месте белым цветом
+
+            if parameter_y < 50:
+                sd.clear_screen()
+                add_parameters[i][0] = sd.random_number(100, 800)
+                add_parameters[i][2] = 600
+
+            add_parameters[i][0] += 10
+        sd.finish_drawing()  # закончить рисование кадра
+
+        sd.sleep(0.1)  # немного поспать
+        if sd.user_want_exit():  # если пользователь хочет выйти
+            break  # прервать цикл
+
+
+snowflakes_fall()
+
+
+sd.pause()
 
 
 # Усложненное задание (делать по желанию)
