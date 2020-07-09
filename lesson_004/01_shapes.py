@@ -104,11 +104,12 @@ import simple_draw as sd
 # Будьте ленивыми, не используйте копи-пасту!
 
 
-delta = 0
+# delta = 0
 incline = 20
 
 
 def triangle():
+    # TODO тут и везде ниже, убираем все статику в глобальную область
     incline_last = incline + 251
     step = 120
     start_point = sd.get_point(100, 100)
@@ -116,7 +117,9 @@ def triangle():
 
 
 def square():
+    # TODO тут угол 371 получается, а всего 360+1
     incline_last = incline + 351
+    print(incline_last)
     step = 90
     start_point = sd.get_point(400, 100)
     shapes(start_point=start_point, incline_last=incline_last, step=step)
@@ -137,7 +140,10 @@ def hexagon():
 
 
 def shapes(start_point, incline_last, step):
+    # TODO incline - всегда ноль, incline_last - 361, потому что всего 360 градусов,
+    # TODO step - как раз будет шаг углов фигуры
     for delta in range(incline, incline_last, step):
+        # TODO а angle=delta+угол_наклона можно передавать тоже в параметрах функции
         function = sd.get_vector(start_point=start_point, angle=delta, length=100, width=2)
         function.draw()
         start_point = function.end_point
