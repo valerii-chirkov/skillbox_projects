@@ -36,47 +36,47 @@ import simple_draw as sd
 # sd.line()
 # Результат решения см lesson_004/results/exercise_01_shapes.jpg
 
-start_point_triangle = sd.get_point(100, 100)
-start_point_square = sd.get_point(400, 100)
-start_point_pentagon = sd.get_point(100, 350)
-start_point_hexagon = sd.get_point(400, 350)
-delta = 0
-length = 100
-incline = 20
-
-
-def triangle(start_point, length):
-    for delta in range(incline, incline + 251, 120):
-        shape_triangle = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
-        shape_triangle.draw()
-        start_point = shape_triangle.end_point
-
-
-def square(start_point, length):
-    for delta in range(incline, incline + 351, 90):
-        shape_square = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
-        shape_square.draw()
-        start_point = shape_square.end_point
-
-
-def pentagon(start_point, length):
-    for delta in range(incline, incline + 289, 72):
-        shape_pentagon = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
-        shape_pentagon.draw()
-        start_point = shape_pentagon.end_point
-
-
-def hexagon(start_point, length):
-    for delta in range(incline, incline + 301, 60):
-        shape_hexagon = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
-        shape_hexagon.draw()
-        start_point = shape_hexagon.end_point
-
-
-triangle(start_point=start_point_triangle, length=length)
-square(start_point=start_point_square, length=length)
-pentagon(start_point=start_point_pentagon, length=length)
-hexagon(start_point=start_point_hexagon, length=length)
+# start_point_triangle = sd.get_point(100, 100)
+# start_point_square = sd.get_point(400, 100)
+# start_point_pentagon = sd.get_point(100, 350)
+# start_point_hexagon = sd.get_point(400, 350)
+# delta = 0
+# length = 100
+# incline = 20
+#
+#
+# def triangle(start_point, length):
+#     for delta in range(incline, incline + 251, 120):
+#         shape_triangle = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
+#         shape_triangle.draw()
+#         start_point = shape_triangle.end_point
+#
+#
+# def square(start_point, length):
+#     for delta in range(incline, incline + 351, 90):
+#         shape_square = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
+#         shape_square.draw()
+#         start_point = shape_square.end_point
+#
+#
+# def pentagon(start_point, length):
+#     for delta in range(incline, incline + 289, 72):
+#         shape_pentagon = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
+#         shape_pentagon.draw()
+#         start_point = shape_pentagon.end_point
+#
+#
+# def hexagon(start_point, length):
+#     for delta in range(incline, incline + 301, 60):
+#         shape_hexagon = sd.get_vector(start_point=start_point, angle=delta, length=length, width=2)
+#         shape_hexagon.draw()
+#         start_point = shape_hexagon.end_point
+#
+#
+# triangle(start_point=start_point_triangle, length=length)
+# square(start_point=start_point_square, length=length)
+# pentagon(start_point=start_point_pentagon, length=length)
+# hexagon(start_point=start_point_hexagon, length=length)
 
 # первая часть зачет!
 
@@ -104,4 +104,51 @@ hexagon(start_point=start_point_hexagon, length=length)
 # Будьте ленивыми, не используйте копи-пасту!
 
 
-sd.pause()
+delta = 0
+incline = 20
+
+
+def triangle():
+    incline_last = incline + 251
+    step = 120
+    start_point = sd.get_point(100, 100)
+    shapes(start_point=start_point, incline_last=incline_last, step=step)
+
+
+def square():
+    incline_last = incline + 351
+    step = 90
+    start_point = sd.get_point(400, 100)
+    shapes(start_point=start_point, incline_last=incline_last, step=step)
+
+
+def pentagon():
+    incline_last = incline + 289
+    step = 72
+    start_point = sd.get_point(100, 350)
+    shapes(start_point=start_point, incline_last=incline_last, step=step)
+
+
+def hexagon():
+    incline_last = incline + 301
+    step = 60
+    start_point = sd.get_point(400, 350)
+    shapes(start_point=start_point, incline_last=incline_last, step=step)
+
+
+def shapes(start_point, incline_last, step):
+    for delta in range(incline, incline_last, step):
+        function = sd.get_vector(start_point=start_point, angle=delta, length=100, width=2)
+        function.draw()
+        start_point = function.end_point
+
+
+def call():
+    triangle()
+    square()
+    pentagon()
+    hexagon()
+    sd.pause()
+
+
+call()
