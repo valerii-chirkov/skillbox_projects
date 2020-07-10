@@ -99,7 +99,6 @@ sd.resolution = (1200, 600)
 #     если пользователь хочет выйти
 #       прервать цикл
 
-# TODO все сделал по алгоритму, почему-то не работает
 
 input_amount = int(input('Введите количество снежинок: '))
 add_parameters = []
@@ -125,15 +124,20 @@ def snowflakes_fall():
             sd.snowflake(center=point, length=add_parameters[i][1], color=sd.background_color)  # нарис снеж цветом фона
 
             add_parameters[i][2] -= 10  # изменить координата_у и запомнить её в списке по индексу
-            add_parameters[i][0] += 10
+            add_parameters[i][0] += sd.random_number(-10, 10)
+
             parameter_x = add_parameters[i][0]  # для индекс, координата_х из списка координат снежинок
             parameter_y = add_parameters[i][2]
 
             point = sd.get_point(parameter_x, parameter_y)  # создать новую точку отрисовки снежинки
             sd.snowflake(center=point, length=add_parameters[i][1])  # нарисовать снежинку на новом месте белым цветом
 
-            if parameter_y < 50:
-                return
+            if parameter_y <= add_parameters[i][1]:
+                point = sd.get_point(parameter_x, parameter_y)  # создать новую точку отрисовки снежинки
+                sd.snowflake(center=point, length=add_parameters[i][1])
+                add_parameters[i][0] = sd.random_number(100, 800)
+                add_parameters[i][2] = 600
+                add_parameters[i][1] = sd.random_number(10, 100)
 
         sd.finish_drawing()  # закончить рисование кадра
 
@@ -147,7 +151,6 @@ snowflakes_fall()
 
 sd.pause()
 
-# TODO предлагаю вам сделать усложненное задание
 
 # Усложненное задание (делать по желанию)
 # - сделать рандомные отклонения вправо/влево при каждом шаге
