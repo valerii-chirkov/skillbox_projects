@@ -123,19 +123,18 @@ def snowflakes_fall():
 
             point = sd.get_point(parameter_x, parameter_y)  # создать точку отрисовки снежинки
             sd.snowflake(center=point, length=add_parameters[i][1], color=sd.background_color)  # нарис снеж цветом фона
-            # TODO Тут нужно изменять parameter_x parameter_y
+
             add_parameters[i][2] -= 10  # изменить координата_у и запомнить её в списке по индексу
+            add_parameters[i][0] += 10
+            parameter_x = add_parameters[i][0]  # для индекс, координата_х из списка координат снежинок
+            parameter_y = add_parameters[i][2]
 
             point = sd.get_point(parameter_x, parameter_y)  # создать новую точку отрисовки снежинки
             sd.snowflake(center=point, length=add_parameters[i][1])  # нарисовать снежинку на новом месте белым цветом
-            # TODO А вот тут уже сохранять в add_parameters что изменили
+
             if parameter_y < 50:
-                # TODO эта срока не к чему
-                sd.clear_screen()
-                add_parameters[i][0] = sd.random_number(100, 800)
-                add_parameters[i][2] = 600
-            # TODO Эту строку тоже удаляем
-            add_parameters[i][0] += 10
+                return
+
         sd.finish_drawing()  # закончить рисование кадра
 
         sd.sleep(0.1)  # немного поспать
