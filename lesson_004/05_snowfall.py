@@ -123,21 +123,24 @@ def snowflakes_fall():
             point = sd.get_point(parameter_x, parameter_y)  # создать точку отрисовки снежинки
             sd.snowflake(center=point, length=add_parameters[i][1], color=sd.background_color)  # нарис снеж цветом фона
 
+            # TODO тут нужно сделать наоборот parameter_x parameter_y дать им рендомные значения +=
             add_parameters[i][2] -= 10  # изменить координата_у и запомнить её в списке по индексу
             add_parameters[i][0] += sd.random_number(-10, 10)
-
+            # TODO  потом печать снежинку с новыми параметрами белым
+            # TODO А после этого уже в списке по индексу записать parameter_x parameter_y измененные
             parameter_x = add_parameters[i][0]  # для индекс, координата_х из списка координат снежинок
             parameter_y = add_parameters[i][2]
 
             point = sd.get_point(parameter_x, parameter_y)  # создать новую точку отрисовки снежинки
             sd.snowflake(center=point, length=add_parameters[i][1])  # нарисовать снежинку на новом месте белым цветом
-
+            # TODO parameter_y <= переменная низа которую мы Будем увеличивать чтобы сделать сугроб
             if parameter_y <= add_parameters[i][1]:
-                point = sd.get_point(parameter_x, parameter_y)  # создать новую точку отрисовки снежинки
-                sd.snowflake(center=point, length=add_parameters[i][1])
-                add_parameters[i][0] = sd.random_number(100, 800)
+                # point = sd.get_point(parameter_x, parameter_y)  # создать новую точку отрисовки снежинки
+                # sd.snowflake(center=point, length=add_parameters[i][1])
+                # add_parameters[i][0] = sd.random_number(100, 800)
+                # TODO оставляем лиш это, + допилить переменную которая будет накапливать сугроб
                 add_parameters[i][2] = 600
-                add_parameters[i][1] = sd.random_number(10, 100)
+                # add_parameters[i][1] = sd.random_number(10, 100)
 
         sd.finish_drawing()  # закончить рисование кадра
 
