@@ -104,38 +104,35 @@ import simple_draw as sd
 # Будьте ленивыми, не используйте копи-пасту!
 
 
-incline = 0
-angle = 20
-
-
+# Можно сделать вот так
 def triangle():
     start_point = sd.get_point(100, 100)
-    shapes(start_point=start_point, incline_last=360, step=120)
+    shapes(start_point=start_point, step=120, angle=20)
 
 
 def square():
     start_point = sd.get_point(400, 100)
-    shapes(start_point=start_point, incline_last=360, step=90)
+    shapes(start_point=start_point, step=90, angle=20)
 
 
 def pentagon():
     start_point = sd.get_point(100, 350)
-    shapes(start_point=start_point, incline_last=360, step=72)
+    shapes(start_point=start_point, step=72, angle=20)
 
 
 def hexagon():
     start_point = sd.get_point(400, 350)
-    shapes(start_point=start_point, incline_last=360, step=60)
+    shapes(start_point=start_point, step=60, angle=20)
 
 
-def shapes(start_point, incline_last, step):
-    for delta in range(incline, incline_last, step):
+def shapes(start_point, step, angle):
+    for delta in range(0, 361, step):
         function = sd.get_vector(start_point=start_point, angle=delta+angle, length=100, width=2)
         function.draw()
         start_point = function.end_point
 
 
-# TODO Я не понял как внести параметры функции
+# Можно и так!
 def call():
     triangle()
     square()
@@ -145,3 +142,5 @@ def call():
 
 
 call()
+
+# зачет!
