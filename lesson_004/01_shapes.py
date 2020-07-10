@@ -105,32 +105,29 @@ import simple_draw as sd
 
 
 incline = 0
-incline_last = 360
 angle = 20
-step = [120, 90, 72, 60]
 
 
 def triangle():
     start_point = sd.get_point(100, 100)
-    shapes(start_point=start_point, incline_last=incline_last, step=step[0])
+    shapes(start_point=start_point, incline_last=360, step=120)
 
 
 def square():
     start_point = sd.get_point(400, 100)
-    shapes(start_point=start_point, incline_last=incline_last, step=step[1])
+    shapes(start_point=start_point, incline_last=360, step=90)
 
 
 def pentagon():
     start_point = sd.get_point(100, 350)
-    shapes(start_point=start_point, incline_last=incline_last, step=step[2])
+    shapes(start_point=start_point, incline_last=360, step=72)
 
 
 def hexagon():
     start_point = sd.get_point(400, 350)
-    shapes(start_point=start_point, incline_last=incline_last, step=step[3])
+    shapes(start_point=start_point, incline_last=360, step=60)
 
 
-# TODO в нашем случае пайчарм подчеркнул incline_last, step поскольку они уже объявлены выше
 def shapes(start_point, incline_last, step):
     for delta in range(incline, incline_last, step):
         function = sd.get_vector(start_point=start_point, angle=delta+angle, length=100, width=2)
@@ -138,7 +135,7 @@ def shapes(start_point, incline_last, step):
         start_point = function.end_point
 
 
-# TODO Хорошей практикой является вызывать функции с параметрами, а не определять их выше статично
+# TODO Я не понял как внести параметры функции
 def call():
     triangle()
     square()
