@@ -106,7 +106,7 @@ import simple_draw as sd
 
 incline = 0
 incline_last = 360
-angle = 0
+angle = 20
 step = [120, 90, 72, 60]
 
 
@@ -130,13 +130,15 @@ def hexagon():
     shapes(start_point=start_point, incline_last=incline_last, step=step[3])
 
 
+# TODO в нашем случае пайчарм подчеркнул incline_last, step поскольку они уже объявлены выше
 def shapes(start_point, incline_last, step):
     for delta in range(incline, incline_last, step):
-        function = sd.get_vector(start_point=start_point, angle=delta+20, length=100, width=2)
+        function = sd.get_vector(start_point=start_point, angle=delta+angle, length=100, width=2)
         function.draw()
         start_point = function.end_point
 
 
+# TODO Хорошей практикой является вызывать функции с параметрами, а не определять их выше статично
 def call():
     triangle()
     square()
