@@ -124,24 +124,19 @@ def snowflakes_fall():
             point = sd.get_point(parameter_x, parameter_y)  # создать точку отрисовки снежинки
             sd.snowflake(center=point, length=add_parameters[i][1], color=sd.background_color)  # нарис снеж цветом фона
 
-            ### TODO тут нужно сделать наоборот parameter_x parameter_y дать им рендомные значения +=
+            # Вот что я имел ввиду, доработал вам алгоритм
+            parameter_x += sd.random_number(-30, 30)
+            parameter_y -= sd.random_number(5, 30)
 
-            # TODO не понял зачем параметру y давать +=, снежинка же тогда вверх улетит
-            add_parameters[i][0] += sd.random_number(-7, 7)
-            add_parameters[i][2] -= sd.random_number(0, 10)  # изменить координата_у и запомнить её в списке по индексу
-            ### TODO  потом печать снежинку с новыми параметрами белым
-            ### TODO А после этого уже в списке по индексу записать parameter_x parameter_y измененные
-
-            # TODO так у меня и так все на своих местах, разве нет?
-            parameter_x = add_parameters[i][0]  # для индекс, координата_х из списка координат снежинок
-            parameter_y = add_parameters[i][2]
             point = sd.get_point(parameter_x, parameter_y)  # создать новую точку отрисовки снежинки
             sd.snowflake(center=point, length=add_parameters[i][1])  # нарисовать снежинку на новом месте белым цветом
-            ### TODO parameter_y <= переменная низа которую мы Будем увеличивать чтобы сделать сугроб
-            # TODO Не понял логику
 
+            add_parameters[i][0] = parameter_x
+            add_parameters[i][2] = parameter_y
+
+            # TODO тут мы берем level_snow и с ним сравниваем parameter_y
             if parameter_y <= add_parameters[i][1]:
-                # TODO допилить переменную которая будет накапливать сугроб
+                # TODO level_snow увеличиваем на 1 и получаем сугроб, parameter_y не строгаем!
                 parameter_y += 50
                 add_parameters[i][2] = 600
 
