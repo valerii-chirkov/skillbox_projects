@@ -106,7 +106,7 @@ add_parameters = []
 
 def snowflake_parameters(input_amount):
     for _ in range(input_amount):
-        add_parameters.append([sd.random_number(100, 800), sd.random_number(10, 100), 600])
+        add_parameters.append([sd.random_number(600, 600), sd.random_number(10, 100), 600])
 
 
 def snowflakes_fall():
@@ -126,7 +126,7 @@ def snowflakes_fall():
 
             # Вот что я имел ввиду, доработал вам алгоритм
             parameter_x += sd.random_number(-30, 30)
-            parameter_y -= sd.random_number(5, 30)
+            parameter_y -= sd.random_number(100, 100)
 
             point = sd.get_point(parameter_x, parameter_y)  # создать новую точку отрисовки снежинки
             sd.snowflake(center=point, length=add_parameters[i][1])  # нарисовать снежинку на новом месте белым цветом
@@ -134,10 +134,11 @@ def snowflakes_fall():
             add_parameters[i][0] = parameter_x
             add_parameters[i][2] = parameter_y
 
-            # TODO тут мы берем level_snow и с ним сравниваем parameter_y
-            if parameter_y <= add_parameters[i][1]:
-                # TODO level_snow увеличиваем на 1 и получаем сугроб, parameter_y не строгаем!
-                parameter_y += 50
+            # TODO сделал все по TODO, и остались такие вопросы
+            # TODO 1ое - снежинки в воздухе https://ibb.co/C2vQYWy (скрин)
+            # TODO 2ое - снежинки одного размера
+            if level_snow > parameter_y:
+                level_snow += 1
                 add_parameters[i][2] = 600
 
                 # add_parameters[i][1] = sd.random_number(10, 100)
