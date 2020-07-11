@@ -106,7 +106,7 @@ add_parameters = []
 
 def snowflake_parameters(input_amount):
     for _ in range(input_amount):
-        add_parameters.append([sd.random_number(600, 600), sd.random_number(10, 100), 600])
+        add_parameters.append([sd.random_number(50, 1150), sd.random_number(10, 100), 600])
 
 
 def snowflakes_fall():
@@ -114,7 +114,7 @@ def snowflakes_fall():
     # snowflake_coordinate_y = 600
     # snowflake_ray = sd.random_number(10, 100)
     snowflake_parameters(input_amount)
-    level_snow = 0
+    level_snow = 10
     while True:  # навсегда
         sd.start_drawing()  # начать рисование кадра
         for i in range(input_amount):
@@ -124,9 +124,9 @@ def snowflakes_fall():
             point = sd.get_point(parameter_x, parameter_y)  # создать точку отрисовки снежинки
             sd.snowflake(center=point, length=add_parameters[i][1], color=sd.background_color)  # нарис снеж цветом фона
 
-            # Вот что я имел ввиду, доработал вам алгоритм
+            # Поправил
             parameter_x += sd.random_number(-30, 30)
-            parameter_y -= sd.random_number(100, 100)
+            parameter_y -= sd.random_number(10, 30)
 
             point = sd.get_point(parameter_x, parameter_y)  # создать новую точку отрисовки снежинки
             sd.snowflake(center=point, length=add_parameters[i][1])  # нарисовать снежинку на новом месте белым цветом
@@ -134,14 +134,9 @@ def snowflakes_fall():
             add_parameters[i][0] = parameter_x
             add_parameters[i][2] = parameter_y
 
-            # TODO сделал все по TODO, и остались такие вопросы
-            # TODO 1ое - снежинки в воздухе https://ibb.co/C2vQYWy (скрин)
-            # TODO 2ое - снежинки одного размера
             if level_snow > parameter_y:
                 level_snow += 1
                 add_parameters[i][2] = 600
-
-                # add_parameters[i][1] = sd.random_number(10, 100)
 
         sd.finish_drawing()  # закончить рисование кадра
 
@@ -162,3 +157,4 @@ sd.pause()
 #   и добавлять новую снежинку
 # Результат решения см https://youtu.be/XBx0JtxHiLg
 
+# зачет!
