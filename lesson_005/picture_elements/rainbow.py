@@ -1,6 +1,6 @@
 import simple_draw as sd
 sd.set_screen_size(width=1200, height=600)
-point = sd.get_point(250, -180)
+point = sd.get_point(260, -180)
 step = 30
 rainbow_colors = (sd.COLOR_RED, sd.COLOR_ORANGE, sd.COLOR_YELLOW, sd.COLOR_GREEN,
                   sd.COLOR_CYAN, sd.COLOR_BLUE, sd.COLOR_PURPLE)
@@ -8,10 +8,12 @@ rainbow_colors = (sd.COLOR_RED, sd.COLOR_ORANGE, sd.COLOR_YELLOW, sd.COLOR_GREEN
 
 def rainbow():
     radius = 850
-    for color in rainbow_colors:
-        radius += step
-        sd.circle(center_position=point, radius=radius, color=color, width=30)
+    width = 30
+    for _ in range(1):
+        width += sd.random_number(-3, 3)
+        radius += sd.random_number(-3, 3)
+        for color in rainbow_colors:
+            radius += step
+            sd.circle(center_position=point, radius=radius, color=color, width=width)
 
-# TODO Убрать вызов, делать его в главном модуле
-rainbow()
 

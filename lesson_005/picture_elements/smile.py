@@ -14,14 +14,12 @@ colors = [
         COLOR_HOOD,
         COLOR_ORANGE
     ]
-
-
 color = colors[0]
 
 
 def smile(amount):
     for _ in range(amount):
-        start_coordinate_x, start_coordinate_y = 300, 300
+        start_coordinate_x, start_coordinate_y = 530, 170
         draw_smiles(start_coordinate_x=start_coordinate_x, start_coordinate_y=start_coordinate_y, color=color)
 
 
@@ -31,7 +29,6 @@ def draw_smiles(start_coordinate_x, start_coordinate_y, color):
     draw_face(start_coordinate_x, start_coordinate_y)
     draw_eyes(start_coordinate_x, start_coordinate_y)
     draw_mouth(start_coordinate_x, start_coordinate_y)
-    # draw_hood(start_coordinate_x, start_coordinate_y)
 
 
 def draw_face(start_coordinate_x, start_coordinate_y):
@@ -48,14 +45,25 @@ def draw_eyes(start_coordinate_x, start_coordinate_y):
     start_point_eyes_line = sd.get_point(start_coordinate_x, start_coordinate_y + 3)
     end_point_eyes_line = sd.get_point(start_coordinate_x, start_coordinate_y - 3)
 
-    start_point_left_pupil = sd.get_point(start_coordinate_x - 10, start_coordinate_y - 1)
-    start_point_right_pupil = sd.get_point(start_coordinate_x + 10, start_coordinate_y - 1)
-
     sd.circle(start_point_left_eye, radius=15, color=colors[0], width=15)
     sd.circle(start_point_right_eye, radius=15, color=colors[0], width=15)
+    # TODO почему-то не закрашивается зрачок
+    for _ in range(1):
+        start_point_left_pupil = sd.get_point(start_coordinate_x - 20, start_coordinate_y - 1)
+        start_point_right_pupil = sd.get_point(start_coordinate_x + 5, start_coordinate_y - 1)
+        sd.circle(start_point_left_pupil, radius=3, color=sd.COLOR_WHITE, width=3)
+        sd.circle(start_point_right_pupil, radius=3, color=sd.COLOR_WHITE, width=3)
 
-    sd.circle(start_point_left_pupil, radius=3, color=colors[5], width=3)
-    sd.circle(start_point_right_pupil, radius=3, color=colors[5], width=3)
+        sd.circle(start_point_left_pupil, radius=3, color=colors[5], width=3)
+        sd.circle(start_point_right_pupil, radius=3, color=colors[5], width=3)
+
+        start_point_left_pupil_next = sd.get_point(start_coordinate_x - 5, start_coordinate_y - 1)
+        start_point_right_pupil_next = sd.get_point(start_coordinate_x + 20, start_coordinate_y - 1)
+        sd.circle(start_point_left_pupil_next, radius=3, color=sd.COLOR_WHITE, width=3)
+        sd.circle(start_point_right_pupil_next, radius=3, color=sd.COLOR_WHITE, width=3)
+
+        sd.circle(start_point_left_pupil_next, radius=3, color=colors[5], width=3)
+        sd.circle(start_point_right_pupil_next, radius=3, color=colors[5], width=3)
 
     sd.line(start_point_eyes_line, end_point_eyes_line, color=colors[5], width=1)
 
@@ -66,108 +74,3 @@ def draw_mouth(start_coordinate_x, start_coordinate_y):
 
     sd.line(start_point_mouth, end_point_mouth, color=colors[5], width=2)
 
-# TODO все отладочные комментарии удаляем перед пушем
-# def draw_hood(start_coordinate_x, start_coordinate_y):
-#         for _ in range(10):
-#             start_point_hood = sd.get_point(start_coordinate_x + 0, start_coordinate_y + 30)
-#             end_point_hood = sd.get_point(start_coordinate_x + 15, start_coordinate_y + 20)
-#             sd.line(start_point_hood, end_point_hood, color=colors[7], width=5)
-#             start_coordinate_x += 2
-#             start_coordinate_y += 2
-#         start_coordinate_x -= 20
-#         start_coordinate_y -= 20
-#
-#         for _ in range(10):
-#             start_point_hood = sd.get_point(start_coordinate_x + 15, start_coordinate_y + 20)
-#             end_point_hood = sd.get_point(start_coordinate_x + 22, start_coordinate_y + 10)
-#             sd.line(start_point_hood, end_point_hood, color=colors[7], width=5)
-#             start_coordinate_x += 2
-#             start_coordinate_y += 2
-#         start_coordinate_x -= 20
-#         start_coordinate_y -= 20
-#
-#         for _ in range(10):
-#             start_point_hood = sd.get_point(start_coordinate_x + 23, start_coordinate_y - 10)
-#             end_point_hood = sd.get_point(start_coordinate_x + 15, start_coordinate_y - 20)
-#             sd.line(start_point_hood, end_point_hood, color=colors[7], width=5)
-#             start_coordinate_x += 2
-#             start_coordinate_y -= 2
-#         start_coordinate_x -= 20
-#         start_coordinate_y += 20
-#
-#         for _ in range(10):
-#             start_point_hood = sd.get_point(start_coordinate_x + 15, start_coordinate_y - 20)
-#             end_point_hood = sd.get_point(start_coordinate_x + 0, start_coordinate_y - 30)
-#             sd.line(start_point_hood, end_point_hood, color=colors[7], width=5)
-#             start_coordinate_x += 2
-#             start_coordinate_y -= 2
-#         start_coordinate_x -= 20
-#         start_coordinate_y += 20
-#         #
-#         for _ in range(10):
-#             start_point_hood = sd.get_point(start_coordinate_x + 0, start_coordinate_y - 30)
-#             end_point_hood = sd.get_point(start_coordinate_x - 15, start_coordinate_y - 20)
-#             sd.line(start_point_hood, end_point_hood, color=colors[7], width=5)
-#             start_coordinate_x -= 2
-#             start_coordinate_y -= 2
-#         start_coordinate_x += 20
-#         start_coordinate_y += 20
-#
-#         for _ in range(10):
-#             start_point_hood = sd.get_point(start_coordinate_x - 15, start_coordinate_y - 20)
-#             end_point_hood = sd.get_point(start_coordinate_x - 22, start_coordinate_y - 10)
-#             sd.line(start_point_hood, end_point_hood, color=colors[7], width=5)
-#             start_coordinate_x -= 2
-#             start_coordinate_y -= 2
-#         start_coordinate_x += 20
-#         start_coordinate_y += 20
-#
-#         for _ in range(10):
-#             start_point_hood = sd.get_point(start_coordinate_x - 23, start_coordinate_y + 10)
-#             end_point_hood = sd.get_point(start_coordinate_x - 15, start_coordinate_y + 20)
-#             sd.line(start_point_hood, end_point_hood, color=colors[7], width=5)
-#             start_coordinate_x -= 2
-#             start_coordinate_y += 2
-#         start_coordinate_x += 20
-#         start_coordinate_y -= 20
-#
-#         for _ in range(10):
-#             start_point_hood = sd.get_point(start_coordinate_x - 15, start_coordinate_y + 20)
-#             end_point_hood = sd.get_point(start_coordinate_x - 0, start_coordinate_y + 30)
-#             sd.line(start_point_hood, end_point_hood, color=colors[7], width=5)
-#             start_coordinate_x -= 2
-#             start_coordinate_y += 2
-#         start_coordinate_x += 20
-#         start_coordinate_y -= 20
-#
-#         start_point_hood = sd.get_point(start_coordinate_x + 34, start_coordinate_y + 20)
-#         end_point_hood = sd.get_point(start_coordinate_x + 34, start_coordinate_y - 20)
-#         sd.line(start_point_hood, end_point_hood, color=colors[7], width=30)
-#
-#         start_point_hood = sd.get_point(start_coordinate_x - 35, start_coordinate_y + 20)
-#         end_point_hood = sd.get_point(start_coordinate_x - 35, start_coordinate_y - 20)
-#         sd.line(start_point_hood, end_point_hood, color=colors[7], width=30)
-#
-#         point = sd.get_point(300, 300)
-#         radius = 56
-#         sd.circle(center_position=point, radius=radius, color=sd.COLOR_ORANGE, width=25)
-#
-#         point = sd.get_point(300, 296)
-#         radius = 36
-#         sd.circle(center_position=point, radius=radius, color=sd.COLOR_BLACK, width=2)
-#
-#         start_point_hood = sd.get_point(start_coordinate_x, start_coordinate_y - 30)
-#         end_point_hood = sd.get_point(start_coordinate_x - 15, start_coordinate_y - 45)
-#         sd.line(start_point_hood, end_point_hood, color=sd.COLOR_BLACK, width=3)
-#
-#         start_point_hood = sd.get_point(start_coordinate_x, start_coordinate_y - 30)
-#         end_point_hood = sd.get_point(start_coordinate_x + 5, start_coordinate_y - 45)
-#         sd.line(start_point_hood, end_point_hood, color=sd.COLOR_BLACK, width=3)
-#
-#         start_point_hood = sd.get_point(start_coordinate_x + 5, start_coordinate_y - 45)
-#         end_point_hood = sd.get_point(start_coordinate_x + 10, start_coordinate_y - 50)
-#         sd.line(start_point_hood, end_point_hood, color=sd.COLOR_BLACK, width=2)
-
-
-
-sd.pause()
