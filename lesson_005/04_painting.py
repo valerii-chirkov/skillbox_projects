@@ -1,18 +1,25 @@
 # -*- coding: utf-8 -*-
 import simple_draw as sd
+
 sd.set_screen_size(width=1200, height=600)
 sd.background_color = (15, 116, 235)
-
+# TODO импорты нужно делать до основного кода
+# TODO Во всех модулях убираем вызов функции, вызывать мы будем их тут!
 from lesson_005.picture_elements.sun import sun
 from lesson_005.picture_elements.grass import grass
 from lesson_005.picture_elements.rainbow import rainbow
 from lesson_005.picture_elements.wall import house
 from lesson_005.picture_elements.tree import draw_branches as tree
 
+# TODO тут делаем вызов статических функций который отрисовались и более не изменяются(дерево, дом...)
 while True:
+    # TODO используем sd.start_drawing()
+    # TODO тут мы не делаем импорт а вызываем функцию
     from lesson_005.picture_elements.smile import draw_smiles as smile
     from lesson_005.picture_elements.snowflakes import snowflakes_fall as snowflakes
-
+    # TODO используем sd.finish_drawing()
+    # TODO Задержку по времени
+    # TODO Конструкцию если пользователь захочет выйти
 
 
 # Создать пакет, в который скопировать функции отрисовки из предыдущего урока

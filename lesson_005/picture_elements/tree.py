@@ -6,6 +6,7 @@ sd.set_screen_size(width=1200, height=600)
 def draw_branches(point=sd.get_point(900, 100), angle=90, length=70):
     v1 = sd.get_vector(start_point=point, angle=angle, length=length, width=3)
     v1.draw(color=sd.COLOR_DARK_GREEN)
+    # TODO большое повторение однотипного кода сделать функцию
     if length >= 70:
         v1 = sd.get_vector(start_point=point, angle=angle, length=length, width=30)
         v1.draw(color=(160, 82, 45))
@@ -36,5 +37,5 @@ def draw_branches(point=sd.get_point(900, 100), angle=90, length=70):
     draw_branches(next_point, next_angle1, next_length)
     draw_branches(next_point, next_angle2, next_length)
 
-
+# TODO Убрать вызов, делать его в главном модуле
 draw_branches()

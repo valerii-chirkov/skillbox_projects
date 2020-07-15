@@ -12,6 +12,6 @@ def rainbow():
         radius += step
         sd.circle(center_position=point, radius=radius, color=color, width=30)
 
-
+# TODO Убрать вызов, делать его в главном модуле
 rainbow()
 

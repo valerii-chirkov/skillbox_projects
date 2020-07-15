@@ -66,7 +66,7 @@ def draw_mouth(start_coordinate_x, start_coordinate_y):
 
     sd.line(start_point_mouth, end_point_mouth, color=colors[5], width=2)
 
-
+# TODO все отладочные комментарии удаляем перед пушем
 # def draw_hood(start_coordinate_x, start_coordinate_y):
 #         for _ in range(10):
 #             start_point_hood = sd.get_point(start_coordinate_x + 0, start_coordinate_y + 30)

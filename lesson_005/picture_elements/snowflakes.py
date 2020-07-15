@@ -12,6 +12,8 @@ def snowflake_parameters():
 def snowflakes_fall():
     snowflake_parameters()
     level_snow = 10
+    # TODO вот про этот цикл while я вам говорил его тут не должно быть, главный цикл будет один в основном файле,
+    # TODO он и будет двигать снежинку
     while True:  # навсегда
         sd.start_drawing()  # начать рисование кадра
         for i in range(3):
@@ -41,6 +43,6 @@ def snowflakes_fall():
         if sd.user_want_exit():  # если пользователь хочет выйти
             break  # прервать цикл
 
-
+# TODO Убрать вызов, делать его в главном модуле
 snowflakes_fall()
 sd.pause()
