@@ -1,25 +1,34 @@
 # -*- coding: utf-8 -*-
 import simple_draw as sd
 
-sd.set_screen_size(width=1200, height=600)
-sd.background_color = (15, 116, 235)
-# TODO импорты нужно делать до основного кода
-# TODO Во всех модулях убираем вызов функции, вызывать мы будем их тут!
-from lesson_005.picture_elements.sun import sun
+from lesson_005.picture_elements.sun import sun_static, traces_animate
 from lesson_005.picture_elements.grass import grass
 from lesson_005.picture_elements.rainbow import rainbow
 from lesson_005.picture_elements.wall import house
 from lesson_005.picture_elements.tree import draw_branches as tree
+from lesson_005.picture_elements.smile import draw_smiles as smile
+from lesson_005.picture_elements.snowflakes import snowflakes_fall as snowflakes
+from lesson_005.picture_elements.snowflakes import snowdrift
 
-# TODO тут делаем вызов статических функций который отрисовались и более не изменяются(дерево, дом...)
+sd.set_screen_size(width=1200, height=600)
+sd.background_color = (15, 116, 235)
+grass()
+snowdrift()
+tree()
+
 while True:
-    # TODO используем sd.start_drawing()
-    # TODO тут мы не делаем импорт а вызываем функцию
-    from lesson_005.picture_elements.smile import draw_smiles as smile
-    from lesson_005.picture_elements.snowflakes import snowflakes_fall as snowflakes
-    # TODO используем sd.finish_drawing()
-    # TODO Задержку по времени
-    # TODO Конструкцию если пользователь захочет выйти
+    sd.start_drawing()
+    traces_animate()
+    snowflakes()
+    house()
+    rainbow()
+    sun_static()
+    smile(start_coordinate_x=540, start_coordinate_y=180, color=sd.COLOR_WHITE)
+    sd.finish_drawing()
+    sd.sleep(0.1)
+    if sd.user_want_exit():
+        break
+
 
 
 # Создать пакет, в который скопировать функции отрисовки из предыдущего урока
