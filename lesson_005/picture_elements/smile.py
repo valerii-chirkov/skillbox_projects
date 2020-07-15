@@ -47,7 +47,7 @@ def draw_eyes(start_coordinate_x, start_coordinate_y):
 
     sd.circle(start_point_left_eye, radius=15, color=colors[0], width=15)
     sd.circle(start_point_right_eye, radius=15, color=colors[0], width=15)
-    # TODO почему-то не закрашивается зрачок
+    # TODO Постараться избавиться от этого цикла, он не имеет смысла далее
     for _ in range(1):
         start_point_left_pupil = sd.get_point(start_coordinate_x - 20, start_coordinate_y - 1)
         start_point_right_pupil = sd.get_point(start_coordinate_x + 5, start_coordinate_y - 1)
@@ -62,6 +62,8 @@ def draw_eyes(start_coordinate_x, start_coordinate_y):
         sd.circle(start_point_left_pupil_next, radius=3, color=sd.COLOR_WHITE, width=3)
         sd.circle(start_point_right_pupil_next, radius=3, color=sd.COLOR_WHITE, width=3)
 
+        # TODO Все рисуется одновременно поэтому нет смещение зрачков
+        # TODO Можно использовать переменную в глобальном скопе и по ней выводить либо одни глаза или другие
         sd.circle(start_point_left_pupil_next, radius=3, color=colors[5], width=3)
         sd.circle(start_point_right_pupil_next, radius=3, color=colors[5], width=3)
 
