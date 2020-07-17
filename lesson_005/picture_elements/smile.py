@@ -29,6 +29,7 @@ def draw_smiles(start_coordinate_x, start_coordinate_y, color):
     draw_face(start_coordinate_x, start_coordinate_y)
     draw_eyes(start_coordinate_x, start_coordinate_y)
     draw_mouth(start_coordinate_x, start_coordinate_y)
+    skip_eyes(start_coordinate_x, start_coordinate_y)
 
 
 def draw_face(start_coordinate_x, start_coordinate_y):
@@ -47,27 +48,37 @@ def draw_eyes(start_coordinate_x, start_coordinate_y):
 
     sd.circle(start_point_left_eye, radius=15, color=colors[0], width=15)
     sd.circle(start_point_right_eye, radius=15, color=colors[0], width=15)
-    # TODO Постараться избавиться от этого цикла, он не имеет смысла далее
-    for _ in range(1):
-        start_point_left_pupil = sd.get_point(start_coordinate_x - 20, start_coordinate_y - 1)
-        start_point_right_pupil = sd.get_point(start_coordinate_x + 5, start_coordinate_y - 1)
-        sd.circle(start_point_left_pupil, radius=3, color=sd.COLOR_WHITE, width=3)
-        sd.circle(start_point_right_pupil, radius=3, color=sd.COLOR_WHITE, width=3)
-
-        sd.circle(start_point_left_pupil, radius=3, color=colors[5], width=3)
-        sd.circle(start_point_right_pupil, radius=3, color=colors[5], width=3)
-
-        start_point_left_pupil_next = sd.get_point(start_coordinate_x - 5, start_coordinate_y - 1)
-        start_point_right_pupil_next = sd.get_point(start_coordinate_x + 20, start_coordinate_y - 1)
-        sd.circle(start_point_left_pupil_next, radius=3, color=sd.COLOR_WHITE, width=3)
-        sd.circle(start_point_right_pupil_next, radius=3, color=sd.COLOR_WHITE, width=3)
-
-        # TODO Все рисуется одновременно поэтому нет смещение зрачков
-        # TODO Можно использовать переменную в глобальном скопе и по ней выводить либо одни глаза или другие
-        sd.circle(start_point_left_pupil_next, radius=3, color=colors[5], width=3)
-        sd.circle(start_point_right_pupil_next, radius=3, color=colors[5], width=3)
 
     sd.line(start_point_eyes_line, end_point_eyes_line, color=colors[5], width=1)
+
+
+def skip_eyes_left(start_coordinate_x, start_coordinate_y):
+    start_point_left_pupil = sd.get_point(start_coordinate_x - 20, start_coordinate_y - 1)
+    start_point_right_pupil = sd.get_point(start_coordinate_x + 5, start_coordinate_y - 1)
+    sd.circle(start_point_left_pupil, radius=3, color=sd.COLOR_WHITE, width=3)
+    sd.circle(start_point_right_pupil, radius=3, color=sd.COLOR_WHITE, width=3)
+
+    sd.circle(start_point_left_pupil, radius=3, color=colors[5], width=3)
+    sd.circle(start_point_right_pupil, radius=3, color=colors[5], width=3)
+
+
+def skip_eyes_right(start_coordinate_x, start_coordinate_y):
+    start_point_left_pupil_next = sd.get_point(start_coordinate_x - 5, start_coordinate_y - 1)
+    start_point_right_pupil_next = sd.get_point(start_coordinate_x + 20, start_coordinate_y - 1)
+    sd.circle(start_point_left_pupil_next, radius=3, color=sd.COLOR_WHITE, width=3)
+    sd.circle(start_point_right_pupil_next, radius=3, color=sd.COLOR_WHITE, width=3)
+
+    sd.circle(start_point_left_pupil_next, radius=3, color=colors[5], width=3)
+    sd.circle(start_point_right_pupil_next, radius=3, color=colors[5], width=3)
+    # TODO Все рисуется одновременно поэтому нет смещение зрачков
+    # TODO Можно использовать переменную в глобальном скопе и по ней выводить либо одни глаза или другие
+
+    # TODO Вот тут непонятно, какая переменная должна быть? И как по ней выводить
+
+
+def skip_eyes(start_coordinate_x, start_coordinate_y):
+    number = [(skip_eyes_left(start_coordinate_x, start_coordinate_y)), (skip_eyes_right(start_coordinate_x, start_coordinate_y))]
+    sd.random_number(number)
 
 
 def draw_mouth(start_coordinate_x, start_coordinate_y):
