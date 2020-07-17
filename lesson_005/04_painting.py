@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import simple_draw as sd
 
-from lesson_005.picture_elements.sun import sun_static, traces_animate
+from lesson_005.picture_elements.sun import sun
 from lesson_005.picture_elements.grass import grass
 from lesson_005.picture_elements.rainbow import rainbow
 from lesson_005.picture_elements.wall import house
@@ -18,15 +18,11 @@ tree()
 
 while True:
     sd.start_drawing()
-    # TODO тут мы статично рисуем их беграундом
-    traces_animate()
     snowflakes()
     house()
     rainbow()
-    # TODO так у вас функция называется статик! Вот и статично ;) На самом деле нужно поправить нейминг.
-    # TODO И напишем только одну функцию рисования солнца
-    sun_static()
-    # TODO Смайлик у нас тоже должен подмигивать
+
+    sun()
     smile(start_coordinate_x=540, start_coordinate_y=180, color=sd.COLOR_WHITE)
     sd.finish_drawing()
     sd.sleep(0.1)
