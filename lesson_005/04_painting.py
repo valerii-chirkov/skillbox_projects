@@ -18,12 +18,13 @@ tree()
 
 while True:
     sd.start_drawing()
-    snowflakes()
     house()
     rainbow()
-
-    sun()
+    # раскомментировать
+    # sun()
+    # TODO если параметры статичны их можно определять в самой функции или в ее модуле.
     smile(start_coordinate_x=540, start_coordinate_y=180, color=sd.COLOR_WHITE)
+    snowflakes()
     sd.finish_drawing()
     sd.sleep(0.1)
     if sd.user_want_exit():
