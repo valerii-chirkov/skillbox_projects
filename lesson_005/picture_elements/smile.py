@@ -4,7 +4,6 @@ sd.set_screen_size(width=1200, height=600)
 
 COLOR_SKIN = (249, 215, 177)
 start_coordinate_x, start_coordinate_y = 530, 170
-count = sd.random_number(0, 1)
 
 
 def draw_smiles():
@@ -22,7 +21,7 @@ def draw_face():
     sd.circle(start_point, radius=50, color=sd.COLOR_BLACK, width=1)
 
 
-def draw_eyes(count=count):
+def draw_eyes():
     start_point_left_eye = sd.get_point(start_coordinate_x - 15, start_coordinate_y)
     start_point_right_eye = sd.get_point(start_coordinate_x + 15, start_coordinate_y)
 
@@ -39,6 +38,7 @@ def draw_eyes(count=count):
 
     start_point_left_pupil_next = sd.get_point(start_coordinate_x - 5, start_coordinate_y - 1)
     start_point_right_pupil_next = sd.get_point(start_coordinate_x + 20, start_coordinate_y - 1)
+    count = sd.random_number(0, 1)
     if count == 0:
         sd.circle(start_point_left_pupil, radius=3, color=sd.COLOR_BLACK, width=3)
         sd.circle(start_point_right_pupil, radius=3, color=sd.COLOR_BLACK, width=3)
