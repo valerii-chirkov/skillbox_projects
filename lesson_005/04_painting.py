@@ -20,10 +20,8 @@ while True:
     sd.start_drawing()
     house()
     rainbow()
-    # раскомментировать
-    # sun()
-    # TODO если параметры статичны их можно определять в самой функции или в ее модуле.
-    smile(start_coordinate_x=540, start_coordinate_y=180, color=sd.COLOR_WHITE)
+    sun()
+    smile()
     snowflakes()
     sd.finish_drawing()
     sd.sleep(0.1)
