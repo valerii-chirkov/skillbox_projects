@@ -44,4 +44,47 @@
 # Это пример применения SOLID принципа (см https://goo.gl/GFMoaI) в архитектуре программ.
 # Точнее, в этом случае важен принцип единственной ответственности - https://goo.gl/rYb3hT
 
-# TODO здесь ваш код...
+from termcolor import *
+from lesson_006.mastermind_engine import *
+
+
+def rules():
+    cprint('               Правила игры:                ', color='grey', on_color='on_white')
+    print('-' * 44)
+    cprint('   1. ИИ загадывает число от 0 до 9         ', 'blue', attrs=['reverse'])
+    cprint('   2. Игроку нужно угадать это число        ', 'blue', attrs=['reverse'])
+    cprint('   3. Каждый ход - 4 цифры                  ', 'blue', attrs=['reverse'])
+    cprint('   4. Все цифры должны быть разные          ', 'blue', attrs=['reverse'])
+    cprint('   5. Число не может начинаться с 0(нуля)   ', 'blue', attrs=['reverse'])
+    print('               ', '-' * 10)
+    cprint('В ответ компьютер показывает число          ', 'red', attrs=['reverse'])
+    cprint('отгаданных цифр, стоящих на своих местах    ', 'red', attrs=['reverse'])
+    cprint('(число быков) и число отгаданных цифр,      ', 'red', attrs=['reverse'])
+    cprint('стоящих не на своих местах (число коров).   ', 'red', attrs=['reverse'])
+    print('               ', '-' * 10)
+    cprint('                 Пример:                    ', 'green', attrs=['reverse'])
+    cprint('         Компьютер задумал 0834.            ', 'green', attrs=['reverse'])
+    cprint('          Игрок сделал ход 8134.            ', 'green', attrs=['reverse'])
+    cprint('  Компьютер ответил: 2 быка (цифры 3 и 4)   ', 'green', attrs=['reverse'])
+    cprint('          и 1 корова (цифра 8).             ', 'green', attrs=['reverse'])
+    print('-' * 44)
+
+
+rules()
+random_number()
+print(colored('Компьютер уже загадал число. Давайте играть!', color='blue'))
+attempt = 0
+
+while True:
+    attempt += 1
+    print(colored(f'Это попытка № {attempt}', color='yellow'))
+    guess_number()
+    check_number()
+    bulls = check_number().get('bulls')
+    cows = check_number().get('cows')
+    print(f'Быков - {bulls}, коров - {cows}')
+    print('-' * 44)
+    if bulls == level_of_game:
+        print(colored('Вы выйграли!', color='cyan'))
+        print(colored(f'Количество ходов - {attempt}', color='blue'))
+        break
