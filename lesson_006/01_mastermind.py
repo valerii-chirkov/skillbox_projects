@@ -44,6 +44,7 @@
 # Это пример применения SOLID принципа (см https://goo.gl/GFMoaI) в архитектуре программ.
 # Точнее, в этом случае важен принцип единственной ответственности - https://goo.gl/rYb3hT
 
+# TODO плохой стиль импортировать все что есть в модуле! Лучше взять то что нужно
 from termcolor import *
 from lesson_006.mastermind_engine import *
 
@@ -51,6 +52,7 @@ from lesson_006.mastermind_engine import *
 def rules():
     cprint('               Правила игры:                ', color='grey', on_color='on_white')
     print('-' * 44)
+    # TODO по заданию нужно использовать 1000 - 9999, потом можно доработать! После одобрения
     cprint('   1. ИИ загадывает число от 0 до 9         ', 'blue', attrs=['reverse'])
     cprint('   2. Игроку нужно угадать это число        ', 'blue', attrs=['reverse'])
     cprint('   3. Каждый ход - 4 цифры                  ', 'blue', attrs=['reverse'])
@@ -63,6 +65,7 @@ def rules():
     cprint('стоящих не на своих местах (число коров).   ', 'red', attrs=['reverse'])
     print('               ', '-' * 10)
     cprint('                 Пример:                    ', 'green', attrs=['reverse'])
+    # TODO первое число не может быть 0! Это нужно учесть и у компьютера и у пользователя при вводе
     cprint('         Компьютер задумал 0834.            ', 'green', attrs=['reverse'])
     cprint('          Игрок сделал ход 8134.            ', 'green', attrs=['reverse'])
     cprint('  Компьютер ответил: 2 быка (цифры 3 и 4)   ', 'green', attrs=['reverse'])
@@ -80,10 +83,12 @@ while True:
     print(colored(f'Это попытка № {attempt}', color='yellow'))
     guess_number()
     check_number()
+    # TODO можно присвоить одной переменной и потом по ключу печатать!
     bulls = check_number().get('bulls')
     cows = check_number().get('cows')
     print(f'Быков - {bulls}, коров - {cows}')
     print('-' * 44)
+    # TODO вынести в отдельную функцию в этот модуль для проверки на выигрыш
     if bulls == level_of_game:
         print(colored('Вы выйграли!', color='cyan'))
         print(colored(f'Количество ходов - {attempt}', color='blue'))
