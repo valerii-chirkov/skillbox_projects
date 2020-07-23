@@ -28,7 +28,7 @@
 # Загаданное число хранить в глобальной переменной.
 # Обратите внимание, что строки - это список символов.
 #
-# В текущем модуле (lesson_006/01_mastermind.py) реализовать логику работы с пользователем:
+# В текущем модуле (lesson_006/mastermind.py) реализовать логику работы с пользователем:
 #   модуль движка загадывает число
 #   в цикле, пока число не отгадано
 #       у пользователя запрашивается вариант числа
@@ -38,58 +38,70 @@
 #  когда игрок угадал таки число - показать количество ходов и вопрос "Хотите еще партию?"
 #
 # При написании кода учитывайте, что движок игры никак не должен взаимодействовать с пользователем.
-# Все общение с пользователем (вывод на консоль и запрос ввода от пользователя) делать в 01_mastermind.py.
+# Все общение с пользователем (вывод на консоль и запрос ввода от пользователя) делать в mastermind.py.
 # Движок игры реализует только саму функциональность игры. Разделяем: mastermind_engine работает
 # только с загаданным числом, а 01_mastermind - с пользователем и просто передает числа на проверку движку.
 # Это пример применения SOLID принципа (см https://goo.gl/GFMoaI) в архитектуре программ.
 # Точнее, в этом случае важен принцип единственной ответственности - https://goo.gl/rYb3hT
 
-# TODO плохой стиль импортировать все что есть в модуле! Лучше взять то что нужно
-from termcolor import *
+from termcolor import cprint, colored
 from lesson_006.mastermind_engine import *
+
+
+separator_short = '                ----------'
+separator_long = '-' * 44
+attempt = 0
 
 
 def rules():
     cprint('               Правила игры:                ', color='grey', on_color='on_white')
-    print('-' * 44)
-    # TODO по заданию нужно использовать 1000 - 9999, потом можно доработать! После одобрения
-    cprint('   1. ИИ загадывает число от 0 до 9         ', 'blue', attrs=['reverse'])
+    print(separator_long)
+    cprint('   1. ИИ загадывает число от 1000 до 9999   ', 'blue', attrs=['reverse'])
     cprint('   2. Игроку нужно угадать это число        ', 'blue', attrs=['reverse'])
     cprint('   3. Каждый ход - 4 цифры                  ', 'blue', attrs=['reverse'])
     cprint('   4. Все цифры должны быть разные          ', 'blue', attrs=['reverse'])
     cprint('   5. Число не может начинаться с 0(нуля)   ', 'blue', attrs=['reverse'])
-    print('               ', '-' * 10)
+    print(separator_short)
     cprint('В ответ компьютер показывает число          ', 'red', attrs=['reverse'])
     cprint('отгаданных цифр, стоящих на своих местах    ', 'red', attrs=['reverse'])
     cprint('(число быков) и число отгаданных цифр,      ', 'red', attrs=['reverse'])
     cprint('стоящих не на своих местах (число коров).   ', 'red', attrs=['reverse'])
-    print('               ', '-' * 10)
+    print(separator_short)
     cprint('                 Пример:                    ', 'green', attrs=['reverse'])
-    # TODO первое число не может быть 0! Это нужно учесть и у компьютера и у пользователя при вводе
-    cprint('         Компьютер задумал 0834.            ', 'green', attrs=['reverse'])
+    cprint('         Компьютер задумал 7834.            ', 'green', attrs=['reverse'])
     cprint('          Игрок сделал ход 8134.            ', 'green', attrs=['reverse'])
     cprint('  Компьютер ответил: 2 быка (цифры 3 и 4)   ', 'green', attrs=['reverse'])
     cprint('          и 1 корова (цифра 8).             ', 'green', attrs=['reverse'])
-    print('-' * 44)
+    print(separator_long)
 
 
-rules()
-random_number()
-print(colored('Компьютер уже загадал число. Давайте играть!', color='blue'))
-attempt = 0
+def check_win():
+    if bulls == 4:
+        print(colored('Вы выйграли!', color='cyan'))
+        print(colored(f'Количество ходов - {attempt}', color='blue'))
+
+
+def pre_game():
+    rules()
+    random_number()
+    print(colored('Компьютер уже загадал число. Давайте играть!', color='blue'))
+
+
+pre_game()
+user_number = input(colored("Введите число: ", color='yellow'))
 
 while True:
     attempt += 1
     print(colored(f'Это попытка № {attempt}', color='yellow'))
-    guess_number()
-    check_number()
-    # TODO можно присвоить одной переменной и потом по ключу печатать!
+    #TODO так не работает
+    # bulls_and_cows = check_number().get('bulls', 'cows')
+    # print(f'Быков - {bulls_and_cows[0]}, коров - {bulls_and_cows[1]}')
     bulls = check_number().get('bulls')
     cows = check_number().get('cows')
     print(f'Быков - {bulls}, коров - {cows}')
-    print('-' * 44)
-    # TODO вынести в отдельную функцию в этот модуль для проверки на выигрыш
-    if bulls == level_of_game:
-        print(colored('Вы выйграли!', color='cyan'))
-        print(colored(f'Количество ходов - {attempt}', color='blue'))
+    print(separator_long)
+    if check_win() is True:
         break
+
+
+# TODO Почему-то уходит в бесконечный цикл
