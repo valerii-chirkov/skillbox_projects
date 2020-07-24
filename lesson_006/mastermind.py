@@ -90,34 +90,53 @@ def pre_game():
 
 pre_game()
 
+# TODO можно завести переменную
+# TODO game = True! И цикл сделать вот так, а в фунции новая игра если пользователь не хочет играть game = False
+# TODO while game:
+
 while True:
+    # TODO Код в цикле должен выглядеть в виде вызова только функций и одного принта(вывод инфы между ходами) примерно
+    # TODO можно еще попытку выводить
+
+    # TODO увеличили счетчик
+    # TODO функция которая просит ввести число()
+    # TODO переменная которая принимает парметры от функции которая чекает число пользователя
+    # TODO принт вывод промежуточных данных
+    # TODO условие на на выйгрыш
+    # TODO пример:
+    # TODO если выиграли():
+    # TODO     новая_игра() - в этой функции можно реализовать вывод статистики и просить пользователя игарать еще
+
     attempt += 1
     print(colored(f'Это попытка № {attempt}', color='yellow'))
     user_number = input(colored("Введите число: ", color='yellow'))  # .isdigit()
+    # TODO тут проверяем не число а функцию guess_number которая должна возвращать TRUE\FALSE, тоже ее от сюда выносим
     # if user_number is True:
     #     continue
     # else:
-    #     print('') #TODO не понял как использовать isdigit, если число - true, нет - false, а как использовать?
+    #     print('')
     guess_number(user_number=user_number)
-    #TODO так не работает
-    # bulls_and_cows = check_number().get('bulls', 'cows')
-    # print(f'Быков - {bulls_and_cows[0]}, коров - {bulls_and_cows[1]}')
+    # TODO имелось ввиду вот так:
+    # results = check_number()
+    # print(f'Быков - {results["bulls"]}, коров - {results["cows"]}')
     bulls = check_number(user_number).get('bulls')
     cows = check_number(user_number).get('cows')
     print(f'Быков - {bulls}, коров - {cows}')
     print(separator_long)
+    # TODO само условие логику лучше вынести в API, и проверять там так number = user_number, if number == _game_number
     if bulls == 4:
+        # TODO а это в функцию новая_игра тут
         print(colored('Вы выйграли!', color='cyan'))
         print(colored(f'Количество ходов - {attempt}', color='blue'))
         ask = input('Хотите сыграть еще раз? y/n: ')
         if ask == 'y' or 'н':
             # pre_game()
-            continue  # каким образом можно перезапустить цикл? Или нужно в функциях прописать возврат к исходным знач-м
+            continue  # TODO написал выше цикла
         else:
             break
-    #TODO так почему-то не работает
-    # if check_win() is True:
+    # TODO функция должна возвращать TRUE\FALSE, записать ее можно так, эту функцию лучше вынести в api
+    # if check_win():
     #     break
 
 
-# TODO Почему-то уходит в бесконечный цикл
+# TODO Почему-то уходит в бесконечный цикл - Из за рекурсии, и потому что нет точки выхода явной!
