@@ -20,24 +20,19 @@ def footer():
 
 
 def floor():
-    start_height_1 = 76
-    length = 600
-    length_random = [sd.random_number(50, 500), sd.random_number(10, 50)]
     for i in range(75):
-        start = sd.get_point(0, start_height_1+(1*i))
-        sd.vector(start=start, angle=0, color=FLOOR_COLORS[0], length=length-(1*i))
+        start = sd.get_point(0, 76+(1*i))
+        sd.vector(start=start, angle=0, color=FLOOR_COLORS[0], length=600-(1*i))
     for i in range(30):
         start_random = sd.get_point(sd.random_number(-100, 600), sd.random_number(80, 145))
-        sd.vector(start=start_random, angle=0, color=FLOOR_COLORS[1], length=length_random[0], width=sd.random_number(1,5))
+        sd.vector(start=start_random, angle=0, color=FLOOR_COLORS[1], length=sd.random_number(50, 500), width=sd.random_number(1,5))
     for i in range(50):
         start_random = sd.get_point(sd.random_number(-100, 600), sd.random_number(80, 145))
-        sd.vector(start=start_random, angle=0, color=FLOOR_COLORS[2], length=length_random[1])
+        sd.vector(start=start_random, angle=0, color=FLOOR_COLORS[2], length=sd.random_number(10, 50))
 
 
 def wall():
-    left_bottom = sd.get_point(0, 150)
-    right_top = sd.get_point(525, 550)
-    sd.rectangle(left_bottom=left_bottom, right_top=right_top, color=WALL_COLORS[0], width=0)
+    sd.rectangle(left_bottom=sd.get_point(0, 150), right_top=sd.get_point(525, 550), color=WALL_COLORS[0], width=0)
     sd.rectangle(left_bottom=sd.get_point(0, 150), right_top=sd.get_point(525, 230), color=WALL_COLORS[1], width=0)
     sd.vector(start=sd.get_point(0, 235), angle=0, color=WALL_COLORS[1], length=525, width=3)
     for i in range(75):
@@ -52,9 +47,7 @@ def wall():
 
 
 def window():
-    left_bottom = sd.get_point(0, 270)
-    right_top = sd.get_point(160, 500)
-    sd.rectangle(left_bottom=left_bottom, right_top=right_top, color=WINDOW_COLORS[0], width=0)
+    sd.rectangle(left_bottom=sd.get_point(0, 270), right_top=sd.get_point(160, 500), color=WINDOW_COLORS[0], width=0)
 
     def tree():
         sd.vector(start=sd.get_point(0, 425), angle=0, color=TREE_COLOR, length=5, width=2)
