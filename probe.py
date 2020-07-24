@@ -10,7 +10,7 @@ CEILING_COLOR = ([223, 100, 168], [176, 46, 103], [41, 11, 72])
 DOOR_COLORS = ([115, 6, 51], [75, 6, 64], [201, 98, 157], [126, 0, 76], [227, 120, 172])
 CLOCK_COLORS = ([158, 58, 120], [220, 107, 172], [125, 0, 67], [49, 2, 76])
 PICTURE_COLORS = ([97, 13, 71], [166, 51, 114], [71, 0, 77], [222, 104, 175], [255, 135, 200], [168, 50, 97], [124, 0, 59], [87, 54, 123])
-WARDROBE_COLORS = ([116, 5, 141], [64, 0, 78])
+WARDROBE_COLORS = ([116, 5, 141], [64, 0, 78], [182, 46, 182], [153, 11, 142], [236, 101, 200], [154, 20, 182])
 
 
 def footer():
@@ -232,6 +232,19 @@ def wardrobe():
     sd.vector(start=sd.get_point(413, 143), angle=0, color=WARDROBE_COLORS[1], length=7, width=2)
     sd.vector(start=sd.get_point(413, 143), angle=90, color=WARDROBE_COLORS[1], length=4, width=2)
     sd.vector(start=sd.get_point(419, 143), angle=90, color=WARDROBE_COLORS[1], length=122, width=2)
+
+    sd.rectangle(left_bottom=sd.get_point(216, 154), right_top=sd.get_point(413, 260), color=WARDROBE_COLORS[1], width=2)
+    sd.vector(start=sd.get_point(315, 154), angle=90, color=WARDROBE_COLORS[1], length=106, width=2)
+    sd.vector(start=sd.get_point(212, 150), angle=90, color=WARDROBE_COLORS[2], length=115, width=6)
+    sd.vector(start=sd.get_point(216, 264), angle=0, color=WARDROBE_COLORS[5], length=115, width=4)
+    sd.vector(start=sd.get_point(216, 154), angle=90, color=WARDROBE_COLORS[3], length=106, width=2)
+
+    sd.vector(start=sd.get_point(218, 200), angle=90, color=WARDROBE_COLORS[4], length=58, width=2)
+    sd.vector(start=sd.get_point(218, 192), angle=90, color=WARDROBE_COLORS[4], length=5, width=2)
+    sd.vector(start=sd.get_point(218, 187), angle=90, color=WARDROBE_COLORS[4], length=2, width=2)
+    sd.vector(start=sd.get_point(210, 265), angle=0, color=WARDROBE_COLORS[4], length=50, width=2)
+    sd.vector(start=sd.get_point(265, 265), angle=0, color=WARDROBE_COLORS[4], length=5, width=2)
+    sd.vector(start=sd.get_point(275, 265), angle=0, color=WARDROBE_COLORS[4], length=5, width=2)
 
 
 while True:
