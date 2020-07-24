@@ -75,10 +75,11 @@ def rules():
     print(separator_long)
 
 
-def check_win():
-    if bulls == 4:
-        print(colored('Вы выйграли!', color='cyan'))
-        print(colored(f'Количество ходов - {attempt}', color='blue'))
+#TODO может что-то с функцией не так
+# def check_win():
+#     if bulls == 4:
+#         print(colored('Вы выйграли!', color='cyan'))
+#         print(colored(f'Количество ходов - {attempt}', color='blue'))
 
 
 def pre_game():
@@ -88,20 +89,35 @@ def pre_game():
 
 
 pre_game()
-user_number = input(colored("Введите число: ", color='yellow'))
 
 while True:
     attempt += 1
     print(colored(f'Это попытка № {attempt}', color='yellow'))
+    user_number = input(colored("Введите число: ", color='yellow'))  # .isdigit()
+    # if user_number is True:
+    #     continue
+    # else:
+    #     print('') #TODO не понял как использовать isdigit, если число - true, нет - false, а как использовать?
+    guess_number(user_number=user_number)
     #TODO так не работает
     # bulls_and_cows = check_number().get('bulls', 'cows')
     # print(f'Быков - {bulls_and_cows[0]}, коров - {bulls_and_cows[1]}')
-    bulls = check_number().get('bulls')
-    cows = check_number().get('cows')
+    bulls = check_number(user_number).get('bulls')
+    cows = check_number(user_number).get('cows')
     print(f'Быков - {bulls}, коров - {cows}')
     print(separator_long)
-    if check_win() is True:
-        break
+    if bulls == 4:
+        print(colored('Вы выйграли!', color='cyan'))
+        print(colored(f'Количество ходов - {attempt}', color='blue'))
+        ask = input('Хотите сыграть еще раз? y/n: ')
+        if ask == 'y' or 'н':
+            # pre_game()
+            continue  # каким образом можно перезапустить цикл? Или нужно в функциях прописать возврат к исходным знач-м
+        else:
+            break
+    #TODO так почему-то не работает
+    # if check_win() is True:
+    #     break
 
 
 # TODO Почему-то уходит в бесконечный цикл
