@@ -30,12 +30,6 @@ def snowflakes_shift():  # сдвинуть_снежинки() - сдвигае�
         parameter_x += sd.random_number(-10, 10)
         parameter_y -= sd.random_number(10, 30)
 
-        # point = sd.get_point(parameter_x, parameter_y)  # создать новую точку отрисовки снежинки
-        # sd.snowflake(center=point, length=snowflakes[i][1])  # нарисовать снежинку на новом месте белым цветом
-        #
-        # snowflakes[i][0] = parameter_x
-        # snowflakes[i][2] = parameter_y
-
 
 def snowflakes_numbers_out():  # выдает список номеров снежинок, которые вышли за границу экрана
     for i in range(10):
@@ -52,14 +46,14 @@ def snowflakes_delete():  # удалить_снежинки(номера) - уд
             del snowflakes[snowflakes_out[i]]
 
 
-while True:
-    sd.start_drawing()
-    snowflakes_create()
-    snowflakes_draw()
-    snowflakes_shift()
-    snowflakes_numbers_out()
-    snowflakes_delete()
-    sd.sleep(0.1)
-    sd.finish_drawing()
-    sd.pause()
+# while True:
+#     sd.start_drawing()
+#     snowflakes_create()
+#     snowflakes_draw()
+#     snowflakes_shift()
+#     snowflakes_numbers_out()
+#     snowflakes_delete()
+#     sd.sleep(0.1)
+#     sd.finish_drawing()
+#     sd.pause()
 
