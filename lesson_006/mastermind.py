@@ -44,99 +44,10 @@
 # Это пример применения SOLID принципа (см https://goo.gl/GFMoaI) в архитектуре программ.
 # Точнее, в этом случае важен принцип единственной ответственности - https://goo.gl/rYb3hT
 
-from termcolor import cprint, colored
-from lesson_006.mastermind_engine import *
-
-
-separator_short = '                ----------'
-separator_long = '-' * 44
-attempt = 0
-
-
-def rules():
-    cprint('               Правила игры:                ', color='grey', on_color='on_white')
-    print(separator_long)
-    cprint('   1. ИИ загадывает число от 1000 до 9999   ', 'blue', attrs=['reverse'])
-    cprint('   2. Игроку нужно угадать это число        ', 'blue', attrs=['reverse'])
-    cprint('   3. Каждый ход - 4 цифры                  ', 'blue', attrs=['reverse'])
-    cprint('   4. Все цифры должны быть разные          ', 'blue', attrs=['reverse'])
-    cprint('   5. Число не может начинаться с 0(нуля)   ', 'blue', attrs=['reverse'])
-    print(separator_short)
-    cprint('В ответ компьютер показывает число          ', 'red', attrs=['reverse'])
-    cprint('отгаданных цифр, стоящих на своих местах    ', 'red', attrs=['reverse'])
-    cprint('(число быков) и число отгаданных цифр,      ', 'red', attrs=['reverse'])
-    cprint('стоящих не на своих местах (число коров).   ', 'red', attrs=['reverse'])
-    print(separator_short)
-    cprint('                 Пример:                    ', 'green', attrs=['reverse'])
-    cprint('         Компьютер задумал 7834.            ', 'green', attrs=['reverse'])
-    cprint('          Игрок сделал ход 8134.            ', 'green', attrs=['reverse'])
-    cprint('  Компьютер ответил: 2 быка (цифры 3 и 4)   ', 'green', attrs=['reverse'])
-    cprint('          и 1 корова (цифра 8).             ', 'green', attrs=['reverse'])
-    print(separator_long)
-
-
-#TODO может что-то с функцией не так
-# def check_win():
-#     if bulls == 4:
-#         print(colored('Вы выйграли!', color='cyan'))
-#         print(colored(f'Количество ходов - {attempt}', color='blue'))
-
-
-def pre_game():
-    rules()
-    random_number()
-    print(colored('Компьютер уже загадал число. Давайте играть!', color='blue'))
-
-
-pre_game()
-
-# TODO можно завести переменную
-# TODO game = True! И цикл сделать вот так, а в фунции новая игра если пользователь не хочет играть game = False
-# TODO while game:
-
-while True:
-    # TODO Код в цикле должен выглядеть в виде вызова только функций и одного принта(вывод инфы между ходами) примерно
-    # TODO можно еще попытку выводить
-
-    # TODO увеличили счетчик
-    # TODO функция которая просит ввести число()
-    # TODO переменная которая принимает парметры от функции которая чекает число пользователя
-    # TODO принт вывод промежуточных данных
-    # TODO условие на на выйгрыш
-    # TODO пример:
-    # TODO если выиграли():
-    # TODO     новая_игра() - в этой функции можно реализовать вывод статистики и просить пользователя игарать еще
-
-    attempt += 1
-    print(colored(f'Это попытка № {attempt}', color='yellow'))
-    user_number = input(colored("Введите число: ", color='yellow'))  # .isdigit()
-    # TODO тут проверяем не число а функцию guess_number которая должна возвращать TRUE\FALSE, тоже ее от сюда выносим
-    # if user_number is True:
-    #     continue
-    # else:
-    #     print('')
-    guess_number(user_number=user_number)
-    # TODO имелось ввиду вот так:
-    # results = check_number()
-    # print(f'Быков - {results["bulls"]}, коров - {results["cows"]}')
-    bulls = check_number(user_number).get('bulls')
-    cows = check_number(user_number).get('cows')
-    print(f'Быков - {bulls}, коров - {cows}')
-    print(separator_long)
-    # TODO само условие логику лучше вынести в API, и проверять там так number = user_number, if number == _game_number
-    if bulls == 4:
-        # TODO а это в функцию новая_игра тут
-        print(colored('Вы выйграли!', color='cyan'))
-        print(colored(f'Количество ходов - {attempt}', color='blue'))
-        ask = input('Хотите сыграть еще раз? y/n: ')
-        if ask == 'y' or 'н':
-            # pre_game()
-            continue  # TODO написал выше цикла
+def check_user_number():
+    user_number = input('Введите ваше число: ')
+    while False:
+        if len(set(user_number)) == len(user_number) == 4:
+            return True
         else:
-            break
-    # TODO функция должна возвращать TRUE\FALSE, записать ее можно так, эту функцию лучше вынести в api
-    # if check_win():
-    #     break
-
-
-# TODO Почему-то уходит в бесконечный цикл - Из за рекурсии, и потому что нет точки выхода явной!
+            return False
