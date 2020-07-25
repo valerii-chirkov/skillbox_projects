@@ -45,9 +45,18 @@
 # Точнее, в этом случае важен принцип единственной ответственности - https://goo.gl/rYb3hT
 
 def check_user_number():
+    # TODO Это у нас будет в цикле
     user_number = input('Введите ваше число: ')
+    # TODO тут опять с циклом беда
     while False:
+        # TODO вот эту логику мы выносим в API -> if len(set(user_number)) == len(user_number) == 4:
+        # TODO тут мы будем вызывать функцию из api которая на вход принимает user_number
+        # TODO Для того чтобы сработало условие функция в api будет возвращать либо True либо False
+        # TODO Вся логика проверки будет за "кадром"
         if len(set(user_number)) == len(user_number) == 4:
+            # TODO И только тут мы ведем диалог с пользователем! Либо ДА
+            # TODO Чтобы выйти из цикла пишем break
             return True
         else:
+            # TODO Либо нет, если нет то цикл запуститься заново
             return False
