@@ -1,15 +1,22 @@
 import simple_draw as sd
+
+
 sd.resolution = (1200, 600)
 sd.background_color = (15, 116, 235)
+
 snowflakes = []
 snowflakes_out = []
 
 
+# TODO данная функция должна принимать параметр N - количество снежинок
 def snowflakes_create():  # создать_снежинки(N) - создает N снежинок
+    # TODO Сейчас у нас только 10, а должно быть N
     for i in range(10):
+        # TODO где используется переменная i из списка списков ?
         snowflakes.append([sd.random_number(50, 1150), sd.random_number(5, 10), 600, i])
 
 
+# TODO данная функция должна принимать параметр color - цвет
 def snowflakes_draw():  # нарисовать_снежинки_цветом(color) - отрисовывает все снежинки цветом color
     for snowflake in range(10):
         parameter_x = snowflakes[snowflake][0]  # для индекс, координата_х из списка координат снежинок
@@ -17,13 +24,16 @@ def snowflakes_draw():  # нарисовать_снежинки_цветом(col
 
         point = sd.get_point(parameter_x, parameter_y)  # создать новую точку отрисовки снежинки
         sd.snowflake(center=point, length=snowflakes[snowflake][1])  # нарисовать снежинку на новом месте белым цветом
-
+        # TODO что делает этот код тут ?
         snowflakes[snowflake][0] = parameter_x
         snowflakes[snowflake][2] = parameter_y
 
 
 def snowflakes_shift():  # сдвинуть_снежинки() - сдвигает снежинки на один шаг
     for i in range(10):
+        # TODO делаем с точностью до наоборот
+        # TODO Сначала parameter_x parameter_y создаем рендомно!
+        # TODO А потом по индексу в списке присваиваем
         parameter_x = snowflakes[i][0]  # для индекс, координата_х из списка координат снежинок
         parameter_y = snowflakes[i][2]
 
@@ -35,13 +45,19 @@ def snowflakes_numbers_out():  # выдает список номеров сне
     for i in range(10):
         parameter_y = snowflakes[i][2]
         if parameter_y < 0:
+            # TODO хранить индексы не обязательно, если он нам нужен мы его сможем узнать через enumerate,
+            #  сейчас у нас тут [1,1] [2,2] ... вот так
             snowflakes_out.append([i, snowflakes[i][3]])
             return snowflakes_out
+        # TODO возвращать список нужно тут если он не пустой
 
 
+# TODO тут функция должна принимать (номера)
 def snowflakes_delete():  # удалить_снежинки(номера) - удаляет снежинки с номерами из списка
     for i in range(10):
         parameter_y = snowflakes[i][2]
+        # TODO у нас уже есть список с индексами упавших, тут мы их просто удаляем по индексу, перебираем весь список
+        # TODO и по индексу через enumerate смотрим если если он в списке упавших если есть то удаляем!
         if parameter_y < 0:
             del snowflakes[snowflakes_out[i]]
 
