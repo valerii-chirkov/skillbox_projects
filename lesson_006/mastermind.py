@@ -43,20 +43,52 @@
 # только с загаданным числом, а 01_mastermind - с пользователем и просто передает числа на проверку движку.
 # Это пример применения SOLID принципа (см https://goo.gl/GFMoaI) в архитектуре программ.
 # Точнее, в этом случае важен принцип единственной ответственности - https://goo.gl/rYb3hT
+from lesson_006.mastermind_engine import guess_number, comparison
+from termcolor import cprint, colored
+attempt = 0
 
-def check_user_number():
-    # TODO Это у нас будет в цикле
-    user_number = input('Введите ваше число: ')
-    # TODO тут опять с циклом беда
-    while False:
-        # TODO вот эту логику мы выносим в API -> if len(set(user_number)) == len(user_number) == 4:
-        # TODO тут мы будем вызывать функцию из api которая на вход принимает user_number
-        # TODO Для того чтобы сработало условие функция в api будет возвращать либо True либо False
-        # TODO Вся логика проверки будет за "кадром"
+
+def check_user_number(user_number):
+    while True:
         if len(set(user_number)) == len(user_number) == 4:
-            # TODO И только тут мы ведем диалог с пользователем! Либо ДА
-            # TODO Чтобы выйти из цикла пишем break
-            return True
-        else:
-            # TODO Либо нет, если нет то цикл запуститься заново
-            return False
+            comparison(user_number)
+            global attempt
+            attempt += 1
+            print(cprint(f'Попытка {attempt}', 'blue', attrs=['dark']))  # TODO не могу понять куда засунуть attempt, он криво считает
+            return user_number
+        else:  # TODO почему-то не запрашивает еще раз, если ввел число не из 4х символов и выводит
+            # TODO IndexError: string index out of range
+            print(cprint('Вы ввели некорректное число', 'red', attrs=['dark']))
+            break
+
+
+def check_win(user_number):
+    bulls = comparison(user_number).get('bulls')
+    cows = comparison(user_number).get('cows')
+    print(f'Быков - {bulls}, коров - {cows}')
+    if bulls == 4:
+        print(colored('Вы выйграли!', color='cyan'))
+        print(colored(f'Количество ходов - {attempt}', color='blue'))
+        want_to_repeat()
+
+
+def want_to_repeat():
+    global attempt
+    attempt = 0
+    ask = input('Хотите сыграть еще раз? y/n: ')
+    if ask == 'y' or 'н':
+        bulls_and_cows_game()
+    else:
+        return False  # TODO Как можно выйти из игры?
+
+
+def bulls_and_cows_game():
+    guess_number()
+    while True:
+        user_number = input('Введите ваше число: ')
+        check_win(user_number)
+        check_user_number(user_number)
+        print('-------')
+
+
+bulls_and_cows_game()
