@@ -15,8 +15,6 @@ def guess_number():
         if len(set(random_number)) == 4:
             print(random_number)
             break
-        else:
-            continue
 
 
 def comparison(user_number):

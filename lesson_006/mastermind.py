@@ -50,15 +50,20 @@ attempt = 0
 
 def check_user_number(user_number):
     while True:
+        # TODO напишем функцию в апи которая делает вот эту проверку, + проверку на первый ноль, на цифры!
         if len(set(user_number)) == len(user_number) == 4:
             comparison(user_number)
+            # TODO объявляем в самом начале функции если нужно
             global attempt
+            # TODO Можно поставить в главный цикл и чекать там итерации
             attempt += 1
-            print(cprint(f'Попытка {attempt}', 'blue', attrs=['dark']))  # TODO не могу понять куда засунуть attempt, он криво считает
+            print(cprint(f'Попытка {attempt}', 'blue', attrs=['dark']))
             return user_number
         else:  # TODO почему-то не запрашивает еще раз, если ввел число не из 4х символов и выводит
             # TODO IndexError: string index out of range
             print(cprint('Вы ввели некорректное число', 'red', attrs=['dark']))
+            # TODO выходить из цикла нужно как раз в TRUE, тут можно поросить еще раз ввести число или это сделать выше
+            # TODO и только в этой функции
             break
 
 
@@ -78,16 +83,20 @@ def want_to_repeat():
     ask = input('Хотите сыграть еще раз? y/n: ')
     if ask == 'y' or 'н':
         bulls_and_cows_game()
+        return True
     else:
-        return False  # TODO Как можно выйти из игры?
+        return False  # TODO Да только нужно делать проверку и я добавил вам True выше
 
 
 def bulls_and_cows_game():
     guess_number()
     while True:
         user_number = input('Введите ваше число: ')
+        # TODO если мы введем 12345 то цикл все равно идет дальше по алгоритму с неверными данными!
         check_win(user_number)
         check_user_number(user_number)
+        # TODO чтобы выйти из главного цикла тут должно быть условие! Одна из функции выше должна возвращать булево
+        # TODO значение, мы его проверяем и если файле то брейк!
         print('-------')
 
 
