@@ -15,23 +15,17 @@ from lesson_006.snowfall import *
 # обращаясь ТОЛЬКО к функциям модуля snowfall
 
 # создать_снежинки(N)
+snowflakes_create()
 while True:
-    # TODO создаем вне основного цикла
-    snowflakes_create()  # нарисовать_снежинки_цветом(color=sd.background_color) TODO комент не соответствует
-    # TODO тут никаких циклов быть не должно
-    # TODO вызываем функцию отрисовки снежинок с параметром color=sd.background_color
-    for i in range(10):
-        parameter_x = snowflakes[i][0]  # для индекс, координата_х из списка координат снежинок
-        parameter_y = snowflakes[i][2]
-        point = sd.get_point(parameter_x, parameter_y)
-        sd.snowflake(center=point, length=snowflakes[i][1])
+    sd.start_drawing()
+    snowflakes_draw(color=sd.background_color)
     snowflakes_shift()  # сдвинуть_снежинки()
-    # TODO тут передаем параметр color - белый цвет
-    snowflakes_draw()  # нарисовать_снежинки_цветом(color)
+    snowflakes_draw(color=sd.COLOR_WHITE)
     if snowflakes_numbers_out():  # если есть номера_достигших_низа_экрана() то
         snowflakes_delete()  # удалить_снежинки(номера)
         snowflakes_create()  # создать_снежинки(count)
     sd.sleep(0.1)
+    sd.finish_drawing()
     if sd.user_want_exit():
         break
 
