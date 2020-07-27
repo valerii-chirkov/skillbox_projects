@@ -5,7 +5,17 @@
 # Загаданное число хранить в глобальной переменной.
 # Обратите внимание, что строки - это список символов.
 from random import randint
+from termcolor import cprint
 random_number = ''
+
+
+def check_user_number_api(user_number):
+    while True:
+        if (len(set(user_number)) == len(user_number) == 4) & (user_number[0] != 0) & (user_number.isdigit() is True):
+            comparison(user_number)
+            return True
+        else:
+            return False
 
 
 def guess_number():

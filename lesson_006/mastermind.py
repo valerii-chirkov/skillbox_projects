@@ -43,28 +43,21 @@
 # только с загаданным числом, а 01_mastermind - с пользователем и просто передает числа на проверку движку.
 # Это пример применения SOLID принципа (см https://goo.gl/GFMoaI) в архитектуре программ.
 # Точнее, в этом случае важен принцип единственной ответственности - https://goo.gl/rYb3hT
-from lesson_006.mastermind_engine import guess_number, comparison
+from lesson_006.mastermind_engine import guess_number, comparison, check_user_number_api
 from termcolor import cprint, colored
 attempt = 0
 
 
 def check_user_number(user_number):
-    while True:
-        # TODO напишем функцию в апи которая делает вот эту проверку, + проверку на первый ноль, на цифры!
-        if len(set(user_number)) == len(user_number) == 4:
-            comparison(user_number)
-            # TODO объявляем в самом начале функции если нужно
-            global attempt
-            # TODO Можно поставить в главный цикл и чекать там итерации
-            attempt += 1
-            print(cprint(f'Попытка {attempt}', 'blue', attrs=['dark']))
-            return user_number
-        else:  # TODO почему-то не запрашивает еще раз, если ввел число не из 4х символов и выводит
-            # TODO IndexError: string index out of range
-            print(cprint('Вы ввели некорректное число', 'red', attrs=['dark']))
-            # TODO выходить из цикла нужно как раз в TRUE, тут можно поросить еще раз ввести число или это сделать выше
-            # TODO и только в этой функции
-            break
+    global attempt
+    if check_user_number_api(user_number) is True:
+        print(cprint(f'Попытка {attempt}', 'blue', attrs=['dark']))
+        return user_number
+    else:
+        # print(cprint('Вы ввели некорректное число', 'red', attrs=['dark']))
+        user_number()
+        # user_number = input('Введите ваше число: ')
+        # check_user_number(user_number)
 
 
 def check_win(user_number):
@@ -85,18 +78,28 @@ def want_to_repeat():
         bulls_and_cows_game()
         return True
     else:
-        return False  # TODO Да только нужно делать проверку и я добавил вам True выше
+        return False
+
+
+def user_number():
+    while True:
+        user_number = input('Введите ваше число: ')
+        if user_number.isdigit() is True:
+            break
+        else:
+            print(cprint('Вы ввели некорректное число', 'red', attrs=['dark']))
+            return False
 
 
 def bulls_and_cows_game():
     guess_number()
+    global attempt
     while True:
-        user_number = input('Введите ваше число: ')
-        # TODO если мы введем 12345 то цикл все равно идет дальше по алгоритму с неверными данными!
-        check_win(user_number)
+        attempt += 1
+        user_number()
+        if check_win(user_number) is True:
+            break
         check_user_number(user_number)
-        # TODO чтобы выйти из главного цикла тут должно быть условие! Одна из функции выше должна возвращать булево
-        # TODO значение, мы его проверяем и если файле то брейк!
         print('-------')
 
 
