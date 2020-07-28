@@ -7,32 +7,30 @@
 from random import randint
 from termcolor import cprint
 random_number = ''
+# TODO Бесконечные циклы убрал
 
 
 def check_user_number_api(user_number):
-    while True:
-        # можно сделать вот так(будут хранится булевы значения):
-        check_conditions = [
-            user_number.isdigit(),
-            len(user_number) == 4,
-            user_number[0] != 0,
-            len(set(user_number)) == 4,
-        ]
+    check_conditions = [
+        user_number.isdigit(),
+        len(user_number) == 4,
+        user_number[0] != 0,
+        len(set(user_number)) == 4,
+    ]
 
-        if all(check_conditions):
-            comparison(user_number)
-            return True
-        else:
-            return False
+    if all(check_conditions):
+        comparison(user_number)
+        return True
+    else:
+        return False
 
 
 def guess_number():
     global random_number
-    while True:
-        random_number = str(randint(1000, 9999))
-        if len(set(random_number)) == 4:
-            print(random_number)
-            break
+    random_number = str(randint(1000, 9999))
+    if len(set(random_number)) == 4:
+        print(random_number)
+        return False
 
 
 def comparison(user_number):
