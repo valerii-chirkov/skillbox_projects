@@ -47,6 +47,10 @@ from lesson_006.mastermind_engine import guess_number, comparison, check_user_nu
 from termcolor import cprint, colored
 attempt = 0
 
+# TODO Нужно объединить check_user_number и user_number() в одну функцию, из первой взять:
+#  if check_user_number_api(user_number)
+# TODO А из второй ввод числа пользователем и принты о верном числе или нет! Ну и бесконечный цикл должен быть один
+
 
 def check_user_number(user_number):
     global attempt
@@ -54,10 +58,9 @@ def check_user_number(user_number):
         print(cprint(f'Попытка {attempt}', 'blue', attrs=['dark']))
         return user_number
     else:
-        # print(cprint('Вы ввели некорректное число', 'red', attrs=['dark']))
+        # TODO нейминг функции, мы вызываем функцию которая называется как атрибут user_number, поэтому он думает что
+        # TODO user_number это объект функции но это не так!
         user_number()
-        # user_number = input('Введите ваше число: ')
-        # check_user_number(user_number)
 
 
 def check_win(user_number):
@@ -67,6 +70,7 @@ def check_win(user_number):
     if bulls == 4:
         print(colored('Вы выйграли!', color='cyan'))
         print(colored(f'Количество ходов - {attempt}', color='blue'))
+        # TODO разбить на несколько отдельных функций
         want_to_repeat()
 
 
@@ -94,6 +98,8 @@ def user_number():
 def bulls_and_cows_game():
     guess_number()
     global attempt
+    # TODO нужно поработать над основным алгоритмом, с начало разберемся с ф. user_number а потом доработаем алгоритм
+    # TODO если не получится
     while True:
         attempt += 1
         user_number()

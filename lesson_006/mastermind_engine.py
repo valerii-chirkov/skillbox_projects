@@ -11,7 +11,15 @@ random_number = ''
 
 def check_user_number_api(user_number):
     while True:
-        if (len(set(user_number)) == len(user_number) == 4) & (user_number[0] != 0) & (user_number.isdigit() is True):
+        # можно сделать вот так(будут хранится булевы значения):
+        check_conditions = [
+            user_number.isdigit(),
+            len(user_number) == 4,
+            user_number[0] != 0,
+            len(set(user_number)) == 4,
+        ]
+
+        if all(check_conditions):
             comparison(user_number)
             return True
         else:
