@@ -15,9 +15,10 @@ from lesson_006.snowfall import *
 # обращаясь ТОЛЬКО к функциям модуля snowfall
 
 # создать_снежинки(N)
-snowflakes_create()
+
 while True:
     sd.start_drawing()
+    snowflakes_create()
     snowflakes_draw(color=sd.background_color)
     snowflakes_shift()  # сдвинуть_снежинки()
     snowflakes_draw(color=sd.COLOR_WHITE)

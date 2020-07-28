@@ -28,28 +28,22 @@ def snowflakes_shift():  # сдвинуть_снежинки() - сдвигае�
     for i in range(N):
         parameter_x = sd.random_number(-10, 10)
         parameter_y = sd.random_number(10, 30)
-        # TODO наверное нужно было сделать вот так, с точностью наоборот!
+
         snowflakes[i][0] += parameter_x
         snowflakes[i][2] -= parameter_y
 
-        # parameter_x = snowflakes[i][0]  # для индекс, координата_х из списка координат снежинок
-        # parameter_y = snowflakes[i][2]
 
-
-# TODO данная функция не работает
 def snowflakes_numbers_out():  # выдает список номеров снежинок, которые вышли за границу экрана
     global snowflakes_out_numbers
-    # TODO snowflakes_out у нас пустой, код алгоритм дальше не идет!
-    for i in snowflakes_out:
+    for i in range(N):
         parameter_y = snowflakes[i][2]
-        if parameter_y < 0:
+        if parameter_y < 50:
             snowflakes_out_numbers += enumerate(snowflakes_out)
         return snowflakes_out_numbers
 
 
+# TODO не могу понять работает snoflake_delete или нет, специально поставил if parameter_y < 50:, но снежинка дальше летит
 def snowflakes_delete():  # удалить_снежинки(номера) - удаляет снежинки с номерами из списка
     for i in snowflakes_out_numbers:
         if enumerate(snowflakes_out[i]) == snowflakes_out_numbers[i]:
             del snowflakes[snowflakes_out[i]]
-
-
