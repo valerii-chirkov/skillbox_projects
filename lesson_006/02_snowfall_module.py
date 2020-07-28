@@ -24,8 +24,8 @@ while True:
     if snowflakes_numbers_out():  # если есть номера_достигших_низа_экрана() то
         snowflakes_delete()  # удалить_снежинки(номера)
         snowflakes_create()  # создать_снежинки(count)
-    sd.sleep(0.1)
     sd.finish_drawing()
+    sd.sleep(0.1)
     if sd.user_want_exit():
         break
 
