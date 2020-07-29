@@ -6,6 +6,7 @@ sd.background_color = (15, 116, 235)
 
 snowflakes = []
 snowflakes_out = []
+# TODO диалог с пользователем перенести в главный файл
 N = int(input('Введите количество снежинок: '))
 snowflakes_out_numbers = []
 
@@ -33,17 +34,22 @@ def snowflakes_shift():  # сдвинуть_снежинки() - сдвигае�
         snowflakes[i][2] -= parameter_y
 
 
+# TODO данные метод не работает! Возможно от сюда проблемы с удалением
 def snowflakes_numbers_out():  # выдает список номеров снежинок, которые вышли за границу экрана
     global snowflakes_out_numbers
     for i in range(N):
         parameter_y = snowflakes[i][2]
         if parameter_y < 50:
+            # TODO snowflakes_out пустой список, для добавления в список используйте append
+            # TODO не верно используете enumerate он вам вернет объект а не число
             snowflakes_out_numbers += enumerate(snowflakes_out)
+            # print(snowflakes_out_numbers)
         return snowflakes_out_numbers
 
 
-# TODO не могу понять работает snoflake_delete или нет, специально поставил if parameter_y < 50:, но снежинка дальше летит
+# TODO попробуйте решить проблему выше
 def snowflakes_delete():  # удалить_снежинки(номера) - удаляет снежинки с номерами из списка
     for i in snowflakes_out_numbers:
+        # TODO не верно используете enumerate он вам вернет объект а не число
         if enumerate(snowflakes_out[i]) == snowflakes_out_numbers[i]:
             del snowflakes[snowflakes_out[i]]
