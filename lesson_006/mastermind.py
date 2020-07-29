@@ -45,27 +45,43 @@
 # Точнее, в этом случае важен принцип единственной ответственности - https://goo.gl/rYb3hT
 from lesson_006.mastermind_engine import guess_number, comparison, check_user_number_api
 from termcolor import cprint, colored
+
 attempt = 0
 
+# TODO В главном файле всего должно быть две функции(к примеру),
+#  функции нужно правильно сформировать из тех которые у вас есть!
+
+# TODO первая:
+# TODO функция которая просит ввести число у пользователя, делает проверку этого числа.
+# TODO И принтует о правильности или не правильности ввода! Если не правильно то зацикливаем пока пользователь введет правильно
+# TODO Нужно доработать функцию ниже! Нейминг тоже.
 
 def check_user_number(user_number):
     global attempt
-    if check_user_number_api(user_number) is True:
+    if check_user_number_api(user_number):
         print(cprint(f'Попытка {attempt}', 'blue', attrs=['dark']))
         return user_number
     else:
         print(cprint('Вы ввели некорректное число', 'red', attrs=['dark']))
         return False
 
+# TODO вторая:
+# TODO пишем функцию новая игра в которой в первой части мы будем принтовать о том что пользователь выиграл!
+# TODO Тут же можем принтовать количество попыток игры!
+# TODO Во второй ее части мы будем спрашивать о новой игре, или выходе!
+# TODO Соответственно если новая игра то все по дефолту, и нужно придумать как нам выйти из главного цикла!
 
+
+# TODO Функции должны выполнять какие то лаконичные действия, и не вызывать доп функции внутри
 def check_win(user_number):
     bulls = comparison(user_number).get('bulls')
     cows = comparison(user_number).get('cows')
     print(f'Быков - {bulls}, коров - {cows}')
+    # TODO эту проверку перенести в движок, там написал как проверить!
     if bulls == 4:
         print(colored('Вы выйграли!', color='cyan'))
         print(colored(f'Количество ходов - {attempt}', color='blue'))
-        # TODO разбить на несколько отдельных функций. Не понял, что тут разбивать?
+        # TODO Каждая функция должна отвечать за себя, вторую не вызывает тут, а в главном коде! Если нужно.
         want_to_repeat()
 
 
@@ -84,9 +100,14 @@ def bulls_and_cows_game():
     guess_number()
     global attempt
     while True:
+        # TODO функция ввода числа пользователя
+        # TODO функция проверки числа на коров и быков которая возвращает словарь
+        # TODO печатаем данные от верхней функции
+        # TODO увеличиваем счетчик
+        # TODO условие на выигрыш, если тру то запускаем метод new_game()
         user_number = input('Введите ваше число: ')
         attempt += 1
-        if check_win(user_number) is True:
+        if check_win(user_number):
             break
         check_user_number(user_number)
         print('-------')
