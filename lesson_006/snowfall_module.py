@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import simple_draw as sd
+# TODO импортировать все из движка плохой стиль! импортируем нужные функции.
 from lesson_006.snowfall import *
 # На основе кода из lesson_004/05_snowfall.py
 # сделать модуль snowfall.py в котором реализовать следующие функции
@@ -16,6 +17,7 @@ from lesson_006.snowfall import *
 
 # создать_снежинки(N)
 
+# TODO тут просим пользователя ввести число, вызываем функцию из движка snowflakes_create с нужным количеством снежинок
 
 while True:
     sd.start_drawing()
