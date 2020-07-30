@@ -48,8 +48,6 @@ from termcolor import cprint, colored
 
 attempt = 0
 
-# TODO отлично именно то что нужно, немного еще поправим функции
-
 
 def input_check_result_but_while():  # Первая функция
     global attempt
@@ -57,59 +55,43 @@ def input_check_result_but_while():  # Первая функция
         user_number = input('Введите ваше число: ')
         if conditions(user_number):
             attempt += 1
-            # TODO информируем в консоле что ввел пользователь
+            print(colored(f'Вы ввели число {user_number}', color='green'))
             cprint(f'Попытка {attempt}', 'blue', attrs=['dark'])
-            # TODO Эту часть кода мы вынесем в главный цикл, три строчки! Поправил немного апи, посмотрите!
-            # bulls = comparison(user_number).get('bulls')
-            # cows = comparison(user_number).get('cows')
-            # print(f'Быков - {bulls}, коров - {cows}')
-            # TODO мы возвращаем число но в коде его не используем, лучше напишем break
-            return user_number
+            break
         else:
             cprint('Вы ввели некорректное число', 'red', attrs=['dark'])
-            # TODO а тут можно вообще опустить return, цикл начнется заново
-            return False
 
 
 def win_attempts_ask_new_game_exit():  # Вторая функция
     global attempt
     print(colored('Вы выйграли!', color='cyan'))
     print(colored(f'Количество ходов - {attempt}', color='blue'))
-    attempt = 0
 
     ask = input('Хотите сыграть еще раз? y/n: ')
     # вот так срабатывает на русскую Н
     if ask == 'y' or ask == 'н':
-        # TODO тут у нас рекурсия на лицо лучше этого избегать, а вызвать тут функцию guess_number() для новой игры
-        # TODO которая загадает только новое число + обнуление ходов тоже делаем тут
-        bulls_and_cows_game()
+        attempt = 0
+        guess_number()
         return True
     else:
         return False
 
 
 def bulls_and_cows_game():
-    # TODO соответственно тут вызов этой функции вынести до вызова bulls_and_cows_game
-    guess_number()
     while True:
-        # TODO функция ввода числа пользователя
         input_check_result_but_while()
 
-        # TODO функция проверки числа на коров и быков которая возвращает словарь, вот так:
         result = comparison()
 
-        # TODO печатаем данные от верхней функции
         print(f'Быков - {result["bulls"]}, коров - {result["cows"]}')
 
         print('-------')
         if win():
-            # TODO писать is False не принято лучше указать знак not перед функцией, что скажет что мы ждем false
             if not win_attempts_ask_new_game_exit():
-            # if win_attempts_ask_new_game_exit() is False:
                 break
 
 
+guess_number()
 bulls_and_cows_game()
 
 
-# TODO после исправления ТУДУшки можно удалять!

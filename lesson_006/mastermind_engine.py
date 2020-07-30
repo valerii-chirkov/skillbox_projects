@@ -15,7 +15,8 @@ def conditions(user_number):
         user_number.isdigit(),
         len(user_number) == 4,
         # поправил вот тут, так как проверка числа а не строки
-        int(user_number[0]) != 0,
+        # TODO я убрал int, потому что если ввели строку - то программа падает
+        user_number[0] != 0,
         len(set(user_number)) == 4,
     ]
     if all(check_conditions):
