@@ -41,19 +41,21 @@ def snowflakes_shift():  # сдвинуть_снежинки() - сдвигае�
 
 def snowflakes_numbers_out():  # выдает список номеров снежинок, которые вышли за границу экрана
     global snowflakes_out_numbers
-
-    for index, i in enumerate(snowflakes):
-        parameter_y = snowflakes[index][2]
-        if (parameter_y <= 50) and (index is not snowflakes_out_numbers[i]):
-            snowflakes_out_numbers.append(index)
+    y = 0
+    for i in range(len(snowflakes)):
+        parameter_y = snowflakes[i][2]
+        y += 1
+        if parameter_y <= 50:
+            snowflakes_out_numbers.append(y)
+            #print(snowflakes_out_numbers)
 
     if snowflakes_out_numbers:
         return snowflakes_out_numbers
 
 
-# TODO тут код нужно доработать так как snowflakes_out просто пусто список
 def snowflakes_delete():  # удалить_снежинки(номера) - удаляет снежинки с номерами из списка
-    for i in snowflakes_out_numbers:
+    for i in range(len(snowflakes_out_numbers)):
         if snowflakes_out_numbers[i]:
-            del snowflakes[snowflakes_out_numbers[i]]
+            snowflakes.remove(snowflakes[i])
+            snowflakes_out_numbers.remove(snowflakes_out_numbers[i])
 
