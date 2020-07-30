@@ -25,6 +25,9 @@ while True:
     snowflakes_draw(color=sd.COLOR_WHITE)
     if snowflakes_numbers_out():  # если есть номера_достигших_низа_экрана() то
         snowflakes_delete()  # удалить_снежинки(номера)
+        # TODO тут нам нужно добавлять столько снежинок, сколько мы удалили!
+        # TODO Нужно где-то в апи считать количество удаленных снежинок
+        # TODO Либо узнать длину списка которую возвращает snowflakes_numbers_out
         snowflakes_create(N)  # создать_снежинки(count)
     sd.finish_drawing()
     sd.sleep(0.1)
