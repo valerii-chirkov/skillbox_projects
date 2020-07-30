@@ -2,7 +2,7 @@
 
 import simple_draw as sd
 from lesson_006.snowfall import snowflakes_create, snowflakes_delete, snowflakes_shift, snowflakes_draw
-from lesson_006.snowfall import snowflakes_numbers_out, del_snowflakes
+from lesson_006.snowfall import snowflakes_numbers_out
 # На основе кода из lesson_004/05_snowfall.py
 # сделать модуль snowfall.py в котором реализовать следующие функции
 #  создать_снежинки(N) - создает N снежинок
@@ -23,10 +23,11 @@ while True:
     snowflakes_draw(color=sd.background_color)
     snowflakes_shift()  # сдвинуть_снежинки()
     snowflakes_draw(color=sd.COLOR_WHITE)
-    if snowflakes_numbers_out():  # если есть номера_достигших_низа_экрана() то
-        snowflakes_delete()  # удалить_снежинки(номера)
-        print('Это количество удаленных ', del_snowflakes)
-        snowflakes_create(del_snowflakes)  # создать_снежинки(count)
+    snowflakes_out = snowflakes_numbers_out()
+    if snowflakes_out:
+        snowflakes_delete(snowflakes_out)  # удалить_снежинки(номера)
+        snowflakes_create(len(snowflakes_out))  # создать_снежинки(count)
+
     sd.finish_drawing()
     sd.sleep(0.1)
     if sd.user_want_exit():
