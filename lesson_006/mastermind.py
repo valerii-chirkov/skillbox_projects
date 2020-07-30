@@ -48,37 +48,27 @@ from termcolor import cprint, colored
 
 attempt = 0
 
-# TODO В главном файле всего должно быть две функции(к примеру),
-#  функции нужно правильно сформировать из тех которые у вас есть!
-
-# TODO первая:
-# TODO функция которая просит ввести число у пользователя, делает проверку этого числа.
-# TODO И принтует о правильности или не правильности ввода! Если не правильно то зацикливаем пока пользователь введет правильно
-# TODO Нужно доработать функцию ниже! Нейминг тоже.
+# TODO отлично именно то что нужно, немного еще поправим функции
 
 
 def input_check_result_but_while():  # Первая функция
+    global attempt
     while True:
         user_number = input('Введите ваше число: ')
         if conditions(user_number):
-            global attempt
             attempt += 1
-            print(cprint(f'Попытка {attempt}', 'blue', attrs=['dark']))
-
-            bulls = comparison(user_number).get('bulls')
-            cows = comparison(user_number).get('cows')
-            print(f'Быков - {bulls}, коров - {cows}')
+            # TODO информируем в консоле что ввел пользователь
+            cprint(f'Попытка {attempt}', 'blue', attrs=['dark'])
+            # TODO Эту часть кода мы вынесем в главный цикл, три строчки! Поправил немного апи, посмотрите!
+            # bulls = comparison(user_number).get('bulls')
+            # cows = comparison(user_number).get('cows')
+            # print(f'Быков - {bulls}, коров - {cows}')
+            # TODO мы возвращаем число но в коде его не используем, лучше напишем break
             return user_number
         else:
-            print(cprint('Вы ввели некорректное число', 'red', attrs=['dark']))
+            cprint('Вы ввели некорректное число', 'red', attrs=['dark'])
+            # TODO а тут можно вообще опустить return, цикл начнется заново
             return False
-
-
-# TODO вторая:
-# TODO пишем функцию новая игра в которой в первой части мы будем принтовать о том что пользователь выиграл!
-# TODO Тут же можем принтовать количество попыток игры!
-# TODO Во второй ее части мы будем спрашивать о новой игре, или выходе!
-# TODO Соответственно если новая игра то все по дефолту, и нужно придумать как нам выйти из главного цикла!
 
 
 def win_attempts_ask_new_game_exit():  # Вторая функция
@@ -88,36 +78,38 @@ def win_attempts_ask_new_game_exit():  # Вторая функция
     attempt = 0
 
     ask = input('Хотите сыграть еще раз? y/n: ')
-    if ask == ('y' or 'н'):
+    # вот так срабатывает на русскую Н
+    if ask == 'y' or ask == 'н':
+        # TODO тут у нас рекурсия на лицо лучше этого избегать, а вызвать тут функцию guess_number() для новой игры
+        # TODO которая загадает только новое число + обнуление ходов тоже делаем тут
         bulls_and_cows_game()
         return True
     else:
         return False
 
 
-# TODO Функции должны выполнять какие то лаконичные действия, и не вызывать доп функции внутри
-# TODO эту проверку перенести в движок, там написал как проверить!
-# TODO Каждая функция должна отвечать за себя, вторую не вызывает тут, а в главном коде! Если нужно.
-
-
 def bulls_and_cows_game():
+    # TODO соответственно тут вызов этой функции вынести до вызова bulls_and_cows_game
     guess_number()
-    global attempt
     while True:
         # TODO функция ввода числа пользователя
-        # TODO функция проверки числа на коров и быков которая возвращает словарь
-        # TODO печатаем данные от верхней функции
         input_check_result_but_while()
 
+        # TODO функция проверки числа на коров и быков которая возвращает словарь, вот так:
+        result = comparison()
 
-        # TODO увеличиваем счетчик
+        # TODO печатаем данные от верхней функции
+        print(f'Быков - {result["bulls"]}, коров - {result["cows"]}')
 
         print('-------')
-        # TODO условие на выигрыш, если тру то запускаем метод new_game()
         if win():
-            if win_attempts_ask_new_game_exit() is False:
+            # TODO писать is False не принято лучше указать знак not перед функцией, что скажет что мы ждем false
+            if not win_attempts_ask_new_game_exit():
+            # if win_attempts_ask_new_game_exit() is False:
                 break
 
 
-
 bulls_and_cows_game()
+
+
+# TODO после исправления ТУДУшки можно удалять!
