@@ -43,62 +43,81 @@
 # только с загаданным числом, а 01_mastermind - с пользователем и просто передает числа на проверку движку.
 # Это пример применения SOLID принципа (см https://goo.gl/GFMoaI) в архитектуре программ.
 # Точнее, в этом случае важен принцип единственной ответственности - https://goo.gl/rYb3hT
-from lesson_006.mastermind_engine import guess_number, comparison, check_win
+from lesson_006.mastermind_engine import guess_number, comparison, conditions, win
 from termcolor import cprint, colored
+
 attempt = 0
-user_number = ''
+
+# TODO В главном файле всего должно быть две функции(к примеру),
+#  функции нужно правильно сформировать из тех которые у вас есть!
+
+# TODO первая:
+# TODO функция которая просит ввести число у пользователя, делает проверку этого числа.
+# TODO И принтует о правильности или не правильности ввода! Если не правильно то зацикливаем пока пользователь введет правильно
+# TODO Нужно доработать функцию ниже! Нейминг тоже.
 
 
-def user_input():
-    global attempt
-    # TODO писал user_number = input('Введите ваше число: ') на этом месте, но функции в engine не хотели работать
-    check_conditions = [
-        user_number.isdigit(),
-        len(user_number) == 4,
-        user_number[0] != 0,
-        len(set(user_number)) == 4,
-    ]
+def input_check_result_but_while():  # Первая функция
+    while True:
+        user_number = input('Введите ваше число: ')
+        if conditions(user_number):
+            global attempt
+            attempt += 1
+            print(cprint(f'Попытка {attempt}', 'blue', attrs=['dark']))
 
-    if all(check_conditions):
-        attempt += 1
-        print(cprint(f'Попытка {attempt}', 'blue', attrs=['dark']))
-        return user_number
-    else:
-        print(cprint('Вы ввели некорректное число', 'red', attrs=['dark']))
-        return False
+            bulls = comparison(user_number).get('bulls')
+            cows = comparison(user_number).get('cows')
+            print(f'Быков - {bulls}, коров - {cows}')
+            return user_number
+        else:
+            print(cprint('Вы ввели некорректное число', 'red', attrs=['dark']))
+            return False
 
 
-def new_game():
+# TODO вторая:
+# TODO пишем функцию новая игра в которой в первой части мы будем принтовать о том что пользователь выиграл!
+# TODO Тут же можем принтовать количество попыток игры!
+# TODO Во второй ее части мы будем спрашивать о новой игре, или выходе!
+# TODO Соответственно если новая игра то все по дефолту, и нужно придумать как нам выйти из главного цикла!
+
+
+def win_attempts_ask_new_game_exit():  # Вторая функция
     global attempt
     print(colored('Вы выйграли!', color='cyan'))
     print(colored(f'Количество ходов - {attempt}', color='blue'))
     attempt = 0
 
     ask = input('Хотите сыграть еще раз? y/n: ')
-    if ask == 'y' or 'н':
-        guess_number()  # TODO не догадался как обойтись без этого
+    if ask == ('y' or 'н'):
+        bulls_and_cows_game()
         return True
     else:
         return False
 
 
-guess_number()
-# while True:
-#     user_number = input('Введите ваше число: ')
-#     if user_input() is True:
-#         comparison(user_number)
-#     else:
-#         continue
-#     if check_win(user_number) is True:
-#         new_game()
-#     print('-------')
-# TODO вот так работает обработка числа на длину, но не работает остальное
+# TODO Функции должны выполнять какие то лаконичные действия, и не вызывать доп функции внутри
+# TODO эту проверку перенести в движок, там написал как проверить!
+# TODO Каждая функция должна отвечать за себя, вторую не вызывает тут, а в главном коде! Если нужно.
 
-while True:
-    user_number = input('Введите ваше число: ')
-    if user_input() is True:
-        comparison(user_number)
-    if check_win(user_number) is True:
-        new_game()
-    print('-------')
-# TODO вот так работает, но только пришлось добавить вызов guess_number() в new_game(), но число не 4 не проходит
+
+def bulls_and_cows_game():
+    guess_number()
+    global attempt
+    while True:
+        # TODO функция ввода числа пользователя
+        # TODO функция проверки числа на коров и быков которая возвращает словарь
+        # TODO печатаем данные от верхней функции
+        input_check_result_but_while()
+
+
+        # TODO увеличиваем счетчик
+
+        print('-------')
+        # TODO условие на выигрыш, если тру то запускаем метод new_game()
+        if win():
+            if win_attempts_ask_new_game_exit() is False:
+                break
+
+
+
+bulls_and_cows_game()
