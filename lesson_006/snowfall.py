@@ -4,7 +4,6 @@ sd.resolution = (1200, 600)
 sd.background_color = (15, 116, 235)
 
 snowflakes = []
-snowflakes_out = []
 snowflakes_out_numbers = []
 amount = 0
 
@@ -42,18 +41,11 @@ def snowflakes_shift():  # сдвинуть_снежинки() - сдвигае�
 
 def snowflakes_numbers_out():  # выдает список номеров снежинок, которые вышли за границу экрана
     global snowflakes_out_numbers
-    # TODO не соответствует алгоритму выше, нейминг переменных i, index, и их нужно поменять местами!
-    # TODO с начало мы получаем index, а потом параметры_снежинки
-    for i, index in enumerate(snowflakes):
-        parameter_y = snowflakes[i][2]
-        # TODO index != snowflakes_out_numbers[i], не совсем верно, тут нужно проверить
-        # TODO нет ли вхождение в snowflakes_out_numbers
-        if (parameter_y <= 50) and (index != snowflakes_out_numbers[i]):
-            # TODO snowflakes_out - что это за переменная и где вы ее получаете ? Напишите прямо тут
-            # TODO Не соответствует алгоритму выше
-            snowflakes_out_numbers.append(snowflakes_out)
-        # TODO тут ничего не возвращаем 
-        return snowflakes_out_numbers
+
+    for index, i in enumerate(snowflakes):
+        parameter_y = snowflakes[index][2]
+        if (parameter_y <= 50) and (index is not snowflakes_out_numbers[i]):
+            snowflakes_out_numbers.append(index)
 
     if snowflakes_out_numbers:
         return snowflakes_out_numbers
@@ -62,6 +54,6 @@ def snowflakes_numbers_out():  # выдает список номеров сне
 # TODO тут код нужно доработать так как snowflakes_out просто пусто список
 def snowflakes_delete():  # удалить_снежинки(номера) - удаляет снежинки с номерами из списка
     for i in snowflakes_out_numbers:
-        if snowflakes_out[i] == snowflakes_out_numbers[i]:
-            del snowflakes[snowflakes_out[i]]
+        if snowflakes_out_numbers[i]:
+            del snowflakes[snowflakes_out_numbers[i]]
 
