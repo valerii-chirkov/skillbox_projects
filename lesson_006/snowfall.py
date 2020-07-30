@@ -1,5 +1,4 @@
 import simple_draw as sd
-# from lesson_006.snowfall_module import N
 
 sd.resolution = (1200, 600)
 sd.background_color = (15, 116, 235)
@@ -7,19 +6,18 @@ sd.background_color = (15, 116, 235)
 snowflakes = []
 snowflakes_out = []
 snowflakes_out_numbers = []
-# N = 0
-
-# TODO выносим в главный файл
-N = int(input('Введите количество снежинок: '))
+amount = 0
 
 
-def snowflakes_create():  # создать_снежинки(N) - создает N снежинок
-    for _ in range(N):
+def snowflakes_create(N):  # создать_снежинки(N) - создает N снежинок
+    global amount
+    amount = N
+    for _ in range(amount):
         snowflakes.append([sd.random_number(50, 1150), sd.random_number(5, 10), 600])
 
 
 def snowflakes_draw(color):  # нарисовать_снежинки_цветом(color) - отрисовывает все снежинки цветом color
-    for snowflake in range(N):
+    for snowflake in range(amount):
         parameter_x = snowflakes[snowflake][0]  # для индекс, координата_х из списка координат снежинок
         parameter_y = snowflakes[snowflake][2]  # получить координата_у по индексу
 
@@ -28,7 +26,7 @@ def snowflakes_draw(color):  # нарисовать_снежинки_цвето�
 
 
 def snowflakes_shift():  # сдвинуть_снежинки() - сдвигает снежинки на один шаг
-    for i in range(N):
+    for i in range(amount):
         parameter_x = sd.random_number(-10, 10)
         parameter_y = sd.random_number(10, 30)
 
@@ -44,12 +42,17 @@ def snowflakes_shift():  # сдвинуть_снежинки() - сдвигае�
 
 def snowflakes_numbers_out():  # выдает список номеров снежинок, которые вышли за границу экрана
     global snowflakes_out_numbers
-    for i in range(N):
+
+    for i, index in enumerate(snowflakes):
         parameter_y = snowflakes[i][2]
-        if parameter_y < 50:
+
+        if (parameter_y <= 50) and (index != snowflakes_out_numbers[i]):
             # TODO у вас пустой список snowflakes_out!
             # TODO IndexError: list index out of range - говорит что нет такого индекса в этом списке!
-            snowflakes_out_numbers.append(snowflakes_out[i])
+            snowflakes_out_numbers.append(snowflakes_out)
+        return snowflakes_out_numbers
+
+    if snowflakes_out_numbers:
         return snowflakes_out_numbers
 
 

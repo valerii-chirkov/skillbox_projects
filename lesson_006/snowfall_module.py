@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import simple_draw as sd
-# TODO импортировать все из движка плохой стиль! импортируем нужные функции.
-from lesson_006.snowfall import *
+from lesson_006.snowfall import snowflakes_create, snowflakes_delete, snowflakes_shift, snowflakes_draw
+from lesson_006.snowfall import snowflakes_numbers_out
 # На основе кода из lesson_004/05_snowfall.py
 # сделать модуль snowfall.py в котором реализовать следующие функции
 #  создать_снежинки(N) - создает N снежинок
@@ -16,18 +16,16 @@ from lesson_006.snowfall import *
 # обращаясь ТОЛЬКО к функциям модуля snowfall
 
 # создать_снежинки(N)
-
-# TODO тут просим пользователя ввести число, вызываем функцию из движка snowflakes_create с нужным количеством снежинок
-
+N = int(input('Введите количество снежинок: '))
+snowflakes_create(N)
 while True:
     sd.start_drawing()
-    snowflakes_create()
     snowflakes_draw(color=sd.background_color)
     snowflakes_shift()  # сдвинуть_снежинки()
     snowflakes_draw(color=sd.COLOR_WHITE)
     if snowflakes_numbers_out():  # если есть номера_достигших_низа_экрана() то
         snowflakes_delete()  # удалить_снежинки(номера)
-        snowflakes_create()  # создать_снежинки(count)
+        snowflakes_create(N)  # создать_снежинки(count)
     sd.finish_drawing()
     sd.sleep(0.1)
     if sd.user_want_exit():
