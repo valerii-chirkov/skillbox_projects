@@ -42,14 +42,17 @@ def snowflakes_shift():  # сдвинуть_снежинки() - сдвигае�
 
 def snowflakes_numbers_out():  # выдает список номеров снежинок, которые вышли за границу экрана
     global snowflakes_out_numbers
-
+    # TODO не соответствует алгоритму выше, нейминг переменных i, index, и их нужно поменять местами!
+    # TODO с начало мы получаем index, а потом параметры_снежинки
     for i, index in enumerate(snowflakes):
         parameter_y = snowflakes[i][2]
-
+        # TODO index != snowflakes_out_numbers[i], не совсем верно, тут нужно проверить
+        # TODO нет ли вхождение в snowflakes_out_numbers
         if (parameter_y <= 50) and (index != snowflakes_out_numbers[i]):
-            # TODO у вас пустой список snowflakes_out!
-            # TODO IndexError: list index out of range - говорит что нет такого индекса в этом списке!
+            # TODO snowflakes_out - что это за переменная и где вы ее получаете ? Напишите прямо тут
+            # TODO Не соответствует алгоритму выше
             snowflakes_out_numbers.append(snowflakes_out)
+        # TODO тут ничего не возвращаем 
         return snowflakes_out_numbers
 
     if snowflakes_out_numbers:
