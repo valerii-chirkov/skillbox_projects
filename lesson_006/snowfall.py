@@ -45,9 +45,9 @@ def snowflakes_numbers_out():  # выдает список номеров сне
     for i in range(len(snowflakes)):
         parameter_y = snowflakes[i][2]
         y += 1
-        if parameter_y <= 50:
+        if parameter_y <= 0:
             snowflakes_out_numbers.append(y)
-            #print(snowflakes_out_numbers)
+            print(snowflakes_out_numbers)
 
     if snowflakes_out_numbers:
         return snowflakes_out_numbers
@@ -55,7 +55,6 @@ def snowflakes_numbers_out():  # выдает список номеров сне
 
 def snowflakes_delete():  # удалить_снежинки(номера) - удаляет снежинки с номерами из списка
     for i in range(len(snowflakes_out_numbers)):
-        if snowflakes_out_numbers[i]:
+        if snowflakes_out_numbers:
             snowflakes.remove(snowflakes[i])
-            snowflakes_out_numbers.remove(snowflakes_out_numbers[i])
-
+        snowflakes_out_numbers.clear()
