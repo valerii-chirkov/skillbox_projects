@@ -6,6 +6,7 @@ sd.background_color = (15, 116, 235)
 snowflakes = []
 snowflakes_out_numbers = []
 amount = 0
+del_snowflakes = 0
 
 
 def snowflakes_create(N):  # создать_снежинки(N) - создает N снежинок
@@ -36,27 +37,26 @@ def snowflakes_shift():  # сдвинуть_снежинки() - сдвигае�
 def snowflakes_numbers_out():  # выдает список номеров снежинок, которые вышли за границу экрана
     global snowflakes_out_numbers
     # TODO что бы не заводить новую переменную Y, будем использовать enumerate
-    y = 0
     # TODO for index, snowflake in enumerate(snowflakes):
-    for i in range(len(snowflakes)):
+    for index, snowflake in enumerate(snowflakes):
         # TODO получаем parameter_y = snowflake[2], потому что snowflake = [переменнаяХ, длинна, переменнаяУ]
-        parameter_y = snowflakes[i][2]
-        y += 1
+        parameter_y = snowflake[2]
         # TODO тут дописываем условие которое вы убрали
         # TODO if parameter_y <= 0 and index not in snowflakes_out_numbers:
-        if parameter_y <= 0:
-            snowflakes_out_numbers.append(y)
-            print(snowflakes_out_numbers)
+        if (parameter_y <= 0) and (index not in snowflakes_out_numbers):
+            snowflakes_out_numbers.append(index)
+            print('Это номера вышедших ', snowflakes_out_numbers)
 
     if snowflakes_out_numbers:
         return snowflakes_out_numbers
 
 
 def snowflakes_delete():  # удалить_снежинки(номера) - удаляет снежинки с номерами из списка
-    # TODO повторюсь snowflakes_out_numbers = [1, 3, 5, 8, 12, 4, 7, 9 ......]
-    # TODO можно просто получить индекс из списка
-    # TODO for index in snowflakes_out_numbers:
-    for i in range(len(snowflakes_out_numbers)):
+    global del_snowflakes
+    for index in snowflakes_out_numbers:
         if snowflakes_out_numbers:
-            snowflakes.remove(snowflakes[i])
+            del_snowflakes += 1
+            snowflakes.remove(snowflakes[index])
+            # TODO в чем разница между del snowflakes[index] и snowflakes.remove(snowflakes[index])?
         snowflakes_out_numbers.clear()
+    return del_snowflakes
