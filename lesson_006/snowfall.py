@@ -61,3 +61,6 @@ def snowflakes_delete(snowflakes_out):  # удалить_снежинки(ном
             snowflakes.remove(snowflakes[idx])
         # del snowflakes[index] - удаляет по индексу
         # snowflakes.remove(snowflakes[index]) удаляет по первому совпадению, названию объекта!
+
+
+# зачет!
