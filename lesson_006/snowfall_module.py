@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import simple_draw as sd
-from lesson_006.snowfall import snowflakes_create, snowflakes_delete, snowflakes_shift, snowflakes_draw
-from lesson_006.snowfall import snowflakes_numbers_out
+from snowfall import snowflakes_create, snowflakes_delete, snowflakes_shift, snowflakes_draw, snowflakes_numbers_out
 # На основе кода из lesson_004/05_snowfall.py
 # сделать модуль snowfall.py в котором реализовать следующие функции
 #  создать_снежинки(N) - создает N снежинок
