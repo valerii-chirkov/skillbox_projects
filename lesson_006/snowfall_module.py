@@ -23,13 +23,9 @@ while True:
     snowflakes_draw(color=sd.background_color)
     snowflakes_shift()  # сдвинуть_снежинки()
     snowflakes_draw(color=sd.COLOR_WHITE)
-    # TODO тут мы немного изменили конструкцию для того чтобы можно было не заводить новую переменную
-    # TODO а передать snowflakes_out в функции удаления и создания
     snowflakes_out = snowflakes_numbers_out()
     if snowflakes_out:
-        # TODO тут передали список
         snowflakes_delete(snowflakes_out)  # удалить_снежинки(номера)
-        # TODO а тут длину(число)
         snowflakes_create(len(snowflakes_out))  # создать_снежинки(count)
     sd.finish_drawing()
     sd.sleep(0.1)

@@ -8,14 +8,11 @@ snowflakes_out_numbers = []
 
 
 def snowflakes_create(N):  # создать_снежинки(N) - создает N снежинок
-    # TODO если мы изменяем переменную внутри то пишем глобал, если только используем как в snowflakes_draw то писать
-    # TODO не нужно!
     global snowflakes_out_numbers, snowflakes
 
     for _ in range(N):
         snowflakes.append([sd.random_number(50, 1150), sd.random_number(5, 10), 600])
 
-    # TODO тут мы обнуляем список индексов снежинок при новом создании
     snowflakes_out_numbers = []
 
 
@@ -47,11 +44,8 @@ def snowflakes_numbers_out():  # выдает список номеров сне
         parameter_y = snowflake[2]
         if (parameter_y <= 0) and (index not in snowflakes_out_numbers):
             snowflakes_out_numbers.append(index)
-            # print('Это номера вышедших ', snowflakes_out_numbers)
 
     if snowflakes_out_numbers:
-        # TODO сортировка нам нужна для того чтобы мы могли, потом при удалении проходится по списку индексов
-        # TODO в порядке их убывания, чтобы он не удалял с начало  3 2 индекс а потом 5!
         # сортируем
         snowflakes_out_numbers.sort()
         # сортируем переворачиваем по возрастанию
@@ -60,12 +54,9 @@ def snowflakes_numbers_out():  # выдает список номеров сне
         return snowflakes_out_numbers
 
 
-# TODO Вот так будет правильно выглядит алгоритм по удалению снежинок
 def snowflakes_delete(snowflakes_out):  # удалить_снежинки(номера) - удаляет снежинки с номерами из списка
     global snowflakes
-    # TODO заводим цикл по индексам снежинок которые подучили из вне!
     for idx in snowflakes_out:
-        # TODO Проверяем чтобы индекс не выходил за рамки списка
         if idx <= len(snowflakes)-1:
             snowflakes.remove(snowflakes[idx])
         # del snowflakes[index] - удаляет по индексу
