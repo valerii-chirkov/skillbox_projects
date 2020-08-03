@@ -20,116 +20,145 @@
 #   print(Fire(), '+', Air(), '=', Fire() + Air())
 
 
-class Level1:
-    # TODO создаем сразу классы воды воздуха и тд. в глобальном скоупе не вложенные
-    class Water:
-        def __add__(self, other):
-            # TODO для проверки есть ли other в классе используем isinstance,
-            # TODO возвращает bool является ли указанный объект экземпляром указанного класса
-            if other == Level1.Air():
-                # TODO возвращать будем нужный класс со скобками как бы вызывая его, тогда сработает метод str
-                return Level2.Storm
-            elif other == Level1.Fire():
-                return Level2.Steam
-            elif other == Level1.Earth():
-                return Level2.Dirt
-            else:
-                return None
+class Water:
+    def __add__(self, other):
+        if isinstance(other, Air):
+            return Storm()
+        elif isinstance(other, Fire):
+            return Steam()
+        elif isinstance(other, Earth):
+            return Dirt()
+        elif isinstance(other, Water):
+            return Lake()
+        else:
+            return None
 
-        def __str__(self):
-            return 'WATER'
-
-    class Air:
-        def __add__(self, other):
-            if other is Level1.Water():
-                return Level2.Storm
-            elif other is Level1.Fire():
-                return Level2.Thunder
-            elif other is Level1.Earth():
-                return Level2.Dust
-            else:
-                return None
-
-        def __str__(self):
-            return 'AIR'
-
-    class Fire:
-        def __add__(self, other):
-            if other is Level1.Water:
-                return Level2.Steam
-            elif other is Level1.Air:
-                return Level2.Thunder
-            elif other is Level1.Earth:
-                return Level2.Lava
-            else:
-                return None
-
-        def __str__(self):
-            return 'FIRE'
-
-    class Earth:
-        def __add__(self, other):
-            if other is Level1.Water:
-                return Level2.Dirt
-            elif other is Level1.Air:
-                return Level2.Dust
-            elif other is Level1.Fire:
-                return Level2.Lava
-            else:
-                return None
-
-        def __str__(self):
-            return 'EARTH'
+    def __str__(self):
+        return 'WATER'
 
 
-class Level2:
+class Air:
+    def __add__(self, other):
+        if isinstance(other, Water):
+            return Storm()
+        elif isinstance(other, Fire):
+            return Thunder()
+        elif isinstance(other, Earth):
+            return Dust()
+        else:
+            return None
+
+    def __str__(self):
+        return 'AIR'
 
 
-# TODO тут делаем аналогично без вложенности
-    class Storm:
-        def __str__(self):
-            return 'STORM'
+class Fire:
+    def __add__(self, other):
+        if isinstance(other, Water):
+            return Steam()
+        elif isinstance(other, Air):
+            return Thunder()
+        elif isinstance(other, Earth):
+            return Lava()
+        else:
+            return None
 
-    class Steam:
-        def __str__(self):
-            return 'STEAM'
-
-    class Dirt:
-        def __str__(self):
-            return 'DIRT'
-
-    class Thunder:
-        def __str__(self):
-            return 'THUNDER'
-
-    class Dust:
-        def __str__(self):
-            return 'DUST'
-
-    class Lava:
-        def __str__(self):
-            return 'LAVA'
+    def __str__(self):
+        return 'FIRE'
 
 
-# TODO тут как в примере только вызов класса print(Water(), '+', Air(), '=', Water() + Air())
+class Earth:
+    def __add__(self, other):
+        if isinstance(other, Water):
+            return Dirt()
+        elif isinstance(other, Air):
+            return Dust()
+        elif isinstance(other, Fire):
+            return Lava()
+        else:
+            return None
+
+    def __str__(self):
+        return 'EARTH'
+
+
+class Storm:
+    def __str__(self):
+        return 'STORM🌪'
+
+
+class Steam:
+    def __str__(self):
+        return 'STEAM🧖‍'
+
+
+class Dirt:
+    def __str__(self):
+        return 'DIRT💩'
+
+
+class Thunder:
+    def __add__(self, other):
+        if isinstance(other, Lake):
+            return Fish()
+        else:
+            return None
+
+    def __str__(self):
+        return 'THUNDER⚡'
+
+
+class Dust:
+    def __str__(self):
+        return 'DUST️🧹'
+
+
+class Lava:
+    def __str__(self):
+        return 'LAVA🔥'
+
+
+class Lake:
+    def __add__(self, other):
+        if isinstance(other, Thunder):
+            return Fish()
+        else:
+            return None
+
+    def __str__(self):
+        return 'LAKE💦'
+
+
+class Fish:
+    def __str__(self):
+        return 'FISH🐠'
+
 
 #   Вода + Воздух = Шторм
-print(Level1.Water(), '+', Level1.Air(), '=', Level1.Water() + Level1.Air())
+print(Water(), '+', Air(), '=', Water() + Air())
 
 #   Вода + Огонь = Пар
-print(Level1.Water(), '+', Level1.Fire(), '=', Level1.Water() + Level1.Fire())
+print(Water(), '+', Fire(), '=', Water() + Fire())
 
 #   Вода + Земля = Грязь
-print(Level1.Water(), '+', Level1.Earth(), '=', Level1.Water() + Level1.Earth())
+print(Water(), '+', Earth(), '=', Water() + Earth())
 
 #   Воздух + Огонь = Молния
-print(Level1.Air(), '+', Level1.Fire(), '=', Level1.Air() + Level1.Fire())
+print(Air(), '+', Fire(), '=', Air() + Fire())
 
 #   Воздух + Земля = Пыль
-print(Level1.Air(), '+', Level1.Earth(), '=', Level1.Air() + Level1.Earth())
+print(Air(), '+', Earth(), '=', Air() + Earth())
 
 #   Огонь + Земля = Лава
-print(Level1.Fire(), '+', Level1.Earth(), '=', Level1.Fire() + Level1.Earth())
+print(Fire(), '+', Earth(), '=', Fire() + Earth())
+
+# Новый эелемент
+#   Вода + Вода = Озеро
+print(Water(), '+', Water(), '=', Water() + Water())
+
+# Соединяем элементы второго уровня
+#   Озеро + Молния = Рыба
+print(Lake(), '+', Thunder(), '=', Lake() + Thunder())
 
 
 # Усложненное задание (делать по желанию)
