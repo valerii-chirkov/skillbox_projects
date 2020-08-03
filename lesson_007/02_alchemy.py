@@ -21,10 +21,13 @@
 
 
 class Level1:
-
+    # TODO создаем сразу классы воды воздуха и тд. в глобальном скоупе не вложенные
     class Water:
         def __add__(self, other):
+            # TODO для проверки есть ли other в классе используем isinstance,
+            # TODO возвращает bool является ли указанный объект экземпляром указанного класса
             if other == Level1.Air():
+                # TODO возвращать будем нужный класс со скобками как бы вызывая его, тогда сработает метод str
                 return Level2.Storm
             elif other == Level1.Fire():
                 return Level2.Steam
@@ -81,6 +84,8 @@ class Level1:
 
 class Level2:
 
+
+# TODO тут делаем аналогично без вложенности
     class Storm:
         def __str__(self):
             return 'STORM'
@@ -105,6 +110,8 @@ class Level2:
         def __str__(self):
             return 'LAVA'
 
+
+# TODO тут как в примере только вызов класса print(Water(), '+', Air(), '=', Water() + Air())
 
 #   Вода + Воздух = Шторм
 print(Level1.Water(), '+', Level1.Air(), '=', Level1.Water() + Level1.Air())
