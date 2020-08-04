@@ -47,6 +47,7 @@ class Man:
 
     def work(self):
         cprint(f'{self.name} left for work', color='blue')
+        # TODO сделаем так чтобы он хранил сразу в тумбочке в доме, оставим только одну переменную
         self.house.money += self.wage
         self.house.income += self.wage
         self.fullness -= 10
@@ -57,6 +58,7 @@ class Man:
 
     def sleep(self):
         cprint(f'{self.name} went to sleep', color='cyan')
+        # TODO тут мы просто приравниваем = 10, даже если было больше !?
         self.fullness = 10
 
     def rest(self):
@@ -86,9 +88,11 @@ class Man:
         self.house.mess = 0
         self.fullness -= 20
 
+    # TODO данный метод должен принимать параметр cat - который является экземпляром класса Cat
     def pick_up_cat(self):  # подобрать кота
         self.house = house
         self.fullness -= 10
+        # TODO тут мы будем обращаться cat его методу house и присваивать ему дом, вселять его
         inhabitants[1].go_to_the_house()
         cprint(f'{self.name} picked up a cat', color='cyan')
 
@@ -103,14 +107,25 @@ class Man:
             cprint(f'{self.name} is died cause of hunger', color='red')
             cprint(f'{Cat} is in danger', color='red')
             return
+
         dice = randint(1, 7)
         promotion_chance = randint(0, 100)
 
+        # TODO почему то всегда ест
         self.eat()
+
         if promotion_chance == 100:
             self.work_promotion()
 
-        if dice == 1 or 2 or 3 or 4 or 5:  # TODO через range(1, 5) почему-то не работало
+        # TODO в методе act должно выполнять только одно действие, используйте конструкцию if elif else, даже спать
+        # TODO люди будут по воле random'a
+
+        # TODO Range это генератор последовательности чисел от до с шагом
+        # TODO лучше использовать random.randint(a,b) за раз выдаст одно число в диапазоне, как вы делает выше!
+        # TODO Не совсем понял логики 1 or 2 or 3 or 4 or 5 ?
+        # TODO range(1, 5) -> 1,2,3,4
+        # TODO if dice in range(1,6): должно работать
+        if dice == 1 or 2 or 3 or 4 or 5:  # через range(1, 5) почему-то не работало
             self.work()
             self.eat()
         else:
@@ -173,7 +188,7 @@ class Cat:
             cprint(f'{self.name} is died cause of hunger', color='red')
             return
         dice = randint(1, 5)
-
+        # TODO аналогично и тут только одно действие за день
         if self.fullness <= 40:
             self.eat()
         else:
@@ -209,6 +224,9 @@ Income for today = {self.income}, expenses = {self.expenses}'''
 
 
 house = House()
+# TODO определяем класс человека в не списка
+
+# TODO В списке допустим можно хранить котов если их много но пока что можно обойтись без списка
 inhabitants = [
     Man(name='Den', house=house),
     Cat(name='Bunny'),
@@ -217,7 +235,8 @@ inhabitants[0].pick_up_cat()
 
 for day in range(1, 366):
     print('================= day {} ==================='.format(day))
-    for inhabitant in range(len(inhabitants)):  # TODO В этом случае нужно использовать enumerate?
+    # TODO соответсвенно тут пока что то же без циклов просто пишем human.act() caty.cat() и потом принтуем показатели
+    for inhabitant in range(len(inhabitants)):
         if inhabitant == 0:
             print('        How the human spent his day: ')
             inhabitants[inhabitant].act()
@@ -225,7 +244,7 @@ for day in range(1, 366):
             print('')
             print('         How the cat spent his day: ')
             inhabitants[inhabitant].act()
-    # if house.money % 1000 == 0:  # TODO вылетает с ошибкой
+    # if house.money % 1000 == 0:  # TODO что вы хотели тут сделать ?
     #     inhabitants[0].pick_up_cat()
     #     inhabitants.append(Cat(name='Murzik'))
 
@@ -235,6 +254,7 @@ for day in range(1, 366):
         print(inhabitant)
     print(house)
     print('')
+    # TODO за что отвечают эти два параметра?
     house.income = 0
     house.expenses = 0
 # Усложненное задание (делать по желанию)
