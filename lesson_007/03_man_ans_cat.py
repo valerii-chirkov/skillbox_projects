@@ -48,6 +48,7 @@ class Man:
     def work(self):
         cprint(f'{self.name} left for work', color='blue')
         # TODO сделаем так чтобы он хранил сразу в тумбочке в доме, оставим только одну переменную
+        # TODO не понял вот эту тудушку
         self.house.money += self.wage
         self.house.income += self.wage
         self.fullness -= 10
@@ -58,8 +59,7 @@ class Man:
 
     def sleep(self):
         cprint(f'{self.name} went to sleep', color='cyan')
-        # TODO тут мы просто приравниваем = 10, даже если было больше !?
-        self.fullness = 10
+        self.fullness -= 10
 
     def rest(self):
         cprint(f'{self.name} had a rest', color='blue')
@@ -88,12 +88,11 @@ class Man:
         self.house.mess = 0
         self.fullness -= 20
 
-    # TODO данный метод должен принимать параметр cat - который является экземпляром класса Cat
-    def pick_up_cat(self):  # подобрать кота
+    # TODO если подсвечивает cat, что тут можно поправить?
+    def pick_up_cat(self, cat):  # подобрать кота
         self.house = house
         self.fullness -= 10
-        # TODO тут мы будем обращаться cat его методу house и присваивать ему дом, вселять его
-        inhabitants[1].go_to_the_house()
+        cat.go_to_the_house()
         cprint(f'{self.name} picked up a cat', color='cyan')
 
     def freelance(self):
@@ -108,47 +107,32 @@ class Man:
             cprint(f'{Cat} is in danger', color='red')
             return
 
-        dice = randint(1, 7)
+        dice = randint(1, 4)
         promotion_chance = randint(0, 100)
 
         # TODO почему то всегда ест
-        self.eat()
+        # TODO я хотел сделать 3 приема пищи, это был завтрак
+        # self.eat()
 
         if promotion_chance == 100:
             self.work_promotion()
 
-        # TODO в методе act должно выполнять только одно действие, используйте конструкцию if elif else, даже спать
-        # TODO люди будут по воле random'a
-
-        # TODO Range это генератор последовательности чисел от до с шагом
-        # TODO лучше использовать random.randint(a,b) за раз выдаст одно число в диапазоне, как вы делает выше!
-        # TODO Не совсем понял логики 1 or 2 or 3 or 4 or 5 ?
-        # TODO range(1, 5) -> 1,2,3,4
-        # TODO if dice in range(1,6): должно работать
-        if dice == 1 or 2 or 3 or 4 or 5:  # через range(1, 5) почему-то не работало
+        if self.fullness <= 20:
+            self.eat()
+        elif self.house.money <= 50:
             self.work()
-            self.eat()
-        else:
-            self.rest()
-
-        if self.house.money <= 50:
-            self.freelance()
-
-        if self.fullness < 20:
-            self.eat()
-
-        if self.house.food < 10:
-            self.shop_for_self()
-
-        if self.house.cat_food < 10:
-            self.shop_for_cat()
-
-        if self.house.mess < 20:
+        elif self.house.mess >= 50:
             self.clean_house()
-        else:
+        elif self.house.cat_food <= 20:
+            self.shop_for_cat()
+        elif self.house.food <= 20:
+            self.shop_for_self()
+        elif dice == 1 or 2:
+            self.sleep()
+        elif dice == 3:
             self.rest()
-        self.eat()
-        self.sleep()
+        elif dice == 4:
+            self.freelance()
 
 
 class Cat:
@@ -178,29 +162,17 @@ class Cat:
         self.house.mess += 10
         cprint(f'{self.name} made a mess', color='red')
 
-    def make_super_mess(self):
-        self.fullness -= 30
-        self.house.mess += 100
-        cprint(f'{self.name} destroyed the house', color='red')
-
     def act(self):
         if self.fullness <= 0:
             cprint(f'{self.name} is died cause of hunger', color='red')
             return
-        dice = randint(1, 5)
-        # TODO аналогично и тут только одно действие за день
-        if self.fullness <= 40:
+        dice = randint(1, 3)
+        if self.fullness <= 20:
             self.eat()
-        else:
+        elif dice == 1:
             self.sleep()
-        if dice == 1:
+        elif dice == 2:
             self.make_mess()
-        if dice == 1 or 2:
-            self.sleep()
-        if dice == 1 or 2 or 3:
-            self.eat()
-        if dice == 4:
-            self.make_super_mess()
         else:
             self.sleep()
 
@@ -212,7 +184,7 @@ class House:
     def __init__(self):
         self.name = 'Home'
         self.food = 50
-        self.cat_food = 0
+        self.cat_food = 10
         self.money = 100
         self.mess = 0
         self.income = 0
@@ -224,37 +196,29 @@ Income for today = {self.income}, expenses = {self.expenses}'''
 
 
 house = House()
-# TODO определяем класс человека в не списка
+man = Man(name='Den', house=house)
+cat = Cat(name='Bunny')
 
-# TODO В списке допустим можно хранить котов если их много но пока что можно обойтись без списка
-inhabitants = [
-    Man(name='Den', house=house),
-    Cat(name='Bunny'),
-]
-inhabitants[0].pick_up_cat()
+man.pick_up_cat(cat)
 
 for day in range(1, 366):
     print('================= day {} ==================='.format(day))
-    # TODO соответсвенно тут пока что то же без циклов просто пишем human.act() caty.cat() и потом принтуем показатели
-    for inhabitant in range(len(inhabitants)):
-        if inhabitant == 0:
-            print('        How the human spent his day: ')
-            inhabitants[inhabitant].act()
-        else:
-            print('')
-            print('         How the cat spent his day: ')
-            inhabitants[inhabitant].act()
-    # if house.money % 1000 == 0:  # TODO что вы хотели тут сделать ?
+    print('        How the human spent his day: ')
+    man.act()
+
+    print('')
+    print('         How the cat spent his day: ')
+    cat.act()
+    # if house.money % 1000 == 0:  # TODO что вы хотели тут сделать ? # TODO когда копится много денег - то заводит кота
     #     inhabitants[0].pick_up_cat()
     #     inhabitants.append(Cat(name='Murzik'))
 
-
     print('------------- in the evening ---------------')
-    for inhabitant in inhabitants:
-        print(inhabitant)
+    print(man)
+    print(cat)
     print(house)
     print('')
-    # TODO за что отвечают эти два параметра?
+    # TODO за что отвечают эти два параметра? # TODO это доходы и расходы за один день, добавлял их для отладки, но потом оставил
     house.income = 0
     house.expenses = 0
 # Усложненное задание (делать по желанию)
