@@ -29,7 +29,8 @@ from termcolor import cprint
 
 class Man:
     # TODO Вот тут мы можем house определить как None чтобы не подсвечивалось
-    def __init__(self, name, house):
+    # TODO Все равно подсвечивается
+    def __init__(self, name, house=None):
         self.name = name
         self.fullness = 50
         self.house = house
@@ -50,6 +51,8 @@ class Man:
         cprint(f'{self.name} left for work', color='blue')
         # TODO сделаем так чтобы он хранил сразу в тумбочке в доме, оставим только одну переменную
         # TODO У нас две переменные которые отвечают за деньги, предположим что у нас будет только один параметр
+
+        #TODO если оставляю только money и обнуляю их каждый цикл(чтобы ежедневный доход считать) - то слетает остаток
         self.house.money += self.wage
         self.house.income += self.wage
         self.fullness -= 10
@@ -90,14 +93,13 @@ class Man:
         self.fullness -= 20
 
     # TODO пока что ничего медь метод не знает о том что cat это экземпляр класса
+    # TODO не понял это туду
     def pick_up_cat(self, cat):  # подобрать кота
-        # TODO тут мы параметру house еще раз присваиваем дом ? Можно по другому сделать проверку если
-        # TODO self.house тру то коту которого подбирали вызывать не метод а cat.house = self.house
-        self.house = house
         self.fullness -= 10
-        # TODO как бы этот метод можно упрознить
-        cat.go_to_the_house()
+        if self.house:
+            cat.house = self.house
         cprint(f'{self.name} picked up a cat', color='cyan')
+        cprint(f'{cat.name} has a new house!', color='cyan')
 
     def freelance(self):
         cprint(f'{self.name} needed extra money, he was doing freelance', color='blue')
@@ -119,14 +121,14 @@ class Man:
 
         if self.fullness <= 20:
             self.eat()
-        elif self.house.money <= 50:
-            self.work()
-        elif self.house.mess >= 50:
-            self.clean_house()
-        elif self.house.cat_food <= 20:
-            self.shop_for_cat()
         elif self.house.food <= 20:
             self.shop_for_self()
+        elif self.house.money <= 50:
+            self.work()
+        elif self.house.cat_food <= 20:
+            self.shop_for_cat()
+        elif self.house.mess >= 50:
+            self.clean_house()
         elif dice == 1 or 2:
             self.sleep()
         elif dice == 3:
@@ -140,12 +142,6 @@ class Cat:
         self.name = name
         self.fullness = 20
         self.house = None
-
-    def go_to_the_house(self):
-        # TODO тут мы house от куда берем ? как бы класс не должен знать о нем, возможно это связано с расположением
-        # TODO классов
-        self.house = house
-        cprint(f'{self.name} has a new house!', color='cyan')
 
     def eat(self):
         if self.house.cat_food >= 10:
@@ -205,8 +201,6 @@ man.pick_up_cat(cat)
 
 # подкрутить параметры так чтобы цикл прерывался из за нехватке чегонибуть для тестов
 
-# TODO Все комментарии отладочные переменные и принты убираем перед пушем
-# TODO можно сделать так закомитить отдельным коммитом, потом все убрать из кода и сделать финальный коммит для пуша
 for day in range(1, 366):
     print('================= day {} ==================='.format(day))
     print('        How the human spent his day: ')
@@ -215,17 +209,15 @@ for day in range(1, 366):
     print('')
     print('         How the cat spent his day: ')
     cat.act()
-    # if house.money % 1000 == 0:  #
-    #     inhabitants[0].pick_up_cat()
-    #     inhabitants.append(Cat(name='Murzik'))
 
     print('------------- in the evening ---------------')
     print(man)
     print(cat)
     print(house)
     print('')
-    house.income = 0
-    house.expenses = 0
+    if (man.act or cat.act) is False:
+        print('It is a pity')
+        break
 # Усложненное задание (делать по желанию)
 # Создать несколько (2-3) котов и подселить их в дом к человеку.
 # Им всем вместе так же надо прожить 365 дней.
