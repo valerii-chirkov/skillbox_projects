@@ -28,6 +28,7 @@ from termcolor import cprint
 
 
 class Man:
+    # TODO Вот тут мы можем house определить как None чтобы не подсвечивалось
     def __init__(self, name, house):
         self.name = name
         self.fullness = 50
@@ -48,7 +49,7 @@ class Man:
     def work(self):
         cprint(f'{self.name} left for work', color='blue')
         # TODO сделаем так чтобы он хранил сразу в тумбочке в доме, оставим только одну переменную
-        # TODO не понял вот эту тудушку
+        # TODO У нас две переменные которые отвечают за деньги, предположим что у нас будет только один параметр
         self.house.money += self.wage
         self.house.income += self.wage
         self.fullness -= 10
@@ -88,10 +89,13 @@ class Man:
         self.house.mess = 0
         self.fullness -= 20
 
-    # TODO если подсвечивает cat, что тут можно поправить?
+    # TODO пока что ничего медь метод не знает о том что cat это экземпляр класса
     def pick_up_cat(self, cat):  # подобрать кота
+        # TODO тут мы параметру house еще раз присваиваем дом ? Можно по другому сделать проверку если
+        # TODO self.house тру то коту которого подбирали вызывать не метод а cat.house = self.house
         self.house = house
         self.fullness -= 10
+        # TODO как бы этот метод можно упрознить
         cat.go_to_the_house()
         cprint(f'{self.name} picked up a cat', color='cyan')
 
@@ -109,10 +113,6 @@ class Man:
 
         dice = randint(1, 4)
         promotion_chance = randint(0, 100)
-
-        # TODO почему то всегда ест
-        # TODO я хотел сделать 3 приема пищи, это был завтрак
-        # self.eat()
 
         if promotion_chance == 100:
             self.work_promotion()
@@ -142,6 +142,8 @@ class Cat:
         self.house = None
 
     def go_to_the_house(self):
+        # TODO тут мы house от куда берем ? как бы класс не должен знать о нем, возможно это связано с расположением
+        # TODO классов
         self.house = house
         cprint(f'{self.name} has a new house!', color='cyan')
 
@@ -201,6 +203,10 @@ cat = Cat(name='Bunny')
 
 man.pick_up_cat(cat)
 
+# подкрутить параметры так чтобы цикл прерывался из за нехватке чегонибуть для тестов
+
+# TODO Все комментарии отладочные переменные и принты убираем перед пушем
+# TODO можно сделать так закомитить отдельным коммитом, потом все убрать из кода и сделать финальный коммит для пуша
 for day in range(1, 366):
     print('================= day {} ==================='.format(day))
     print('        How the human spent his day: ')
@@ -209,7 +215,7 @@ for day in range(1, 366):
     print('')
     print('         How the cat spent his day: ')
     cat.act()
-    # if house.money % 1000 == 0:  # TODO что вы хотели тут сделать ? # TODO когда копится много денег - то заводит кота
+    # if house.money % 1000 == 0:  #
     #     inhabitants[0].pick_up_cat()
     #     inhabitants.append(Cat(name='Murzik'))
 
@@ -218,7 +224,6 @@ for day in range(1, 366):
     print(cat)
     print(house)
     print('')
-    # TODO за что отвечают эти два параметра? # TODO это доходы и расходы за один день, добавлял их для отладки, но потом оставил
     house.income = 0
     house.expenses = 0
 # Усложненное задание (делать по желанию)
