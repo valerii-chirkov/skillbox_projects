@@ -28,8 +28,7 @@ from termcolor import cprint
 
 
 class Man:
-    # TODO Вот тут мы можем house определить как None чтобы не подсвечивалось
-    # TODO Все равно подсвечивается
+
     def __init__(self, name, house=None):
         self.name = name
         self.fullness = 50
@@ -49,10 +48,7 @@ class Man:
 
     def work(self):
         cprint(f'{self.name} left for work', color='blue')
-        # TODO сделаем так чтобы он хранил сразу в тумбочке в доме, оставим только одну переменную
-        # TODO У нас две переменные которые отвечают за деньги, предположим что у нас будет только один параметр
-
-        #TODO если оставляю только money и обнуляю их каждый цикл(чтобы ежедневный доход считать) - то слетает остаток
+        # хорошо
         self.house.money += self.wage
         self.house.income += self.wage
         self.fullness -= 10
@@ -92,8 +88,7 @@ class Man:
         self.house.mess = 0
         self.fullness -= 20
 
-    # TODO пока что ничего медь метод не знает о том что cat это экземпляр класса
-    # TODO не понял это туду
+    # мы изменили название экземпляров класса и тут больше не подчеркивается!
     def pick_up_cat(self, cat):  # подобрать кота
         self.fullness -= 10
         if self.house:
@@ -193,11 +188,12 @@ class House:
 Income for today = {self.income}, expenses = {self.expenses}'''
 
 
-house = House()
-man = Man(name='Den', house=house)
-cat = Cat(name='Bunny')
+# немного изменим названия, тогда все подчеркивания пропадут и у cat, это связано с глобальный скоупом объектов
+my_house = House()
+man = Man(name='Den', house=my_house)
+caty = Cat(name='Bunny')
 
-man.pick_up_cat(cat)
+man.pick_up_cat(caty)
 
 # подкрутить параметры так чтобы цикл прерывался из за нехватке чегонибуть для тестов
 
@@ -208,14 +204,14 @@ for day in range(1, 366):
 
     print('')
     print('         How the cat spent his day: ')
-    cat.act()
+    caty.act()
 
     print('------------- in the evening ---------------')
     print(man)
-    print(cat)
-    print(house)
+    print(caty)
+    print(my_house)
     print('')
-    if (man.act or cat.act) is False:
+    if (man.act or caty.act) is False:
         print('It is a pity')
         break
 # Усложненное задание (делать по желанию)
@@ -223,3 +219,5 @@ for day in range(1, 366):
 # Им всем вместе так же надо прожить 365 дней.
 
 # (Можно определить критическое количество котов, которое может прокормить человек...)
+
+# зачет!
