@@ -187,32 +187,43 @@ class House:
         return f'''There are {self.food} food and {self.cat_food} food for cat, money left {self.money}
 Income for today = {self.income}, expenses = {self.expenses}'''
 
+
 my_house = House()
 man = Man(name='Den', house=my_house)
+# TODO у нас будет список из котов общий, этого кота тоже туда
 caty = Cat(name='Bunny')
-possible_cats = [Cat(name='Fuzzy'), Cat(name='King'), Cat(name='Tiger'), Cat('Peach')]
-man.pick_up_cat(caty)
-i = 0
-days = 356
 
-for day in range(1, days+1):
+possible_cats = [Cat(name='Fuzzy'), Cat(name='King'), Cat(name='Tiger'), Cat('Peach')]
+
+# TODO тут делам цикл по списку котов и заселяем их всех в дом! Незабываем проверить если дом у человека!
+man.pick_up_cat(caty)
+
+# TODO не совсем понял значение этой переменной
+i = 0
+# сразу 365 дней в году! а не 356, и делаем +1 пишем 366
+days = 366
+
+for day in range(1, days):
     print('================= day {} ==================='.format(day))
     print(f'          How {man.name} spent his day: ')
     man.act()
 
     print('')
+    # TODO тут делаем цикл по списку котов и запускаем у каждого метод act
     print(f'         How {caty.name} spent his day: ')
     caty.act()
-
-    if day == 100:
-        fuzzy = possible_cats[0]
-    if day >= 100:
-        print('')
-        print(f'         How {possible_cats[i].name} spent his day: ')
-        fuzzy.act()
+    # TODO данную конструкцию пока уберем, реализуем что все коты уже в доме а потом можно подумать над тем чтобы
+    # TODO их заселять отдельно, если я правильно понял ниже код?!
+    # if day == 100:
+    #     fuzzy = possible_cats[0]
+    # if day >= 100:
+    #     print('')
+    #     print(f'         How {possible_cats[i].name} spent his day: ')
+    #     fuzzy.act()
 
     print('------------- in the evening ---------------')
     print(man)
+    # TODO состояние каждого кода тоже нужно печатать через цикл
     print(caty)
     print(my_house)
     print('')
@@ -228,4 +239,4 @@ for day in range(1, days+1):
 
 # (Можно определить критическое количество котов, которое может прокормить человек...)
 
-# зачет!
+
