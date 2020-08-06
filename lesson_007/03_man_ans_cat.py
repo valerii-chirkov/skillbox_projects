@@ -48,7 +48,6 @@ class Man:
 
     def work(self):
         cprint(f'{self.name} left for work', color='blue')
-        # хорошо
         self.house.money += self.wage
         self.house.income += self.wage
         self.fullness -= 10
@@ -88,13 +87,13 @@ class Man:
         self.house.mess = 0
         self.fullness -= 20
 
-    # мы изменили название экземпляров класса и тут больше не подчеркивается!
     def pick_up_cat(self, cat):  # подобрать кота
         self.fullness -= 10
         if self.house:
             cat.house = self.house
         cprint(f'{self.name} picked up a cat', color='cyan')
         cprint(f'{cat.name} has a new house!', color='cyan')
+        print('')
 
     def freelance(self):
         cprint(f'{self.name} needed extra money, he was doing freelance', color='blue')
@@ -105,7 +104,7 @@ class Man:
     def act(self):
         if self.fullness <= 0:
             cprint(f'{self.name} is died cause of hunger', color='red')
-            cprint(f'{Cat} is in danger', color='red')
+            cprint('Cats are in danger', color='red')
             return
 
         dice = randint(1, 4)
@@ -144,6 +143,7 @@ class Cat:
             self.fullness += 20
             self.house.cat_food -= 10
         else:
+            self.fullness -= 10  # TODO забыл проставить сюда минус фулнес, получалось что они без еды дальше жили
             cprint(f'{self.name} has no cat-food', color='red')
 
     def sleep(self):
@@ -190,47 +190,35 @@ Income for today = {self.income}, expenses = {self.expenses}'''
 
 my_house = House()
 man = Man(name='Den', house=my_house)
-# TODO у нас будет список из котов общий, этого кота тоже туда
-caty = Cat(name='Bunny')
+cats = [Cat(name='Bunny'), Cat(name='Fuzzy'), Cat(name='King'), Cat(name='Tiger'), Cat(name='Sleepy')]
+days = range(1, 366)
+if man.house == my_house:
+    for new in cats:
+        man.pick_up_cat(new)  # TODO назвал new, тк cat в pick_up_cat подсвечивался
 
-possible_cats = [Cat(name='Fuzzy'), Cat(name='King'), Cat(name='Tiger'), Cat('Peach')]
 
-# TODO тут делам цикл по списку котов и заселяем их всех в дом! Незабываем проверить если дом у человека!
-man.pick_up_cat(caty)
-
-# TODO не совсем понял значение этой переменной
-i = 0
-# сразу 365 дней в году! а не 356, и делаем +1 пишем 366
-days = 366
-
-for day in range(1, days):
+for day in days:
     print('================= day {} ==================='.format(day))
     print(f'          How {man.name} spent his day: ')
     man.act()
 
     print('')
-    # TODO тут делаем цикл по списку котов и запускаем у каждого метод act
-    print(f'         How {caty.name} spent his day: ')
-    caty.act()
-    # TODO данную конструкцию пока уберем, реализуем что все коты уже в доме а потом можно подумать над тем чтобы
-    # TODO их заселять отдельно, если я правильно понял ниже код?!
-    # if day == 100:
-    #     fuzzy = possible_cats[0]
-    # if day >= 100:
-    #     print('')
-    #     print(f'         How {possible_cats[i].name} spent his day: ')
-    #     fuzzy.act()
+    print(f'         How cats spent their day: ')
+    for cat in cats:
+        cat.act()
 
+    print('')
     print('------------- in the evening ---------------')
     print(man)
-    # TODO состояние каждого кода тоже нужно печатать через цикл
-    print(caty)
+    for cat in cats:
+        print(cat)
+    print('- - - - - - - - - - - - - - - - - - - - - - -')
     print(my_house)
     print('')
     my_house.income = 0
     my_house.expenses = 0
 
-    if (man.act or caty.act) is False:
+    if (man.act or cats[0].act or cats[1].act or cats[2].act or cats[3].act) is False:  # TODO почему-то не выходит
         print('It is a pity')
         break
 # Усложненное задание (делать по желанию)
