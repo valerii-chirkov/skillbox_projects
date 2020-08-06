@@ -187,30 +187,38 @@ class House:
         return f'''There are {self.food} food and {self.cat_food} food for cat, money left {self.money}
 Income for today = {self.income}, expenses = {self.expenses}'''
 
-
-# немного изменим названия, тогда все подчеркивания пропадут и у cat, это связано с глобальный скоупом объектов
 my_house = House()
 man = Man(name='Den', house=my_house)
 caty = Cat(name='Bunny')
-
+possible_cats = [Cat(name='Fuzzy'), Cat(name='King'), Cat(name='Tiger'), Cat('Peach')]
 man.pick_up_cat(caty)
+i = 0
+days = 356
 
-# подкрутить параметры так чтобы цикл прерывался из за нехватке чегонибуть для тестов
-
-for day in range(1, 366):
+for day in range(1, days+1):
     print('================= day {} ==================='.format(day))
-    print('        How the human spent his day: ')
+    print(f'          How {man.name} spent his day: ')
     man.act()
 
     print('')
-    print('         How the cat spent his day: ')
+    print(f'         How {caty.name} spent his day: ')
     caty.act()
+
+    if day == 100:
+        fuzzy = possible_cats[0]
+    if day >= 100:
+        print('')
+        print(f'         How {possible_cats[i].name} spent his day: ')
+        fuzzy.act()
 
     print('------------- in the evening ---------------')
     print(man)
     print(caty)
     print(my_house)
     print('')
+    my_house.income = 0
+    my_house.expenses = 0
+
     if (man.act or caty.act) is False:
         print('It is a pity')
         break
