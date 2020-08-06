@@ -102,6 +102,7 @@ class Man:
         self.fullness -= 10
 
     def act(self):
+        # TODO Вынисим этот метод в отдельный и будем чекать на летальный исход в главном цикле
         if self.fullness <= 0:
             cprint(f'{self.name} is died cause of hunger', color='red')
             cprint('Cats are in danger', color='red')
@@ -143,7 +144,7 @@ class Cat:
             self.fullness += 20
             self.house.cat_food -= 10
         else:
-            self.fullness -= 10  # TODO забыл проставить сюда минус фулнес, получалось что они без еды дальше жили
+            self.fullness -= 10
             cprint(f'{self.name} has no cat-food', color='red')
 
     def sleep(self):
@@ -156,6 +157,7 @@ class Cat:
         cprint(f'{self.name} made a mess', color='red')
 
     def act(self):
+        # TODO это тоже вынесем в отдельный метод
         if self.fullness <= 0:
             cprint(f'{self.name} is died cause of hunger', color='red')
             return
@@ -193,8 +195,8 @@ man = Man(name='Den', house=my_house)
 cats = [Cat(name='Bunny'), Cat(name='Fuzzy'), Cat(name='King'), Cat(name='Tiger'), Cat(name='Sleepy')]
 days = range(1, 366)
 if man.house == my_house:
-    for new in cats:
-        man.pick_up_cat(new)  # TODO назвал new, тк cat в pick_up_cat подсвечивался
+    for new_cat in cats:
+        man.pick_up_cat(new_cat)  # TODO new_cat тогда
 
 
 for day in days:
@@ -218,7 +220,12 @@ for day in days:
     my_house.income = 0
     my_house.expenses = 0
 
-    if (man.act or cats[0].act or cats[1].act or cats[2].act or cats[3].act) is False:  # TODO почему-то не выходит
+    # TODO не совсем понял что вы хотите тут реализовать ? is False можно не указывать если мы ждем ложного результата
+    # TODO то пишем not в начале сравнения.
+
+    # TODO Допишем отдельный метод и будем чекать отдельно с начало человека а потом через цикл котов, если я правильно
+    # TODO Понял
+    if (man.act or cats[0].act or cats[1].act or cats[2].act or cats[3].act) is False:
         print('It is a pity')
         break
 # Усложненное задание (делать по желанию)
