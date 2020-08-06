@@ -44,6 +44,7 @@ class Man:
             self.fullness += 10
             self.house.food -= 10
         else:
+            self.fullness -= 10
             cprint(f'{self.name} wanted to eat, but had no food', color='red')
 
     def work(self):
@@ -102,26 +103,25 @@ class Man:
         self.fullness -= 10
 
     def act(self):
-        # TODO Вынисим этот метод в отдельный и будем чекать на летальный исход в главном цикле
-        if self.fullness <= 0:
-            cprint(f'{self.name} is died cause of hunger', color='red')
-            cprint('Cats are in danger', color='red')
-            return
-
         dice = randint(1, 4)
         promotion_chance = randint(0, 100)
 
         if promotion_chance == 100:
             self.work_promotion()
 
+        # TODO тут что-то надо сделать с приоритетностью, тк коты не доживают пока он дойдет до магазина, а если дошел -
+        # TODO то нет денег
         if self.fullness <= 20:
             self.eat()
         elif self.house.food <= 20:
             self.shop_for_self()
-        elif self.house.money <= 50:
-            self.work()
+            if not self.shop_for_self():
+                self.work()
+                # continue # TODO так было бы хорошо, но не дает continue написать
         elif self.house.cat_food <= 20:
             self.shop_for_cat()
+        elif self.house.money <= 50:
+            self.work()
         elif self.house.mess >= 50:
             self.clean_house()
         elif dice == 1 or 2:
@@ -130,6 +130,11 @@ class Man:
             self.rest()
         elif dice == 4:
             self.freelance()
+
+    def dead(self):
+        if self.fullness <= 0:
+            cprint(f'{self.name} is died cause of hunger', color='red')
+            return
 
 
 class Cat:
@@ -146,6 +151,9 @@ class Cat:
         else:
             self.fullness -= 10
             cprint(f'{self.name} has no cat-food', color='red')
+            if self.fullness <= 0:  # TODO это рекурсия?
+                self.dead()
+                cats.remove(self)
 
     def sleep(self):
         self.fullness -= 10
@@ -157,10 +165,6 @@ class Cat:
         cprint(f'{self.name} made a mess', color='red')
 
     def act(self):
-        # TODO это тоже вынесем в отдельный метод
-        if self.fullness <= 0:
-            cprint(f'{self.name} is died cause of hunger', color='red')
-            return
         dice = randint(1, 3)
         if self.fullness <= 20:
             self.eat()
@@ -171,6 +175,11 @@ class Cat:
         else:
             self.sleep()
 
+    def dead(self):
+        if self.fullness <= 0:
+            cprint(f'{self.name} is died cause of hunger', color='red')
+            return
+
     def __str__(self):
         return f'Meow - {self.name}, meow meowness is {self.fullness}'
 
@@ -179,7 +188,7 @@ class House:
     def __init__(self):
         self.name = 'Home'
         self.food = 50
-        self.cat_food = 10
+        self.cat_food = 50  # TODO поправил на 50, тк остальные коты сразу отлетали, оставался только первый
         self.money = 100
         self.mess = 0
         self.income = 0
@@ -196,7 +205,7 @@ cats = [Cat(name='Bunny'), Cat(name='Fuzzy'), Cat(name='King'), Cat(name='Tiger'
 days = range(1, 366)
 if man.house == my_house:
     for new_cat in cats:
-        man.pick_up_cat(new_cat)  # TODO new_cat тогда
+        man.pick_up_cat(new_cat)
 
 
 for day in days:
@@ -206,6 +215,9 @@ for day in days:
 
     print('')
     print(f'         How cats spent their day: ')
+    if not cats:
+        cprint('Den has no cats anymore', color='red')
+        break
     for cat in cats:
         cat.act()
 
@@ -220,14 +232,13 @@ for day in days:
     my_house.income = 0
     my_house.expenses = 0
 
-    # TODO не совсем понял что вы хотите тут реализовать ? is False можно не указывать если мы ждем ложного результата
-    # TODO то пишем not в начале сравнения.
-
-    # TODO Допишем отдельный метод и будем чекать отдельно с начало человека а потом через цикл котов, если я правильно
-    # TODO Понял
-    if (man.act or cats[0].act or cats[1].act or cats[2].act or cats[3].act) is False:
+    if man.dead():  # TODO почему-то не работает (ставил wage = 10 и fullness = 10)
         print('It is a pity')
         break
+    # if not any(cats.act):
+    #     print('It is a pity')
+    #
+    #     break
 # Усложненное задание (делать по желанию)
 # Создать несколько (2-3) котов и подселить их в дом к человеку.
 # Им всем вместе так же надо прожить 365 дней.
