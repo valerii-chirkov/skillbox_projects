@@ -33,7 +33,8 @@ class Man:
         self.name = name
         self.fullness = 50
         self.house = house
-        self.wage = 50
+        # пусть сразу зарабатывает за раз 100
+        self.wage = 100
 
     def __str__(self):
         return f'I am - {self.name}, my fullness is {self.fullness}, my wage is {self.wage}'
@@ -105,14 +106,13 @@ class Man:
         self.fullness -= 10
 
     def act(self):
-        dice = randint(1, 4)
+        dice = randint(1, 6)
         promotion_chance = randint(0, 100)
 
         if promotion_chance == 100:
             self.work_promotion()
 
-        if self.fullness <= 20:  # TODO получается если у него нет денег и он хочет есть, то он так и будет пробовать
-            # TODO есть пока не умрет
+        if self.fullness <= 20:  # подкрутим ему параметры чтобы больше зарабатывал 100, теперь все хорошо!
             self.eat()
         elif self.house.food <= 20:
             self.shop_for_self()
@@ -126,7 +126,8 @@ class Man:
             self.sleep()
         elif dice == 3:
             self.rest()
-        elif dice == 4:
+        else:
+            # этот метод будет если все другие не сработали
             self.freelance()
 
     def dead(self):
@@ -196,11 +197,16 @@ Income for today = {self.income}, expenses = {self.expenses}'''
 
 my_house = House()
 man = Man(name='Den', house=my_house)
+
 cats = [Cat(name='Bunny'),
-        Cat(name='Fuzzy'), ]  # Подсмотрел такой стиль в книге по чистому коду
-        # Cat(name='King'), ]
-# TODO при трех котах живут +- 40 дней, при двух все ок
+        Cat(name='Fuzzy'),   # Подсмотрел такой стиль в книге по чистому коду
+        Cat(name='King')]
+
+
+# при четырех котах живут 1 из 6 запусков
+
 days = range(1, 366)
+
 if man.house == my_house:
     for new_cat in cats:
         man.pick_up_cat(new_cat)
@@ -214,13 +220,13 @@ for day in days:
     # Cats
     print('')
     print(f'         How cats spent their day: ')
-    if not cats:
-        cprint('Den has no cats anymore', color='red')
-        # break  # TODO здесь без брейка, чтобы он мог и без котов прожить если что
+    # этот метод мы тоже пока опустим
+    # if not cats:
+    #     cprint('Den has no cats anymore', color='red')
+    #     # break
+
     for cat in cats:
         cat.act()
-        if cat.dead():
-            cats.remove(cat)
 
     # Evening
     print('')
@@ -236,6 +242,13 @@ for day in days:
     my_house.income = 0
     my_house.expenses = 0
 
+    # Сделаем такой же метод и не будем удалять их из списка а просто дадим знать что бы остановить цикл для статистики
+    # Запуск имитации который не завершился нам тоже нужен для статистики.
+    for cat in cats:
+        if cat.dead():
+            print('It is a pity')
+            break
+
     if man.dead():
         print('It is a pity')
         break
@@ -246,4 +259,7 @@ for day in days:
 
 # (Можно определить критическое количество котов, которое может прокормить человек...)
 
+# У нас цель эксперимент что бы в больших запусках они выживали! Сейчас они выживают,
+# нет цели сделать чтобы они жили не тужили!
 
+# зачет!
