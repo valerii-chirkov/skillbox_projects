@@ -109,12 +109,12 @@ class Man:
         if promotion_chance == 100:
             self.work_promotion()
 
-        # TODO тут что-то надо сделать с приоритетностью, тк коты не доживают пока он дойдет до магазина, а если дошел -
-        # TODO то нет денег
+        # TODO У вас много котов так что не все коты смогут жить в доме, поэтому к этому стремится не стоит
         if self.fullness <= 20:
             self.eat()
         elif self.house.food <= 20:
             self.shop_for_self()
+            # TODO Тоже лишнее вложение
             if not self.shop_for_self():
                 self.work()
                 # continue # TODO так было бы хорошо, но не дает continue написать
@@ -134,6 +134,7 @@ class Man:
     def dead(self):
         if self.fullness <= 0:
             cprint(f'{self.name} is died cause of hunger', color='red')
+            # TODO Метод возвращает None, поэтому условие не срабатывает, return True
             return
 
 
@@ -149,9 +150,11 @@ class Cat:
             self.fullness += 20
             self.house.cat_food -= 10
         else:
+            # TODO сильно усложнено тут просто путь рапортует что нет еды, и пока что все!
             self.fullness -= 10
             cprint(f'{self.name} has no cat-food', color='red')
-            if self.fullness <= 0:  # TODO это рекурсия?
+            if self.fullness <= 0:  # нет рекурсия это когда функция вызывает сама себя!
+                # TODO Чекать это будем в основном цикле для каждого кота в цикле
                 self.dead()
                 cats.remove(self)
 
@@ -165,6 +168,7 @@ class Cat:
         cprint(f'{self.name} made a mess', color='red')
 
     def act(self):
+        # TODO можно сделать randint(1, 7) больше вероятность
         dice = randint(1, 3)
         if self.fullness <= 20:
             self.eat()
@@ -175,9 +179,11 @@ class Cat:
         else:
             self.sleep()
 
+    # TODO данный метод тоже чекаем в главном цикле у все котов
     def dead(self):
         if self.fullness <= 0:
             cprint(f'{self.name} is died cause of hunger', color='red')
+            # TODO Метод возвращает None, поэтому условие не срабатывает, return True
             return
 
     def __str__(self):
@@ -188,7 +194,7 @@ class House:
     def __init__(self):
         self.name = 'Home'
         self.food = 50
-        self.cat_food = 50  # TODO поправил на 50, тк остальные коты сразу отлетали, оставался только первый
+        self.cat_food = 50
         self.money = 100
         self.mess = 0
         self.income = 0
@@ -201,6 +207,7 @@ Income for today = {self.income}, expenses = {self.expenses}'''
 
 my_house = House()
 man = Man(name='Den', house=my_house)
+# TODO уменьшаем количество котов, начинаем с 2 если норм, увеличим до 3. Как только 3 из 5 будет фейл останавливаемся
 cats = [Cat(name='Bunny'), Cat(name='Fuzzy'), Cat(name='King'), Cat(name='Tiger'), Cat(name='Sleepy')]
 days = range(1, 366)
 if man.house == my_house:
@@ -232,7 +239,7 @@ for day in days:
     my_house.income = 0
     my_house.expenses = 0
 
-    if man.dead():  # TODO почему-то не работает (ставил wage = 10 и fullness = 10)
+    if man.dead():  # TODO Метод возвращает NONE поэтому не срабатывает!
         print('It is a pity')
         break
     # if not any(cats.act):
