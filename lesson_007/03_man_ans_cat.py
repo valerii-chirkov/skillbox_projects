@@ -73,6 +73,7 @@ class Man:
             self.house.food += 50
         else:
             cprint(f'{self.name} spent all his money', color='red')
+            self.fullness -= 10
 
     def shop_for_cat(self):  # купить коту еды
         if self.house.money >= 50:
@@ -82,6 +83,7 @@ class Man:
             self.house.cat_food += 50
         else:
             cprint(f'{self.name} spent all his money', color='red')
+            self.fullness -= 10
 
     def clean_house(self):  # убраться в доме
         cprint(f'{self.name} cleaned his house', color='magenta')
@@ -109,15 +111,11 @@ class Man:
         if promotion_chance == 100:
             self.work_promotion()
 
-        # TODO У вас много котов так что не все коты смогут жить в доме, поэтому к этому стремится не стоит
-        if self.fullness <= 20:
+        if self.fullness <= 20:  # TODO получается если у него нет денег и он хочет есть, то он так и будет пробовать
+            # TODO есть пока не умрет
             self.eat()
         elif self.house.food <= 20:
             self.shop_for_self()
-            # TODO Тоже лишнее вложение
-            if not self.shop_for_self():
-                self.work()
-                # continue # TODO так было бы хорошо, но не дает continue написать
         elif self.house.cat_food <= 20:
             self.shop_for_cat()
         elif self.house.money <= 50:
@@ -134,8 +132,7 @@ class Man:
     def dead(self):
         if self.fullness <= 0:
             cprint(f'{self.name} is died cause of hunger', color='red')
-            # TODO Метод возвращает None, поэтому условие не срабатывает, return True
-            return
+            return True
 
 
 class Cat:
@@ -150,13 +147,8 @@ class Cat:
             self.fullness += 20
             self.house.cat_food -= 10
         else:
-            # TODO сильно усложнено тут просто путь рапортует что нет еды, и пока что все!
             self.fullness -= 10
             cprint(f'{self.name} has no cat-food', color='red')
-            if self.fullness <= 0:  # нет рекурсия это когда функция вызывает сама себя!
-                # TODO Чекать это будем в основном цикле для каждого кота в цикле
-                self.dead()
-                cats.remove(self)
 
     def sleep(self):
         self.fullness -= 10
@@ -168,8 +160,7 @@ class Cat:
         cprint(f'{self.name} made a mess', color='red')
 
     def act(self):
-        # TODO можно сделать randint(1, 7) больше вероятность
-        dice = randint(1, 3)
+        dice = randint(1, 7)
         if self.fullness <= 20:
             self.eat()
         elif dice == 1:
@@ -179,12 +170,10 @@ class Cat:
         else:
             self.sleep()
 
-    # TODO данный метод тоже чекаем в главном цикле у все котов
     def dead(self):
         if self.fullness <= 0:
             cprint(f'{self.name} is died cause of hunger', color='red')
-            # TODO Метод возвращает None, поэтому условие не срабатывает, return True
-            return
+            return True
 
     def __str__(self):
         return f'Meow - {self.name}, meow meowness is {self.fullness}'
@@ -194,7 +183,7 @@ class House:
     def __init__(self):
         self.name = 'Home'
         self.food = 50
-        self.cat_food = 50
+        self.cat_food = 10
         self.money = 100
         self.mess = 0
         self.income = 0
@@ -207,45 +196,50 @@ Income for today = {self.income}, expenses = {self.expenses}'''
 
 my_house = House()
 man = Man(name='Den', house=my_house)
-# TODO уменьшаем количество котов, начинаем с 2 если норм, увеличим до 3. Как только 3 из 5 будет фейл останавливаемся
-cats = [Cat(name='Bunny'), Cat(name='Fuzzy'), Cat(name='King'), Cat(name='Tiger'), Cat(name='Sleepy')]
+cats = [Cat(name='Bunny'),
+        Cat(name='Fuzzy'), ]  # Подсмотрел такой стиль в книге по чистому коду
+        # Cat(name='King'), ]
+# TODO при трех котах живут +- 40 дней, при двух все ок
 days = range(1, 366)
 if man.house == my_house:
     for new_cat in cats:
         man.pick_up_cat(new_cat)
 
-
 for day in days:
+    # Human
     print('================= day {} ==================='.format(day))
     print(f'          How {man.name} spent his day: ')
     man.act()
 
+    # Cats
     print('')
     print(f'         How cats spent their day: ')
     if not cats:
         cprint('Den has no cats anymore', color='red')
-        break
+        # break  # TODO здесь без брейка, чтобы он мог и без котов прожить если что
     for cat in cats:
         cat.act()
+        if cat.dead():
+            cats.remove(cat)
 
+    # Evening
     print('')
     print('------------- in the evening ---------------')
     print(man)
     for cat in cats:
         print(cat)
+
+    # In conclusion
     print('- - - - - - - - - - - - - - - - - - - - - - -')
     print(my_house)
     print('')
     my_house.income = 0
     my_house.expenses = 0
 
-    if man.dead():  # TODO Метод возвращает NONE поэтому не срабатывает!
+    if man.dead():
         print('It is a pity')
         break
-    # if not any(cats.act):
-    #     print('It is a pity')
-    #
-    #     break
+
 # Усложненное задание (делать по желанию)
 # Создать несколько (2-3) котов и подселить их в дом к человеку.
 # Им всем вместе так же надо прожить 365 дней.
