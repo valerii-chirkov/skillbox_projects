@@ -28,7 +28,7 @@ class Snowflake:
         sd.snowflake(center=point, length=self.length, color=sd.COLOR_WHITE)
 
     def can_fall(self):
-        return True if (0 < self.parameter_x < 1200) or (self.parameter_y >= 50) else False
+        return True if (self.parameter_y >= 50) else False
 
         # if (0 < self.parameter_x < 600) or (self.parameter_y > 0):
         #     return True
