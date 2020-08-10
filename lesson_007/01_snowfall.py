@@ -28,8 +28,12 @@ class Snowflake:
         sd.snowflake(center=point, length=self.length, color=sd.COLOR_WHITE)
 
     def can_fall(self):
+        # TODO смотрите у нас self.parameter_y >= 50 получается булево значение, можно просто оставить это выражение
+        # TODO в ретурне и если парметр будет больше то будет True а если меньше то False
         return True if (self.parameter_y >= 50) else False
 
+        # TODO тут в моменте срабатывал всегда True ведь при старте 0 < self.parameter_x < 600 давало True.
+        # TODO Срабатывало всегда на первом TRUE, or это же ИЛИ
         # if (0 < self.parameter_x < 600) or (self.parameter_y > 0):
         #     return True
         # else:
@@ -47,6 +51,12 @@ while True:
     sd.sleep(0.1)
     if sd.user_want_exit():
         break
+
+
+# TODO Можно делать второй щаг
+
+# TODO Вам нужно будет написать три функции get_flakes, get_fallen_flakes, append_flakes
+
 
 # шаг 2: создать снегопад - список объектов Снежинка в отдельном списке, обработку примерно так:
 # flakes = get_flakes(count=N)  # создать список снежинок
