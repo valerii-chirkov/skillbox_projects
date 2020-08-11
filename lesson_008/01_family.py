@@ -61,6 +61,9 @@ class House:
             cprint('There is {} dirt in the house.'.format(self.dirt), color='red')
 
 
+# TODO Нужно создать общий класс человека и вынести в него общие атрибуты и методы. В классе Муж И Жена отнаследоваться
+# TODO и объявить только те методы которые характерны только им, или действия которые выполняют только они.
+
 class Husband:
 
     def __init__(self, name):
@@ -160,12 +163,12 @@ class Wife:
     def shopping(self):
         bought_food = 0
         self.fullness -= 10
-        if self.home.money >= (100 - self.home.food):  # TODO если есть возможность - покупает еду до 100
+        if self.home.money >= (100 - self.home.food):  # если есть возможность - покупает еду до 100
             self.home.money -= (100 - self.home.food)
             bought_food += 100 - self.home.food
             self.home.food = 100
         else:
-            self.home.money -= self.home.money  # TODO покупает еду на все что есть
+            self.home.money -= self.home.money  # покупает еду на все что есть
             bought_food += self.home.money
             self.home.food += self.home.money
         print('{} bought {} food'.format(self.name, bought_food))
@@ -191,7 +194,7 @@ masha = Wife(name='Маша')
 cprint(serge, color='cyan')
 cprint(masha, color='cyan')
 cprint(home, color='cyan')
-for day in range(365):
+for day in range(366):
     cprint('================== День {} =================='.format(day), color='red')
     home.pollute()
     serge.act()
