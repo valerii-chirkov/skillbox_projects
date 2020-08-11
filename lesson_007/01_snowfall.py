@@ -46,6 +46,34 @@ sd.background_color = (15, 116, 235)
 
 # TODO Вам нужно будет написать три функции get_flakes, get_fallen_flakes, append_flakes
 
+# TODO Класс снежинки нужно разкоментировать и его использовать
+
+# TODO Не совсем верно исполнили у вас должно быть именно функции не методы. Пример кода основного цикла,
+# TODO написан как подсказка по нему видно что это не методы класса!
+
+# шаг 2: создать снегопад - список объектов Снежинка в отдельном списке, обработку примерно так:
+# flakes = get_flakes(count=N)  # создать список снежинок
+# while True:
+#     for flake in flakes:
+#         flake.clear_previous_picture()
+#         flake.move()
+#         flake.draw()
+#     fallen_flakes = get_fallen_flakes()  # подчитать сколько снежинок уже упало
+#     if fallen_flakes:
+#         append_flakes(count=fallen_flakes)  # добавить еще сверху
+#     sd.sleep(0.1)
+#     if sd.user_want_exit():
+#         break
+
+# TODO функция get_flakes(count):
+# TODO создает список экземпляров снежинки и возвращает его
+
+# TODO функция get_fallen_flakes(снежинки)
+# TODO считает сколько снежинок упало и возвращает их количество упавших
+
+# TODO функция append_flakes(количество)
+# TODO добавляет еще снежинки в список flakes который был объявлен ранее цикла.
+
 
 # шаг 2: создать снегопад - список объектов Снежинка в отдельном списке, обработку примерно так:
 class Snowflakes:
