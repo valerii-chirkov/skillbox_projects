@@ -33,24 +33,31 @@ class Snowflake:
 # Получить снежинки в количестве count
 def get_flakes(count):
     for _ in range(count):
+        # TODO тут создается список одного экземпляра, один и тот же экземпляр просто множится
+        # TODO А нам нужно как правильно стоит ваш комментарий список экземпляров.
         snowflakes.append(flake)  # Создает список экземпляров снежинки
     return snowflakes  # И возвращает его
 
 
 # Получить упавшие снежинки
+# TODO мы должны получать список который создали и передали в переменную flakes и работать с ним
 def get_fallen_flakes():
+    # TODO зачем нам глобальная переменная ? где мы ее используем еще?
     global snowflakes_out
     for snowflake in snowflakes:
+        # TODO используем метод can_fall у снежинки
         if snowflake.parameter_y <= 0:  # Если снежинка ниже нуля, то
             snowflakes_out += 1  # Считает сколько снежинок упало
     return snowflakes_out  # И возвращает количество упавших
 
 
 # Добавить снежинки
+# TODO Каким образом мы добавляем тут снежинок ?
 def append_flakes(count):
     flakes.append(count)
 
 
+# TODO Этот экземпляр класса мы будем создавать каждый раз в функции get_flakes, чтобы добавить в список
 flake = Snowflake()  # создали экземпляр класса
 flakes = get_flakes(count=N)  # создали список снежинок
 while True:
