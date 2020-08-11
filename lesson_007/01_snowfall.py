@@ -3,6 +3,9 @@
 import simple_draw as sd
 sd.resolution = (1200, 600)
 sd.background_color = (15, 116, 235)
+
+
+# TODO делаем без глобальных переменных - это плохой тон!
 snowflakes = []  # тут у нас снежинки
 snowflakes_out = 0  # тут количество упавших снежинок
 
@@ -29,8 +32,11 @@ class Snowflake:
         return self.parameter_y >= 0
 
 
+# TODO повторюсь глобальные переменные не используем!
+
 # Получить снежинки в количестве count
 def get_flakes(count):
+    # TODO тут объявляем список snowflakes = []
     global snowflakes_out
     snowflakes_out = 0
     for _ in range(count):
@@ -40,15 +46,19 @@ def get_flakes(count):
 
 # Получить упавшие снежинки
 def get_fallen_flakes(snowflakes):
+    # TODO количество упавших снежинок обнуляем тут
     global snowflakes_out
     for snowflake in snowflakes:
+        # TODO что тут происходит не могу понять? опишите алгоритм словами!
         Snowflake().can_fall()
         if snowflake.parameter_y <= 0:  # Если снежинка ниже нуля, то
             snowflakes_out += 1  # Считает сколько снежинок упало
     return snowflakes_out  # И возвращает количество упавших
 
 
+# TODO Опишите словами алгоритм этой функции, примерно так как я вам подсказывал в пред. модулях
 # Добавить снежинки
+# TODO Мы должны добавлять в список flakes, как в прошлой версии файла
 def append_flakes(count):
     global snowflakes, snowflakes_out
     if snowflakes_out:
