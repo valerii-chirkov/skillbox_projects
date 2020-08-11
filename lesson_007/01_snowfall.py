@@ -29,7 +29,13 @@ class Snowflake:
     def can_fall(self):
         return self.parameter_y >= 0
 
+# TODO Почему вы не удаляете тудушки или хотя бы не делает их комментариями?
 
+# TODO как думает где у вас проблемы что конкретно не получилось ? в каких функция у вас затруднения
+# TODO Напишите по подробнее.
+
+
+# TODO перед каждой функцией напишите что она делает!
 def get_flakes(count):  # TODO функция get_flakes(count):
     for _ in range(count):
         snowflakes.append(flake)  # TODO создает список экземпляров снежинки
