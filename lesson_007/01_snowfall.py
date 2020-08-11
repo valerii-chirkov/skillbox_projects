@@ -5,7 +5,6 @@ sd.resolution = (1200, 600)
 sd.background_color = (15, 116, 235)
 snowflakes = []  # тут у нас снежинки
 snowflakes_out = 0  # тут количество упавших снежинок
-N = 10  # задаем количество снежинок
 
 
 class Snowflake:
@@ -32,40 +31,41 @@ class Snowflake:
 
 # Получить снежинки в количестве count
 def get_flakes(count):
+    global snowflakes_out
+    snowflakes_out = 0
     for _ in range(count):
-        # TODO тут создается список одного экземпляра, один и тот же экземпляр просто множится
-        # TODO А нам нужно как правильно стоит ваш комментарий список экземпляров.
-        snowflakes.append(flake)  # Создает список экземпляров снежинки
+        snowflakes.append(Snowflake())  # Создает список экземпляров снежинки
     return snowflakes  # И возвращает его
 
 
 # Получить упавшие снежинки
-# TODO мы должны получать список который создали и передали в переменную flakes и работать с ним
-def get_fallen_flakes():
-    # TODO зачем нам глобальная переменная ? где мы ее используем еще?
+def get_fallen_flakes(snowflakes):
     global snowflakes_out
     for snowflake in snowflakes:
-        # TODO используем метод can_fall у снежинки
+        Snowflake().can_fall()
         if snowflake.parameter_y <= 0:  # Если снежинка ниже нуля, то
             snowflakes_out += 1  # Считает сколько снежинок упало
     return snowflakes_out  # И возвращает количество упавших
 
 
 # Добавить снежинки
-# TODO Каким образом мы добавляем тут снежинок ?
 def append_flakes(count):
-    flakes.append(count)
+    global snowflakes, snowflakes_out
+    if snowflakes_out:
+        print(snowflakes_out)
+        for i in range(snowflakes_out):
+            if i <= len(snowflakes) - 1:
+                snowflakes.remove(snowflakes[i])
+            get_flakes(count)
 
 
-# TODO Этот экземпляр класса мы будем создавать каждый раз в функции get_flakes, чтобы добавить в список
-flake = Snowflake()  # создали экземпляр класса
-flakes = get_flakes(count=N)  # создали список снежинок
+flakes = get_flakes(count=10)  # создали список снежинок
 while True:
     for flake in flakes:
         flake.clear_previous_picture()
         flake.move()
         flake.draw()
-    fallen_flakes = get_fallen_flakes()  # подсчитать сколько снежинок уже упало
+    fallen_flakes = get_fallen_flakes(snowflakes)  # подсчитать сколько снежинок уже упало
     if fallen_flakes:
         append_flakes(count=fallen_flakes)  # добавить еще сверху
     sd.sleep(0.1)
