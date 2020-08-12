@@ -5,11 +5,6 @@ sd.resolution = (1200, 600)
 sd.background_color = (15, 116, 235)
 
 
-# TODO делаем без глобальных переменных - это плохой тон!
-snowflakes = []  # тут у нас снежинки
-snowflakes_out = 0  # тут количество упавших снежинок
-
-
 class Snowflake:
     def __init__(self):
         self.parameter_x = sd.random_number(100, 1100)
@@ -32,13 +27,10 @@ class Snowflake:
         return self.parameter_y >= 0
 
 
-# TODO повторюсь глобальные переменные не используем!
-
 # Получить снежинки в количестве count
 def get_flakes(count):
-    # TODO тут объявляем список snowflakes = []
-    global snowflakes_out
-    snowflakes_out = 0
+    global snowflakes  # тут у нас снежинки
+    snowflakes = []
     for _ in range(count):
         snowflakes.append(Snowflake())  # Создает список экземпляров снежинки
     return snowflakes  # И возвращает его
@@ -46,26 +38,23 @@ def get_flakes(count):
 
 # Получить упавшие снежинки
 def get_fallen_flakes(snowflakes):
-    # TODO количество упавших снежинок обнуляем тут
-    global snowflakes_out
-    for snowflake in snowflakes:
-        # TODO что тут происходит не могу понять? опишите алгоритм словами!
-        Snowflake().can_fall()
+    snowflakes_out = 0  # тут количество упавших снежинок
+    for snowflake in snowflakes:  # для i в словаре со снежинками
+        Snowflake().can_fall()  # вызываем метод can.fall() из класса Snowflake()
         if snowflake.parameter_y <= 0:  # Если снежинка ниже нуля, то
             snowflakes_out += 1  # Считает сколько снежинок упало
     return snowflakes_out  # И возвращает количество упавших
 
 
-# TODO Опишите словами алгоритм этой функции, примерно так как я вам подсказывал в пред. модулях
 # Добавить снежинки
-# TODO Мы должны добавлять в список flakes, как в прошлой версии файла
 def append_flakes(count):
-    global snowflakes, snowflakes_out
-    if snowflakes_out:
-        print(snowflakes_out)
-        for i in range(snowflakes_out):
-            if i <= len(snowflakes) - 1:
-                snowflakes.remove(snowflakes[i])
+    if fallen_flakes:  # Если snowflakes_out не пустой, то:
+        print(fallen_flakes)
+        for i in range(fallen_flakes):  # Для каждой снежинки в snowflakes_out:
+            if i <= len(snowflakes) - 1:  # Если снежинка меньше или равна длине списка - 1 (на самом деле я сам не понимаю почему здесь такое условие, взял из прошлого модуля)
+                snowflakes.remove(snowflakes[i])  # Убираем снежинку
+                print(len(snowflakes))
+                # flakes.append(count)  # И добавляем новую, закоментил, потому что с ней вылетает
             get_flakes(count)
 
 
@@ -75,7 +64,7 @@ while True:
         flake.clear_previous_picture()
         flake.move()
         flake.draw()
-    fallen_flakes = get_fallen_flakes(snowflakes)  # подсчитать сколько снежинок уже упало
+    fallen_flakes = get_fallen_flakes(flakes)  # подсчитать сколько снежинок уже упало
     if fallen_flakes:
         append_flakes(count=fallen_flakes)  # добавить еще сверху
     sd.sleep(0.1)
