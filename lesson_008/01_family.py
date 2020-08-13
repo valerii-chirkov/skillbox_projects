@@ -55,7 +55,7 @@ class House:
     def __str__(self):
         return 'There are {} money, {} food and {} dirt'.format(self.money, self.food, self.dirt)
 
-    def pollute(self):  # TODO Нет грязь же у нас дома!
+    def pollute(self):
         self.dirt += 5
         if self.dirt % 15 == 0:
             cprint('There is {} dirt in the house.'.format(self.dirt), color='red')
@@ -65,7 +65,7 @@ class Human:
     def __init__(self, name):
         self.name = name
         self.fullness = 30
-        self.happiness = -100  # TODO специально поставил -100, чтобы показать! как потестите верните обратно
+        self.happiness = 100
         self.home = home
 
     def __str__(self):
@@ -90,9 +90,12 @@ class Human:
             self.happiness -= 10
 
     def check_alive(self):
-        if self.fullness <= 0 or self.happiness <= 10:
+        if self.happiness <= 10:
             print('{} is dead cause of depression'.format(self.name))
-            return False  # TODO Вы не можите выйте потому что метод возвращает False! А условие работает при True
+            return True
+        if self.fullness <= 0:
+            print('{} is dead cause of hunger'.format(self.name))
+            return True
 
     def pet_cat(self):
         print('{} pet the cat'.format(self.name))
@@ -102,9 +105,6 @@ class Human:
 class Husband(Human):
 
     def act(self):
-        # TODO данный метод чекайте в главном цикле
-        super().check_alive()  # TODO супер тут использовать не нужно! так не пишут
-        super().pollution_happiness() # TODO этот метод тоже чекаем в главном цикле
         if self.home.money <= 100:
             self.work()
         elif self.fullness <= 30:
@@ -131,9 +131,6 @@ class Husband(Human):
 class Wife(Husband):
 
     def act(self):
-        # TODO эти методы чекаем в главном цикле, super не применяем!
-        super().check_alive()
-        super().pollution_happiness()
         if self.fullness <= 30:
             self.eat()
         elif self.home.food <= 50:
@@ -184,9 +181,11 @@ cprint(masha, color='cyan')
 cprint(home, color='cyan')
 for day in range(1, 366):
     cprint('================== День {} =================='.format(day), color='red')
-    # if human.check_alive():  # написал в методе
-    #     break
     home.pollute()
+    serge.pollution_happiness()
+    masha.pollution_happiness()
+    if serge.check_alive() or masha.check_alive():
+        break
     serge.act()
     masha.act()
     cprint(serge, color='cyan')
