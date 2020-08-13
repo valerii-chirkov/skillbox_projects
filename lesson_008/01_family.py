@@ -61,34 +61,15 @@ class House:
             cprint('There is {} dirt in the house.'.format(self.dirt), color='red')
 
 
-# TODO Нужно создать общий класс человека и вынести в него общие атрибуты и методы. В классе Муж И Жена отнаследоваться
-# TODO и объявить только те методы которые характерны только им, или действия которые выполняют только они.
-
-class Husband:
-
+class Human:
     def __init__(self, name):
         self.name = name
         self.fullness = 30
-        self.happiness = 100
+        self.happiness = 10
         self.home = home
 
     def __str__(self):
         return 'It is {}, my fullness is {}, my happiness is {}'.format(self.name, self.fullness, self.happiness)
-
-    def act(self):
-        if self.fullness <= 0 or self.happiness <= 10:
-            return True
-        if self.home.dirt >= 90:
-            self.happiness -= 10
-
-        if self.home.money <= 100:
-            self.work()
-        elif self.fullness <= 30:
-            self.eat()
-        elif self.happiness <= 30:
-            self.gaming()
-        else:
-            self.gaming()
 
     def eat(self):
         ate_food = 0
@@ -103,6 +84,36 @@ class Husband:
             self.home.ate_food_total += self.home.food
             self.home.food -= self.home.food
         print('{} ate {} food'.format(self.name, ate_food))
+
+    def act(self):
+        if self.fullness <= 0 or self.happiness <= 10:
+            return True
+        if self.home.dirt >= 90:
+            self.happiness -= 10
+
+
+class Husband(Human):
+
+    def __init__(self, name):
+        super().__init__(name=name)
+
+    def __str__(self):
+        super().__str__()
+
+    def act(self):
+        super().act()
+
+        if self.home.money <= 100:
+            self.work()
+        elif self.fullness <= 30:
+            self.eat()
+        elif self.happiness <= 30:
+            self.gaming()
+        else:
+            self.gaming()
+
+    def eat(self):
+        super().eat()
 
     def work(self):
         print('{} went to work'.format(self.name))
@@ -118,22 +129,16 @@ class Husband:
             self.happiness = 100
 
 
-class Wife:
+class Wife(Human):
 
     def __init__(self, name):
-        self.name = name
-        self.fullness = 30
-        self.happiness = 100
-        self.home = home
+        super().__init__(name=name)
 
     def __str__(self):
-        return 'It is {}, my fullness is {}, my happiness is {}'.format(self.name, self.fullness, self.happiness)
+        super().__str__()
 
     def act(self):
-        if self.fullness <= 0 or self.happiness <= 10:
-            return True
-        if self.home.dirt >= 90:
-            self.happiness -= 10
+        super().act()
 
         if self.fullness <= 30:
             self.eat()
@@ -147,18 +152,7 @@ class Wife:
             self.clean_house()
 
     def eat(self):
-        ate_food = 0
-        if self.home.food >= 30:
-            self.fullness += 30
-            ate_food += 30
-            self.home.ate_food_total += 30
-            self.home.food -= 30
-        else:
-            self.fullness += self.home.food
-            ate_food += self.home.food
-            self.home.ate_food_total += self.home.food
-            self.home.food -= self.home.food
-        print('{} ate {} food'.format(self.name, ate_food))
+        super().eat()
 
     def shopping(self):
         bought_food = 0
