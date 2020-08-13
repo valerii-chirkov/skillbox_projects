@@ -85,15 +85,24 @@ class Human:
             self.home.food -= self.home.food
         print('{} ate {} food'.format(self.name, ate_food))
 
+    # TODO пока что этот метод не будем тут определять он будет у каждого мужа и жены свой
     def act(self):
         if self.fullness <= 0 or self.happiness <= 10:
             return True
         if self.home.dirt >= 90:
             self.happiness -= 10
 
+    # TODO дописать общий метод который будет следить на грязью и понижать счастье у человека
+
+    # TODO написать общий метод который будет чекать людей на жизнь
+
+    # TODO Написать общий метод для погладить кота
+
 
 class Husband(Human):
 
+    # TODO данные два метода, нет необходимости вызывать из родительского класса
+    #  так как наследование подразумевает это
     def __init__(self, name):
         super().__init__(name=name)
 
@@ -101,6 +110,7 @@ class Husband(Human):
         super().__str__()
 
     def act(self):
+        # TODO в вызове родительского метода не будет не обходимым
         super().act()
 
         if self.home.money <= 100:
@@ -112,6 +122,7 @@ class Husband(Human):
         else:
             self.gaming()
 
+    # TODO этот метод у нас общий у родителя! определять его заново не нужно
     def eat(self):
         super().eat()
 
@@ -130,6 +141,7 @@ class Husband(Human):
 
 
 class Wife(Human):
+    # TODO аналогично все доработки исправить и тут от мужа
 
     def __init__(self, name):
         super().__init__(name=name)
