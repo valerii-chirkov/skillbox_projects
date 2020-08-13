@@ -50,12 +50,12 @@ class House:
         self.ate_food_total = 0
         self.fur_coats = 0
         self.food = 50
-        self.dirt = 0
+        self.dirt = 100  # Если поставить 1000, то все работает
 
     def __str__(self):
         return 'There are {} money, {} food and {} dirt'.format(self.money, self.food, self.dirt)
 
-    def pollute(self):
+    def pollute(self):  # TODO переносить в Human?
         self.dirt += 5
         if self.dirt % 15 == 0:
             cprint('There is {} dirt in the house.'.format(self.dirt), color='red')
@@ -65,7 +65,7 @@ class Human:
     def __init__(self, name):
         self.name = name
         self.fullness = 30
-        self.happiness = 10
+        self.happiness = -100  # TODO специально поставил -100, чтобы показать, что условие на смерть не выполняется
         self.home = home
 
     def __str__(self):
@@ -85,34 +85,26 @@ class Human:
             self.home.food -= self.home.food
         print('{} ate {} food'.format(self.name, ate_food))
 
-    # TODO пока что этот метод не будем тут определять он будет у каждого мужа и жены свой
-    def act(self):
-        if self.fullness <= 0 or self.happiness <= 10:
-            return True
+    def pollution_happiness(self):
         if self.home.dirt >= 90:
             self.happiness -= 10
 
-    # TODO дописать общий метод который будет следить на грязью и понижать счастье у человека
+    def check_alive(self):
+        if self.fullness <= 0 or self.happiness <= 10:
+            print('{} is dead cause of depression'.format(self.name))
+            return False  # TODO Не могу понять как выйти из цикла
 
-    # TODO написать общий метод который будет чекать людей на жизнь
-
+    def pet_cat(self):
+        print('{} pet the cat'.format(self.name))
+        self.happiness += 5
     # TODO Написать общий метод для погладить кота
 
 
 class Husband(Human):
 
-    # TODO данные два метода, нет необходимости вызывать из родительского класса
-    #  так как наследование подразумевает это
-    def __init__(self, name):
-        super().__init__(name=name)
-
-    def __str__(self):
-        super().__str__()
-
     def act(self):
-        # TODO в вызове родительского метода не будет не обходимым
-        super().act()
-
+        super().check_alive()  # TODO сюда нужно вставлять?
+        super().pollution_happiness()
         if self.home.money <= 100:
             self.work()
         elif self.fullness <= 30:
@@ -121,10 +113,6 @@ class Husband(Human):
             self.gaming()
         else:
             self.gaming()
-
-    # TODO этот метод у нас общий у родителя! определять его заново не нужно
-    def eat(self):
-        super().eat()
 
     def work(self):
         print('{} went to work'.format(self.name))
@@ -140,31 +128,21 @@ class Husband(Human):
             self.happiness = 100
 
 
-class Wife(Human):
-    # TODO аналогично все доработки исправить и тут от мужа
-
-    def __init__(self, name):
-        super().__init__(name=name)
-
-    def __str__(self):
-        super().__str__()
+class Wife(Husband):
 
     def act(self):
-        super().act()
-
+        super().check_alive()
+        super().pollution_happiness()
         if self.fullness <= 30:
             self.eat()
         elif self.home.food <= 50:
             self.shopping()
         elif self.happiness <= 20:
             self.buy_fur_coat()
-        elif self.home.dirt >= 70:
+        elif self.home.dirt >= 100:
             self.clean_house()
         else:
             self.clean_house()
-
-    def eat(self):
-        super().eat()
 
     def shopping(self):
         bought_food = 0
@@ -180,28 +158,33 @@ class Wife(Human):
         print('{} bought {} food'.format(self.name, bought_food))
 
     def buy_fur_coat(self):
-        print('{} bought a new fur coat'.format(self.name))
-        self.fullness -= 10
-        self.happiness += 60
-        self.home.money -= 350
-        if self.happiness >= 100:
+        if self.happiness >= 100 and self.home.money >= 350:
+            print('{} bought a new fur coat'.format(self.name))
+            self.fullness -= 10
+            self.happiness += 60
+            self.home.money -= 350
             self.happiness = 100
-        self.home.fur_coats += 1
+            self.home.fur_coats += 1
 
     def clean_house(self):
         print('{} cleaned their house'.format(self.name))
         self.fullness -= 10
-        self.home.dirt = 0
+        self.home.dirt -= 100  # Чтобы при числе больше ста, оно не превращалось в ноль (было self.home.dirt = 0)
+        if self.home.dirt < 0:  # Чтобы грязь не уходила в минус
+            self.home.dirt = 0
 
 
 home = House()
 serge = Husband(name='Сережа')
 masha = Wife(name='Маша')
+human = Human(name='Human')
 cprint(serge, color='cyan')
 cprint(masha, color='cyan')
 cprint(home, color='cyan')
-for day in range(366):
+for day in range(1, 366):
     cprint('================== День {} =================='.format(day), color='red')
+    # if human.check_alive():  # TODO как тут сделать проверку?
+    #     break
     home.pollute()
     serge.act()
     masha.act()
