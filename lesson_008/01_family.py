@@ -55,7 +55,7 @@ class House:
     def __str__(self):
         return 'There are {} money, {} food and {} dirt'.format(self.money, self.food, self.dirt)
 
-    def pollute(self):  # TODO переносить в Human?
+    def pollute(self):  # TODO Нет грязь же у нас дома!
         self.dirt += 5
         if self.dirt % 15 == 0:
             cprint('There is {} dirt in the house.'.format(self.dirt), color='red')
@@ -65,7 +65,7 @@ class Human:
     def __init__(self, name):
         self.name = name
         self.fullness = 30
-        self.happiness = -100  # TODO специально поставил -100, чтобы показать, что условие на смерть не выполняется
+        self.happiness = -100  # TODO специально поставил -100, чтобы показать! как потестите верните обратно
         self.home = home
 
     def __str__(self):
@@ -92,19 +92,19 @@ class Human:
     def check_alive(self):
         if self.fullness <= 0 or self.happiness <= 10:
             print('{} is dead cause of depression'.format(self.name))
-            return False  # TODO Не могу понять как выйти из цикла
+            return False  # TODO Вы не можите выйте потому что метод возвращает False! А условие работает при True
 
     def pet_cat(self):
         print('{} pet the cat'.format(self.name))
         self.happiness += 5
-    # TODO Написать общий метод для погладить кота
 
 
 class Husband(Human):
 
     def act(self):
-        super().check_alive()  # TODO сюда нужно вставлять?
-        super().pollution_happiness()
+        # TODO данный метод чекайте в главном цикле
+        super().check_alive()  # TODO супер тут использовать не нужно! так не пишут
+        super().pollution_happiness() # TODO этот метод тоже чекаем в главном цикле
         if self.home.money <= 100:
             self.work()
         elif self.fullness <= 30:
@@ -131,6 +131,7 @@ class Husband(Human):
 class Wife(Husband):
 
     def act(self):
+        # TODO эти методы чекаем в главном цикле, super не применяем!
         super().check_alive()
         super().pollution_happiness()
         if self.fullness <= 30:
@@ -183,7 +184,7 @@ cprint(masha, color='cyan')
 cprint(home, color='cyan')
 for day in range(1, 366):
     cprint('================== День {} =================='.format(day), color='red')
-    # if human.check_alive():  # TODO как тут сделать проверку?
+    # if human.check_alive():  # написал в методе
     #     break
     home.pollute()
     serge.act()
@@ -194,6 +195,9 @@ for day in range(1, 366):
 print('The household earn {} for this year'.format(home.annual_income))
 print('The household ate {} food'.format(home.ate_food_total))
 print('The woman bought {} fur coats'.format(home.fur_coats))
+
+# TODO делаем так чтобы цикл отрабатывал примерно 3-4 раза из 6 запусков!
+
 
 # TODO после реализации первой части - отдать на проверку учителю
 
