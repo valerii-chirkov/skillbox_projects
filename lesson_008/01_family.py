@@ -50,7 +50,7 @@ class House:
         self.ate_food_total = 0
         self.fur_coats = 0
         self.food = 50
-        self.dirt = 100  # Если поставить 1000, то все работает
+        self.dirt = 0  # Если поставить 1000, то все работает
 
     def __str__(self):
         return 'There are {} money, {} food and {} dirt'.format(self.money, self.food, self.dirt)
@@ -110,8 +110,8 @@ class Husband(Human):
             self.work()
         elif self.fullness <= 30:
             self.eat()
-        elif self.happiness <= 30:
-            self.gaming()
+        # elif self.happiness <= 30:
+        #     self.gaming()
         elif dice == 1:
             self.eat()
         elif dice == 2:
@@ -143,10 +143,10 @@ class Wife(Husband):
             self.eat()
         elif self.home.food <= 50:
             self.shopping()
-        elif self.happiness <= 20:
-            self.buy_fur_coat()
-        elif self.home.dirt >= 90:
-            self.clean_house()
+        # elif self.happiness <= 20:
+        #     self.buy_fur_coat()
+        # elif self.home.dirt >= 90:
+        #     self.clean_house()
         elif dice == 1:
             self.eat()
         elif dice == 2:
