@@ -105,17 +105,21 @@ class Human:
 class Husband(Human):
 
     def act(self):
-        # TODO тут вы не добавили рендомный выбор действий если все показатели в норме это еда и деньги то
-        # TODO то делаем как в прошлом задании randint(1, 7) и добавим выбор или на работу или ест или гладит кота!
-        # TODO Да пусть тоже гладит кота
+        dice = randint(1, 7)
         if self.home.money <= 100:
             self.work()
         elif self.fullness <= 30:
             self.eat()
         elif self.happiness <= 30:
             self.gaming()
-        else:
+        elif dice == 1:
+            self.eat()
+        elif dice == 2:
+            self.work()
+        elif dice == 3:
             self.gaming()
+        else:
+            self.pet_cat()
 
     def work(self):
         print('{} went to work'.format(self.name))
@@ -134,19 +138,25 @@ class Husband(Human):
 class Wife(Husband):
 
     def act(self):
-        # TODO тут тоже самое добавить выбор если сытость норм и в магазин не нужно то через randint(1,7) выбираем
-        # TODO если 1 то покушать, если 2 то в магазин, если 3 то чистим дом, если 4 то гладим кота! иначе если ничего
-        # TODO не выпало то пытаемся купить шубу!
+        dice = randint(1, 7)
         if self.fullness <= 30:
             self.eat()
         elif self.home.food <= 50:
             self.shopping()
         elif self.happiness <= 20:
             self.buy_fur_coat()
-        elif self.home.dirt >= 100:
+        elif self.home.dirt >= 90:
             self.clean_house()
+        elif dice == 1:
+            self.eat()
+        elif dice == 2:
+            self.shopping()
+        elif dice == 3:
+            self.clean_house()
+        elif dice == 4:
+            self.pet_cat()
         else:
-            self.clean_house()
+            self.buy_fur_coat()
 
     def shopping(self):
         bought_food = 0
@@ -190,21 +200,16 @@ for day in range(1, 366):
     home.pollute()
     serge.pollution_happiness()
     masha.pollution_happiness()
-    # TODO это перенесем в конец цикла поле действий
-    if serge.check_alive() or masha.check_alive():
-        break
     serge.act()
     masha.act()
+    if serge.check_alive() or masha.check_alive():
+        break
     cprint(serge, color='cyan')
     cprint(masha, color='cyan')
     cprint(home, color='cyan')
 print('The household earn {} for this year'.format(home.annual_income))
 print('The household ate {} food'.format(home.ate_food_total))
 print('The woman bought {} fur coats'.format(home.fur_coats))
-
-# TODO !!!!!! делаем так чтобы цикл отрабатывал примерно 3-4 раза из 6 запусков!
-# TODO Посмотрите правильно ли считаются все показатели
-
 
 # TODO после реализации первой части - отдать на проверку учителю
 
