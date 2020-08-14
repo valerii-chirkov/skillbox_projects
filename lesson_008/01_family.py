@@ -105,6 +105,9 @@ class Human:
 class Husband(Human):
 
     def act(self):
+        # TODO тут вы не добавили рендомный выбор действий если все показатели в норме это еда и деньги то
+        # TODO то делаем как в прошлом задании randint(1, 7) и добавим выбор или на работу или ест или гладит кота!
+        # TODO Да пусть тоже гладит кота
         if self.home.money <= 100:
             self.work()
         elif self.fullness <= 30:
@@ -131,6 +134,9 @@ class Husband(Human):
 class Wife(Husband):
 
     def act(self):
+        # TODO тут тоже самое добавить выбор если сытость норм и в магазин не нужно то через randint(1,7) выбираем
+        # TODO если 1 то покушать, если 2 то в магазин, если 3 то чистим дом, если 4 то гладим кота! иначе если ничего
+        # TODO не выпало то пытаемся купить шубу!
         if self.fullness <= 30:
             self.eat()
         elif self.home.food <= 50:
@@ -184,6 +190,7 @@ for day in range(1, 366):
     home.pollute()
     serge.pollution_happiness()
     masha.pollution_happiness()
+    # TODO это перенесем в конец цикла поле действий
     if serge.check_alive() or masha.check_alive():
         break
     serge.act()
@@ -195,7 +202,8 @@ print('The household earn {} for this year'.format(home.annual_income))
 print('The household ate {} food'.format(home.ate_food_total))
 print('The woman bought {} fur coats'.format(home.fur_coats))
 
-# TODO делаем так чтобы цикл отрабатывал примерно 3-4 раза из 6 запусков!
+# TODO !!!!!! делаем так чтобы цикл отрабатывал примерно 3-4 раза из 6 запусков!
+# TODO Посмотрите правильно ли считаются все показатели
 
 
 # TODO после реализации первой части - отдать на проверку учителю
