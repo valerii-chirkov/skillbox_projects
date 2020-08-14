@@ -124,8 +124,8 @@ class Husband(Human):
     def work(self):
         print('{} went to work'.format(self.name))
         self.fullness -= 10
-        self.home.money += 150
-        self.home.annual_income += 150
+        self.home.money += 100  # 150
+        self.home.annual_income += 100  # 150
 
     def gaming(self):
         print('{} played WoT'.format(self.name))
@@ -211,7 +211,7 @@ print('The household earn {} for this year'.format(home.annual_income))
 print('The household ate {} food'.format(home.ate_food_total))
 print('The woman bought {} fur coats'.format(home.fur_coats))
 
-# TODO после реализации первой части - отдать на проверку учителю
+# TODO Делаем вторую часть!
 
 ######################################################## Часть вторая
 #
