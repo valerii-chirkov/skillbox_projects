@@ -267,22 +267,37 @@ print('The woman bought {} fur coats'.format(home.fur_coats))
 # отличия от взрослых - кушает максимум 10 единиц еды,
 # степень счастья  - не меняется, всегда ==100 ;)
 
-# class Child:
-#
-#     def __init__(self):
-#         pass
-#
-#     def __str__(self):
-#         return super().__str__()
-#
-#     def act(self):
-#         pass
-#
-#     def eat(self):
-#         pass
-#
-#     def sleep(self):
-#         pass
+class Child:
+
+    def __init__(self, name):
+        self.name = name
+        self.home = home
+        self.fullness = 50
+        self._happiness = 100
+
+    def __str__(self):
+        return super().__str__()
+
+    def act(self):
+        self.eat() if self.fullness <= 20 else self.sleep()
+
+    def eat(self):
+        ate_food = 0
+        if self.home.food >= 10:
+            self.fullness += 10
+            ate_food += 10
+            self.home.ate_food_total += 10
+            self.home.food -= 10
+        else:
+            self.fullness += self.home.food
+            ate_food += self.home.food
+            self.home.ate_food_total += self.home.food
+            self.home.food -= self.home.food
+        print('{} ate {} food'.format(self.name, ate_food))
+
+    def sleep(self):
+        self.fullness -= 5
+        print('{} slept'.format(self.name))
 
 
 # TODO после реализации второй части - отдать на проверку учителем две ветки
