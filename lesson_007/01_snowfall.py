@@ -37,34 +37,18 @@ def get_flakes(count):
 
 # Получить упавшие снежинки
 def get_fallen_flakes(snowflakes):
-    snowflakes_out = 0  # тут количество упавших снежинок
+    snowflakes_out = []  # тут количество упавших снежинок
     for snowflake in snowflakes:  # для i в словаре со снежинками
-        # TODO для чего мы вызываем этот метод ? Мы должны его вызывать у экземпляров которые получили при переборе списка
-        # TODO Что этот метод у нас возвращает ? и вообще для чего мы его определили в классе ?
-        Snowflake().can_fall()  # вызываем метод can.fall() из класса Snowflake()
+        snowflake.can_fall()  # вызываем метод can.fall() из класса Snowflake()
         if snowflake.parameter_y <= 0:  # Если снежинка ниже нуля, то
-            snowflakes_out += 1  # Считает сколько снежинок упало
+            snowflakes_out.append(snowflake)  # Считает сколько снежинок упало
     return snowflakes_out  # И возвращает количество упавших
 
 
-# Добавить снежинки
-# TODO функция должна работать только со своими параметрами, возможно нужно какой то еще добавить!
 def append_flakes(count):
-    # TODO эта проверка у нас уже есть в главном цикле!
-    if fallen_flakes:  # Если snowflakes_out не пустой, то:
-        print(fallen_flakes)
-        # TODO скорее нужно сколько снежинок упало count, завести цикл по этому числу и добавить еще в flakes
-        for i in range(fallen_flakes):  # Для каждой снежинки в snowflakes_out:
-            # TODO функция не знает о таком параметре как snowflakes, что нужно сделать ?
-            if i <= len(snowflakes) - 1:  # Если снежинка меньше или равна длине списка - 1 (на самом деле я сам не понимаю почему здесь такое условие, взял из прошлого модуля)
-                # TODO убирать снежинку нам не нужно по ка что не нужно! Удалить строку эту
-                snowflakes.remove(snowflakes[i])  # Убираем снежинку
-                print(len(snowflakes))
-                # TODO даже если этот код был бы рабочим то мы в список flakes добавили просто число! count - число,
-                #  не снежинка!
-                # flakes.append(count)  # И добавляем новую, закоментил, потому что с ней вылетает
-            # TODO тут он создает новый список а нам нужно добавить этот flakes
-            get_flakes(count)
+    for flake in count:  # 3
+        flakes.remove(flake)
+        flakes.append(Snowflake())
 
 
 flakes = get_flakes(count=10)  # создали список снежинок
