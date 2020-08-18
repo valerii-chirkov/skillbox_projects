@@ -36,24 +36,17 @@ def get_flakes(count):
 
 
 # Получить упавшие снежинки
-def get_fallen_flakes(snowflakes):
-    # TODO нужно сделать подсчет тип int
-    snowflakes_out = []  # тут количество упавших снежинок
-    for snowflake in snowflakes:  # для i в словаре со снежинками
-        # TODO Что этот метод у нас возвращает ? и вообще для чего мы его определили в классе ?
-        # TODO Эта строка нам важна, нужно понять для чего мы ее тут вызываем ?
-        # TODO Какой результат она нам дает, и что в коде сейчас дублируется ?
-        snowflake.can_fall()  # вызываем метод can.fall() из класса Snowflake()
-        if snowflake.parameter_y <= 0:  # Если снежинка ниже нуля, то
-            # TODO сейчас мы тут не считаем количество а создаем новый список! А куда количество делось?
-            snowflakes_out.append(snowflake)  # Считает сколько снежинок упало
+def get_fallen_flakes(flakes):
+    snowflakes_out = 0  # тут количество упавших снежинок
+    for snowflake in flakes:  # для i в словаре со снежинками
+        if not snowflake.can_fall():  # Если снежинка ниже нуля, то
+            snowflakes_out += 1  # Считает сколько снежинок упало
     return snowflakes_out  # И возвращает количество упавших
 
 
-# TODO эта функция должна принимать количество а не список снежинок
 def append_flakes(count):
-    for flake in count:  # 3
-        flakes.remove(flake)
+    for flake in range(count):  # 3
+        flakes.remove(flakes[flake])
         flakes.append(Snowflake())
 
 
