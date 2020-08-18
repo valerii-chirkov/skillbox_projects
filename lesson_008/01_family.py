@@ -176,7 +176,7 @@ class Wife(Husband):
             self.home.food += self.home.money
         print('{} bought {} food'.format(self.name, bought_food))
 
-    def shopping_for_cat(self):  # TODO объединить с shopping?
+    def shopping_for_cat(self):  # Пусть будет разные методы
         bought_food = 0
         self.fullness -= 10
         if self.home.money >= (100 - self.home.cat_food):  # если есть возможность - покупает еду до 100
@@ -207,10 +207,6 @@ class Wife(Husband):
         if self.home.dirt < 0:  # Чтобы грязь не уходила в минус
             self.home.dirt = 0
 
-
-
-
-# TODO Делаем вторую часть!
 
 ######################################################## Часть вторая
 #
@@ -279,6 +275,8 @@ class Cat:
         print('{} made a mess'.format(self.name))
         self.fullness -= 10
 
+    # TODO добавить метод который чекает кота на живучесть
+
 
 home = House()
 serge = Husband(name='Сережа')
@@ -299,6 +297,7 @@ for day in range(1, 366):
     barsik.act()
     if serge.check_alive() or masha.check_alive():
         break
+    # TODO тут так же проверять кота
     cprint(serge, color='cyan')
     cprint(masha, color='cyan')
     cprint(barsik, color='cyan')
@@ -306,6 +305,10 @@ for day in range(1, 366):
 print('The household earn {} for this year'.format(home.annual_income))
 print('The household ate {} food'.format(home.ate_food_total))
 print('The woman bought {} fur coats'.format(home.fur_coats))
+
+# TODO подкрутить параметры чтобы они выживали 3-4 раза из 5 запусков!
+
+
 ######################################################## Часть вторая бис
 #
 # После реализации первой части надо в ветке мастер продолжить работу над семьей - добавить ребенка
