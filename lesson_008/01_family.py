@@ -146,10 +146,10 @@ class Wife(Husband):
             self.shopping()
         elif self.home.cat_food <= 30:
             self.shopping_for_cat()
-        # elif self.happiness <= 20:
-        #     self.buy_fur_coat()
-        # elif self.home.dirt >= 90:
-        #     self.clean_house()
+        elif self.happiness <= 30:
+            self.pet_cat()
+        elif self.home.dirt >= 80:
+            self.clean_house()
         elif dice == 1:
             self.eat()
         elif dice == 2:
@@ -275,7 +275,10 @@ class Cat:
         print('{} made a mess'.format(self.name))
         self.fullness -= 10
 
-    # TODO добавить метод который чекает кота на живучесть
+    def check_alive(self):
+        if self.fullness <= 0:
+            print('{} is dead cause of hunger'.format(self.name))
+            return True
 
 
 home = House()
@@ -298,6 +301,8 @@ for day in range(1, 366):
     if serge.check_alive() or masha.check_alive():
         break
     # TODO тут так же проверять кота
+    if barsik.check_alive():
+        break
     cprint(serge, color='cyan')
     cprint(masha, color='cyan')
     cprint(barsik, color='cyan')
