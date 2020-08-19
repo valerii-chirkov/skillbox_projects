@@ -45,6 +45,7 @@ from random import randint
 class House:
 
     def __init__(self):
+        self.name = 'Home'
         self.money = 100
         self.annual_income = 0
         self.ate_food_total = 0
@@ -62,12 +63,11 @@ class House:
 
 
 class Human:
-    def __init__(self, name):
+    def __init__(self, name, home=None):  # TODO Так?
         self.name = name
         self.fullness = 30
         self.happiness = 100
-        self.home = home  # todo Переменная home сейчас "приходит" из глобальной области видимости, передайте её через
-                          #  параметр метода __init__. Именно так, как вы делали в предыдущем модуле
+        self.home = home
 
     def __str__(self):
         return 'It is {}, my fullness is {}, my happiness is {}'.format(self.name, self.fullness, self.happiness)
@@ -92,15 +92,15 @@ class Human:
 
     def check_alive(self):
         if self.happiness <= 10:
-            print('{} is dead cause of depression'.format(self.name))
+            cprint('{} is dead cause of depression'.format(self.name), color='red')
             return True
         if self.fullness <= 0:
-            print('{} is dead cause of hunger'.format(self.name))
+            cprint('{} is dead cause of hunger'.format(self.name), color='red')
             return True
 
     def pet_cat(self):
         print('{} pet the cat'.format(self.name))
-        self.happiness += 5
+        self.happiness += 15  # TODO добавил +10 потому что умирала
 
 
 class Husband(Human):
@@ -142,8 +142,10 @@ class Wife(Husband):
         dice = randint(1, 7)
         if self.fullness <= 30:
             self.eat()
-        elif self.home.food <= 50:
+        elif self.home.food <= 30:
             self.shopping()
+        elif self.happiness <= 30:
+            self.pet_cat()
         # elif self.happiness <= 20:
         #     self.buy_fur_coat()
         # elif self.home.dirt >= 90:
@@ -180,6 +182,8 @@ class Wife(Husband):
             self.home.money -= 350
             self.happiness = 100
             self.home.fur_coats += 1
+        else:
+            print('{} tried to buy a new fur coat, buy she had no money'.format(self.name))
 
     def clean_house(self):
         print('{} cleaned their house'.format(self.name))
@@ -189,11 +193,33 @@ class Wife(Husband):
             self.home.dirt = 0
 
 
-# TODO Перенесите основной код после определения всех классов и в
+class Child(Human):
+    def act(self):
+        self.eat() if self.fullness <= 20 else self.sleep()
+
+    def eat(self):
+        ate_food = 0
+        if self.home.food >= 10:
+            self.fullness += 10
+            ate_food += 10
+            self.home.ate_food_total += 10
+            self.home.food -= 10
+        else:
+            self.fullness += self.home.food
+            ate_food += self.home.food
+            self.home.ate_food_total += self.home.food
+            self.home.food -= self.home.food
+        print('{} ate {} food'.format(self.name, ate_food))
+
+    def sleep(self):
+        self.fullness -= 5
+        print('{} slept'.format(self.name))
+
+
 home = House()
-serge = Husband(name='Сережа')
-masha = Wife(name='Маша')
-human = Human(name='Human')  # TODO Этот житель пока не нужен, вместо него включите в жизнь семьи ребёнка
+serge = Husband(name='Сережа', home=home)
+masha = Wife(name='Маша', home=home)
+sasha = Child(name='Sasha', home=home)
 cprint(serge, color='cyan')
 cprint(masha, color='cyan')
 cprint(home, color='cyan')
@@ -204,11 +230,15 @@ for day in range(1, 366):
     masha.pollution_happiness()
     serge.act()
     masha.act()
-    if serge.check_alive() or masha.check_alive():
+    sasha.act()
+    if serge.check_alive() or masha.check_alive() or sasha.check_alive():
         break
     cprint(serge, color='cyan')
     cprint(masha, color='cyan')
+    cprint(sasha, color='cyan')
     cprint(home, color='cyan')
+print()
+cprint('=' * 46, color='red')
 print('The household earn {} for this year'.format(home.annual_income))
 print('The household ate {} food'.format(home.ate_food_total))
 print('The woman bought {} fur coats'.format(home.fur_coats))
@@ -269,39 +299,7 @@ print('The woman bought {} fur coats'.format(home.fur_coats))
 # отличия от взрослых - кушает максимум 10 единиц еды,
 # степень счастья  - не меняется, всегда ==100 ;)
 
-class Child:  # todo Ребенок тоже человек, унаследуйте этот класс от Human
 
-
-    def __init__(self, name):
-        self.name = name
-        self.home = home
-        self.fullness = 50
-        self._happiness = 100
-
-    def __str__(self):  # todo Этот метод будет наследоваться от предка, поэтому как только укажите класс Предка, этот
-                        #  метод можно будет убрать
-        return super().__str__()
-
-    def act(self):
-        self.eat() if self.fullness <= 20 else self.sleep()
-
-    def eat(self):
-        ate_food = 0
-        if self.home.food >= 10:
-            self.fullness += 10
-            ate_food += 10
-            self.home.ate_food_total += 10
-            self.home.food -= 10
-        else:
-            self.fullness += self.home.food
-            ate_food += self.home.food
-            self.home.ate_food_total += self.home.food
-            self.home.food -= self.home.food
-        print('{} ate {} food'.format(self.name, ate_food))
-
-    def sleep(self):
-        self.fullness -= 5
-        print('{} slept'.format(self.name))
 
 
 # TODO после реализации второй части - отдать на проверку учителем две ветки
