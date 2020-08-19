@@ -7,24 +7,24 @@ sd.background_color = (15, 116, 235)
 
 class Snowflake:
     def __init__(self):
-        self.parameter_x = sd.random_number(100, 1100)  # todo Тут прекрасно подходит "сокращённое" имя - x
-        self.parameter_y = 600  # todo а тут - y
+        self.x = sd.random_number(100, 1100)
+        self.y = 600
         self.length = sd.random_number(5, 10)
 
     def clear_previous_picture(self):
-        point = sd.get_point(self.parameter_x, self.parameter_y)
+        point = sd.get_point(self.x, self.y)
         sd.snowflake(center=point, length=self.length, color=sd.background_color)
 
     def move(self):
-        self.parameter_x += sd.random_number(-10, 10)
-        self.parameter_y -= sd.random_number(10, 30)
+        self.x += sd.random_number(-10, 10)
+        self.y -= sd.random_number(10, 30)
 
     def draw(self):
-        point = sd.get_point(self.parameter_x, self.parameter_y)
+        point = sd.get_point(self.x, self.y)
         sd.snowflake(center=point, length=self.length, color=sd.COLOR_WHITE)
 
     def can_fall(self):
-        return self.parameter_y >= 0
+        return self.y >= 0
 
 
 # Получить снежинки в количестве count
@@ -37,21 +37,27 @@ def get_flakes(count):
 
 # Получить упавшие снежинки
 def get_fallen_flakes(flakes):
-    snowflakes_out = 0  # тут количество упавших снежинок
-    for snowflake in flakes:  # для i в словаре со снежинками
-        if not snowflake.can_fall():  # Если снежинка ниже нуля, то
-            snowflakes_out += 1  # Считает сколько снежинок упало
+    snowflakes_out = []  # тут количество упавших снежинок
+    for index, snowflake in enumerate(flakes):
+        if not snowflake.can_fall():
+            snowflakes_out.append(index)
+    if snowflakes_out:
+        snowflakes_out.sort()  # сортируем
+        snowflakes_out.reverse()  # переворачиваем по возрастанию
+        print(snowflakes_out)
     return snowflakes_out  # И возвращает количество упавших
 
 
-def append_flakes(count):  # todo Передавайте список снежинок flakes через параметр
-    for flake in range(count):  # 3
-        flakes.remove(flakes[flake])  # TODO Удаляете наугад, поэтому некоторые снежинки зависают.
-                                      #  Тем более что функция "добавить_снежинок" не должен удалять, а только добавлять
-                                      #  Для того, чтобы удалить упавшие снежинки нужно сделать:
-                                      #  1) чтобы функция get_fallen_flakes возвращала список индексов упавших
-                                      #  2) новую функцию "удалить_снежинки" принимающую список упавших и список flakes
+def append_flakes(count, flakes):
+    for _ in count:  # 3
         flakes.append(Snowflake())
+
+
+def del_flakes(snowflakes_out, flakes):
+    for idx in snowflakes_out:
+        if idx <= len(flakes)-1:  # TODO Объясните пожалуйста что это за проверка
+                                  # (преподаватель написал в прошлом модуле, но не объяснил)
+            flakes.remove(flakes[idx])
 
 
 flakes = get_flakes(count=10)  # создали список снежинок
@@ -62,7 +68,8 @@ while True:
         flake.draw()
     fallen_flakes = get_fallen_flakes(flakes)  # подсчитать сколько снежинок уже упало
     if fallen_flakes:
-        append_flakes(count=fallen_flakes)  # добавить еще сверху
+        append_flakes(count=fallen_flakes, flakes=flakes)  # добавить еще сверху
+        del_flakes(snowflakes_out=fallen_flakes, flakes=flakes)
     sd.sleep(0.1)
     if sd.user_want_exit():
         break
