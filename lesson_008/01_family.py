@@ -67,7 +67,7 @@ class Human:
         self.fullness = 30
         self.happiness = 100
         self.home = home  # todo Переменная home сейчас "приходит" из глобальной области видимости, передайте её через
-                          #  параметр метода __init__
+                          #  параметр метода __init__. Именно так, как вы делали в предыдущем модуле
 
     def __str__(self):
         return 'It is {}, my fullness is {}, my happiness is {}'.format(self.name, self.fullness, self.happiness)

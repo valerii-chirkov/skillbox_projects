@@ -7,8 +7,8 @@ sd.background_color = (15, 116, 235)
 
 class Snowflake:
     def __init__(self):
-        self.parameter_x = sd.random_number(100, 1100)
-        self.parameter_y = 600
+        self.parameter_x = sd.random_number(100, 1100)  # todo Тут прекрасно подходит "сокращённое" имя - x
+        self.parameter_y = 600  # todo а тут - y
         self.length = sd.random_number(5, 10)
 
     def clear_previous_picture(self):
@@ -44,9 +44,13 @@ def get_fallen_flakes(flakes):
     return snowflakes_out  # И возвращает количество упавших
 
 
-def append_flakes(count):
+def append_flakes(count):  # todo Передавайте список снежинок flakes через параметр
     for flake in range(count):  # 3
-        flakes.remove(flakes[flake])
+        flakes.remove(flakes[flake])  # TODO Удаляете наугад, поэтому некоторые снежинки зависают.
+                                      #  Тем более что функция "добавить_снежинок" не должен удалять, а только добавлять
+                                      #  Для того, чтобы удалить упавшие снежинки нужно сделать:
+                                      #  1) чтобы функция get_fallen_flakes возвращала список индексов упавших
+                                      #  2) новую функцию "удалить_снежинки" принимающую список упавших и список flakes
         flakes.append(Snowflake())
 
 
