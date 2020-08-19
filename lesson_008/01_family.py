@@ -66,7 +66,8 @@ class Human:
         self.name = name
         self.fullness = 30
         self.happiness = 100
-        self.home = home
+        self.home = home  # todo Переменная home сейчас "приходит" из глобальной области видимости, передайте её через
+                          #  параметр метода __init__
 
     def __str__(self):
         return 'It is {}, my fullness is {}, my happiness is {}'.format(self.name, self.fullness, self.happiness)
@@ -188,10 +189,11 @@ class Wife(Husband):
             self.home.dirt = 0
 
 
+# TODO Перенесите основной код после определения всех классов и в
 home = House()
 serge = Husband(name='Сережа')
 masha = Wife(name='Маша')
-human = Human(name='Human')
+human = Human(name='Human')  # TODO Этот житель пока не нужен, вместо него включите в жизнь семьи ребёнка
 cprint(serge, color='cyan')
 cprint(masha, color='cyan')
 cprint(home, color='cyan')
@@ -267,7 +269,8 @@ print('The woman bought {} fur coats'.format(home.fur_coats))
 # отличия от взрослых - кушает максимум 10 единиц еды,
 # степень счастья  - не меняется, всегда ==100 ;)
 
-class Child:
+class Child:  # todo Ребенок тоже человек, унаследуйте этот класс от Human
+
 
     def __init__(self, name):
         self.name = name
@@ -275,7 +278,8 @@ class Child:
         self.fullness = 50
         self._happiness = 100
 
-    def __str__(self):
+    def __str__(self):  # todo Этот метод будет наследоваться от предка, поэтому как только укажите класс Предка, этот
+                        #  метод можно будет убрать
         return super().__str__()
 
     def act(self):
