@@ -63,7 +63,7 @@ class House:
 
 
 class Human:
-    def __init__(self, name, home=None):  # TODO Так?
+    def __init__(self, name, home=None):  #  Так?  -- Да, отлично
         self.name = name
         self.fullness = 30
         self.happiness = 100
@@ -100,7 +100,7 @@ class Human:
 
     def pet_cat(self):
         print('{} pet the cat'.format(self.name))
-        self.happiness += 15  # TODO добавил +10 потому что умирала
+        self.happiness += 15  # добавил +10 потому что умирала
 
 
 class Husband(Human):

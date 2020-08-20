@@ -55,8 +55,10 @@ def append_flakes(count, flakes):
 
 def del_flakes(snowflakes_out, flakes):
     for idx in snowflakes_out:
-        if idx <= len(flakes)-1:  # TODO Объясните пожалуйста что это за проверка
+        if idx <= len(flakes)-1:  #  Объясните пожалуйста что это за проверка
                                   # (преподаватель написал в прошлом модуле, но не объяснил)
+                                  # -- Перестраховка на случай, чтобы не получить ошибку доступа к несуществующему
+                                  #  элементу. Тут достаточно просто del flakes[idx] вместо if
             flakes.remove(flakes[idx])
 
 
@@ -76,4 +78,4 @@ while True:
 
 sd.pause()
 
-
+# зачет!
