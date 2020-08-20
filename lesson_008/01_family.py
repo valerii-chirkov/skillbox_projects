@@ -108,19 +108,12 @@ class Human:
 class Husband(Human):
 
     def act(self):
-        # if not barsik in home.inhabitants:  # Если кот еще не в списке, то поднять
-        #     self.pick_up_cat()  #  как внести подъем кота в цикл акт? Чтобы только один раз сработало.
-                                  # todo можно до годового цикла подобрать кота или если хочется в цикле, то поставить
-                                  #  проверку: если день первый, то подбираем кота. Смысла особого в этом нет правда,
-                                  #  нам всё равно нужно год вместе прожить, поэтому до цикла собираете семью и год
-                                  #  "проживаете"
+        self.pollution_happiness()
         dice = randint(1, 7)
         if self.home.money <= 100:
             self.work()
         elif self.fullness <= 30:
             self.eat()
-        # elif self.happiness <= 30:
-        #     self.gaming()
         elif dice == 1:
             self.eat()
         elif dice == 2:
@@ -129,6 +122,10 @@ class Husband(Human):
             self.gaming()
         else:
             self.pet_cat()
+        if self.happiness >= 100:  # Заметил что за 100 выходит, можно как-то сделать это красивее?
+            self.happiness = 100
+        if self.fullness >= 100:
+            self.fullness = 100
 
     def work(self):
         print('{} went to work'.format(self.name))
@@ -152,6 +149,7 @@ class Husband(Human):
 class Wife(Husband):
 
     def act(self):
+        self.pollution_happiness()
         dice = randint(1, 7)
         if self.fullness <= 30:
             self.eat()
@@ -159,8 +157,8 @@ class Wife(Husband):
             self.shopping()
         elif self.home.cat_food <= 30:
             self.shopping_for_cat()
-        elif self.happiness <= 30:
-            self.pet_cat()
+        # elif self.happiness <= 30:
+        #     self.pet_cat()
         elif self.home.dirt >= 80:
             self.clean_house()
         elif dice == 1:
@@ -175,6 +173,10 @@ class Wife(Husband):
             self.shopping_for_cat()
         else:
             self.buy_fur_coat()
+        if self.happiness >= 100:
+            self.happiness = 100
+        if self.fullness >= 100:
+            self.fullness = 100
 
     def shopping(self):
         bought_food = 0
@@ -293,10 +295,6 @@ class Cat:
             print('{} is dead cause of hunger'.format(self.name))
             return True
 
-    def pollution_happiness(self):  #  чтобы в основном цикле не ругался на отсутствие метода, можно как-то обойти это?
-                                    # todo перенесите вызов метода в act() тех классов для которых это актуально
-        pass
-
 
 home = House()
 serge = Husband(name='Сережа')
@@ -314,9 +312,8 @@ for day in range(1, 366):
     home.pollute()
 
     for inhabitant in home.inhabitants:
-        inhabitant.pollution_happiness()  # TODO на это ругался (см. строку 292)
         inhabitant.act()
-        if inhabitant.check_alive():
+        if inhabitant.check_alive():  # TODO заметил что не выходит из цикла
             break
 
     for inhabitant in home.inhabitants:
