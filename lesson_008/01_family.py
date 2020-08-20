@@ -123,6 +123,9 @@ class Husband(Human):
         else:
             self.pet_cat()
         if self.happiness >= 100:  # Заметил что за 100 выходит, можно как-то сделать это красивее?
+                                   # -- Cделать сеттер для этого атрибута, и в сеттер спрятать логику ограничения, со
+                                   # стороны добавление к атрибуту будет выглядеть по-старому, а на деле добавилось или
+                                   # нет будет зависеть от сеттера
             self.happiness = 100
         if self.fullness >= 100:
             self.fullness = 100
@@ -313,7 +316,8 @@ for day in range(1, 366):
 
     for inhabitant in home.inhabitants:
         inhabitant.act()
-        if inhabitant.check_alive():  # TODO заметил что не выходит из цикла
+        if inhabitant.check_alive():  #  заметил что не выходит из цикла
+                                      # -- если все живы то и не должен
             break
 
     for inhabitant in home.inhabitants:
@@ -327,6 +331,7 @@ print('The woman bought {} fur coats'.format(home.fur_coats))
 
 #  подкрутить параметры чтобы они выживали 3-4 раза из 5 запусков!
 
+# зачет второго этапа
 
 ######################################################## Часть вторая бис
 #
