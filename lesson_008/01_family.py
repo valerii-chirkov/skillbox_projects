@@ -52,6 +52,7 @@ class House:
         self.food = 50
         self.dirt = 0  # Если поставить 1000, то все работает
         self.cat_food = 30
+        self.inhabitants = []
 
     def __str__(self):
         return 'There are {} money, {} food and {} dirt'.format(self.money, self.food, self.dirt)
@@ -68,6 +69,7 @@ class Human:
         self.fullness = 30
         self.happiness = 100
         self.home = home
+        home.inhabitants.append(self)
 
     def __str__(self):
         return 'It is {}, my fullness is {}, my happiness is {}'.format(self.name, self.fullness, self.happiness)
@@ -106,6 +108,8 @@ class Human:
 class Husband(Human):
 
     def act(self):
+        # if not barsik in home.inhabitants:  # Если кот еще не в списке, то поднять
+        #     self.pick_up_cat()  # TODO как внести подъем кота в цикл акт? Чтобы только один раз сработало.
         dice = randint(1, 7)
         if self.home.money <= 100:
             self.work()
@@ -134,6 +138,11 @@ class Husband(Human):
         self.happiness += 20
         if self.happiness >= 100:
             self.happiness = 100
+
+    def pick_up_cat(self):
+        self.fullness -= 10
+        home.inhabitants.append(barsik)
+        cprint('{} picked up a cat'.format(self.name), color='green')
 
 
 class Wife(Husband):
@@ -280,43 +289,36 @@ class Cat:
             print('{} is dead cause of hunger'.format(self.name))
             return True
 
+    def pollution_happiness(self):  # TODO чтобы в основном цикле не ругался на отсутствие метода, можно как-то обойти это?
+        pass
+
 
 home = House()
 serge = Husband(name='Сережа')
 masha = Wife(name='Маша')
 barsik = Cat(name='Barsik')
-human = Human(name='Human')
-cprint(serge, color='cyan')
-cprint(masha, color='cyan')
-cprint(barsik, color='cyan')
+
+serge.pick_up_cat()
+
+for inhabitant in home.inhabitants:
+    cprint(inhabitant, color='cyan')
 cprint(home, color='cyan')
+
 for day in range(1, 366):
     cprint('================== День {} =================='.format(day), color='red')
     home.pollute()
-    serge.pollution_happiness()
-    masha.pollution_happiness()
-    serge.act()
-    masha.act()
-    barsik.act()
-    if serge.check_alive() or masha.check_alive():
-        break
-    #  тут так же проверять кота
-    if barsik.check_alive():
-        break
-    cprint(serge, color='cyan')
-    cprint(masha, color='cyan')
-    cprint(barsik, color='cyan')
+
+    for inhabitant in home.inhabitants:
+        inhabitant.pollution_happiness()  # TODO на это ругался (см. строку 292)
+        inhabitant.act()
+        if inhabitant.check_alive():
+            break
+
+    for inhabitant in home.inhabitants:
+        cprint(inhabitant, color='cyan')
+
     cprint(home, color='cyan')
-    # TODO Предлагаю улучшить код этого цикла. Вы видите, что чем больше жителей, тем сложнее становится цикл. Есть
-    #  простой способ вообще избежать доработки тела цикла при добавлении жителей. Для этого:
-    #  1) в класс Дом добавьте атрибут "жители"
-    #  2) в методе Человек.__init__ добавьте self в список жителей дома
-    #  3) добавьте метод "подобрать_кота" (или "завести_кота") в класс Мужа, к примеру, где добавьте объект кота в
-    #  список жителей Дома
-    #  4) в основном цикле сделайте цикл итерирующий по списку жителей дома и вызовом метода .act()
-    #  5) после этого добавьте цикл с печатью в консоль состояния объекта жителя
-    #  6) в ветке мастер делать этого не надо, потом при слиянии develop в master это должно получиться, пусть с
-    #  конфликтами, но это как раз нужная практика.
+
 print('The household earn {} for this year'.format(home.annual_income))
 print('The household ate {} food'.format(home.ate_food_total))
 print('The woman bought {} fur coats'.format(home.fur_coats))
