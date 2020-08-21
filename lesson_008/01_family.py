@@ -54,14 +54,29 @@ class House:
         self.dirt = 0  # Если поставить 1000, то все работает
         self.cat_food = 30
         self.inhabitants = []
+        self.cats = 0
 
     def __str__(self):
-        return 'There are {} money, {} food and {} dirt'.format(self.money, self.food, self.dirt)
+        return 'There are {} money, {} food, {} dirt and {} cats'.format(self.money, self.food, self.dirt, self.cats)
 
     def pollute(self):
         self.dirt += 5
         if self.dirt % 15 == 0:
             cprint('There is {} dirt in the house.'.format(self.dirt), color='red')
+
+    def incident(self):
+        chance = randint(0, 100)
+        if chance == 100:
+            dice = randint(1, 2)
+            print('')
+            if dice == 1:
+                cprint('Someone stole a half of money', color='red')
+                self.money /= 2
+                self.money = int(self.money)
+            else:
+                cprint('Someone stole a half of food', color='red')
+                self.food /= 2
+                self.food = int(self.food)
 
 
 class Human:
@@ -72,6 +87,7 @@ class Human:
         self.happiness = 100
         self.home = home
         self.home.inhabitants.append(self)  # Поправил - доступ к home должен быть только через self.
+        self.salary = 100
 
     def __str__(self):
         return 'It is {}, my fullness is {}, my happiness is {}'.format(self.name, self.fullness, self.happiness)
@@ -109,6 +125,10 @@ class Human:
 
 class Husband(Human):
 
+    # def __init__(self):
+        # super().__init__(self) # TODO не пойму как добавить еще один аргумент
+        # self.salary = 100
+
     def act(self):
         self.pollution_happiness()
         dice = randint(1, 7)
@@ -116,8 +136,6 @@ class Husband(Human):
             self.work()
         elif self.fullness <= 30:
             self.eat()
-        # elif self.happiness <= 30:
-        #     self.gaming()
         elif dice == 1:
             self.eat()
         elif dice == 2:
@@ -126,19 +144,19 @@ class Husband(Human):
             self.gaming()
         else:
             self.pet_cat()
-        if self.happiness >= 100:  # Заметил что за 100 выходит, можно как-то сделать это красивее?
-                                   # -- Cделать сеттер для этого атрибута, и в сеттер спрятать логику ограничения, со
-                                   # стороны добавление к атрибуту будет выглядеть по-старому, а на деле добавилось или
-                                   # нет будет зависеть от сеттера
+        if self.happiness >= 100:
             self.happiness = 100
         if self.fullness >= 100:
             self.fullness = 100
 
     def work(self):
-        print('{} went to work'.format(self.name))
+        promotion_chance = randint(0, 50)
+        if promotion_chance == 50:
+            self.salary += 100
+        print('{} earn {}'.format(self.name, self.salary))
         self.fullness -= 10
-        self.home.money += 100  # 150
-        self.home.annual_income += 100  # 150
+        self.home.money += self.salary  # 150
+        self.home.annual_income += self.salary  # 150
 
     def gaming(self):
         print('{} played WoT'.format(self.name))
@@ -151,6 +169,18 @@ class Husband(Human):
         self.fullness -= 10
         self.home.inhabitants.append(barsik)
         cprint('{} picked up a cat'.format(self.name), color='green')
+        home.cats += 1
+
+    def pick_up_extra_cats(self):
+        chance = randint(0, 100)
+        if chance == 100:
+            if home.cats == len(possible_cats):
+                cprint('The household is cat-lovers', color='green')
+            else:
+                home.cats += 1
+                self.fullness -= 10
+                self.home.inhabitants.append(possible_cats[home.cats-1])
+                cprint('{} picked up a cat'.format(self.name), color='green')
 
 
 class Wife(Husband):
@@ -312,6 +342,7 @@ serge = Husband(name='Сережа', home=home)
 masha = Wife(name='Маша', home=home)
 barsik = Cat(name='Barsik')
 nick = Child(name='Nick', home=home)
+possible_cats = [Cat('Stepa'), Cat('Murzik'), Cat('Dymka'), Cat('Persik'), Cat('Vaska')]
 serge.pick_up_cat()
 
 for inhabitant in home.inhabitants:
@@ -321,19 +352,16 @@ cprint(home, color='cyan')
 for day in range(1, 366):
     cprint('================== День {} =================='.format(day), color='red')
     home.pollute()
-
+    serge.pick_up_extra_cats()
     for inhabitant in home.inhabitants:
         inhabitant.act()
-        if inhabitant.check_dead():  #  заметил что не выходит из цикла
-                                      # -- если все живы то и не должен
-            break  # todo Оператор break действует только на "свой" цикл, в котором находится. Если вы хотите, чтобы
-                   #  годовой цикл прервался тож, то надо либо завершить программу: exit(0) либо оформить проверку на
-                   #  наличие жертв отдельной функцией и вызывать её именно в годовом цикле и там делать break если
-                   #  проверка не пройдена
+        if inhabitant.check_dead():
+            exit()
 
     for inhabitant in home.inhabitants:
         cprint(inhabitant, color='cyan')
 
+    home.incident()
     cprint(home, color='cyan')
 
 print('The household earn {} for this year'.format(home.annual_income))
@@ -352,12 +380,6 @@ print('The woman bought {} fur coats'.format(home.fur_coats))
 #
 # Определить максимальное число котов, которое может прокормить эта семья при значениях зарплаты от 50 до 400.
 # Для сглаживание случайностей моделирование за год делать 3 раза, если 2 из 3х выжили - считаем что выжили.
-#
-# Дополнительно вносить некий хаос в жизнь семьи
-# - N раз в год вдруг пропадает половина еды из холодильника (коты?)
-# - K раз в год пропадает половина денег из тумбочки (муж? жена? коты?!?!)
-# Промоделировать - как часто могут случаться фейлы что бы это не повлияло на жизнь героев?
-#   (N от 1 до 5, K от 1 до 5 - нужно вычислит максимумы N и K при котором семья гарантированно выживает)
 #
 # в итоге должен получится приблизительно такой код экспериментов
 # for food_incidents in range(6):
