@@ -71,7 +71,7 @@ class Human:
         self.fullness = 30
         self.happiness = 100
         self.home = home
-        home.inhabitants.append(self)
+        self.home.inhabitants.append(self)  # Поправил - доступ к home должен быть только через self.
 
     def __str__(self):
         return 'It is {}, my fullness is {}, my happiness is {}'.format(self.name, self.fullness, self.happiness)
@@ -149,7 +149,7 @@ class Husband(Human):
 
     def pick_up_cat(self):
         self.fullness -= 10
-        home.inhabitants.append(barsik)
+        self.home.inhabitants.append(barsik)
         cprint('{} picked up a cat'.format(self.name), color='green')
 
 
@@ -326,7 +326,10 @@ for day in range(1, 366):
         inhabitant.act()
         if inhabitant.check_dead():  #  заметил что не выходит из цикла
                                       # -- если все живы то и не должен
-            break
+            break  # todo Оператор break действует только на "свой" цикл, в котором находится. Если вы хотите, чтобы
+                   #  годовой цикл прервался тож, то надо либо завершить программу: exit(0) либо оформить проверку на
+                   #  наличие жертв отдельной функцией и вызывать её именно в годовом цикле и там делать break если
+                   #  проверка не пройдена
 
     for inhabitant in home.inhabitants:
         cprint(inhabitant, color='cyan')
@@ -336,6 +339,10 @@ for day in range(1, 366):
 print('The household earn {} for this year'.format(home.annual_income))
 print('The household ate {} food'.format(home.ate_food_total))
 print('The woman bought {} fur coats'.format(home.fur_coats))
+
+# зачет первого этапа
+# зачет второго этапа
+
 
 
 # Усложненное задание (делать по желанию)
