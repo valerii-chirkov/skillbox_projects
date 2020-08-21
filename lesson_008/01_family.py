@@ -65,7 +65,8 @@ class House:
 
 
 class Human:
-    def __init__(self, name, home=None):  #  Так?  -- Да, отлично
+
+    def __init__(self, name, home=None):
         self.name = name
         self.fullness = 30
         self.happiness = 100
@@ -93,7 +94,7 @@ class Human:
         if self.home.dirt >= 90:
             self.happiness -= 10
 
-    def check_alive(self):
+    def check_dead(self):
         if self.happiness <= 10:
             cprint('{} is dead cause of depression'.format(self.name), color='red')
             return True
@@ -235,6 +236,7 @@ class Wife(Husband):
 
 
 class Child(Human):
+
     def act(self):
         self.eat() if self.fullness <= 20 else self.sleep()
 
@@ -255,60 +257,6 @@ class Child(Human):
     def sleep(self):
         self.fullness -= 5
         print('{} slept'.format(self.name))
-
-
-home = House()
-serge = Husband(name='Сережа', home=home)
-masha = Wife(name='Маша', home=home)
-sasha = Child(name='Sasha', home=home)
-cprint(serge, color='cyan')
-cprint(masha, color='cyan')
-cprint(home, color='cyan')
-for day in range(1, 366):
-    cprint('================== День {} =================='.format(day), color='red')
-    home.pollute()
-    serge.pollution_happiness()
-    masha.pollution_happiness()
-    serge.act()
-    masha.act()
-    sasha.act()
-    if serge.check_alive() or masha.check_alive() or sasha.check_alive():
-        break
-    cprint(serge, color='cyan')
-    cprint(masha, color='cyan')
-    cprint(sasha, color='cyan')
-    cprint(home, color='cyan')
-print()
-cprint('=' * 46, color='red')
-print('The household earn {} for this year'.format(home.annual_income))
-print('The household ate {} food'.format(home.ate_food_total))
-print('The woman bought {} fur coats'.format(home.fur_coats))
-
-# TODO Делаем вторую часть!
-
-######################################################## Часть вторая
-#
-# После подтверждения учителем первой части надо
-# отщепить ветку develop и в ней начать добавлять котов в модель семьи
-#
-# Кот может:
-#   есть,
-#   спать,
-#   драть обои
-#
-# Люди могут:
-#   гладить кота (растет степень счастья на 5 пунктов)
-#
-# В доме добавляется:
-#   еда для кота (в начале - 30)
-#
-# У кота есть имя и степень сытости (в начале - 30)
-# Любое действие кота, кроме "есть", приводит к уменьшению степени сытости на 10 пунктов
-# Еда для кота покупается за деньги: за 10 денег 10 еды.
-# Кушает кот максимум по 10 единиц еды, степень сытости растет на 2 пункта за 1 пункт еды.
-# Степень сытости не должна падать ниже 0, иначе кот умрет от голода.
-#
-# Если кот дерет обои, то грязи становится больше на 5 пунктов
 
 
 class Cat:
@@ -353,17 +301,17 @@ class Cat:
         print('{} made a mess'.format(self.name))
         self.fullness -= 10
 
-    def check_alive(self):
+    def check_dead(self):
         if self.fullness <= 0:
             print('{} is dead cause of hunger'.format(self.name))
             return True
 
 
 home = House()
-serge = Husband(name='Сережа')
-masha = Wife(name='Маша')
+serge = Husband(name='Сережа', home=home)
+masha = Wife(name='Маша', home=home)
 barsik = Cat(name='Barsik')
-
+nick = Child(name='Nick', home=home)
 serge.pick_up_cat()
 
 for inhabitant in home.inhabitants:
@@ -376,7 +324,7 @@ for day in range(1, 366):
 
     for inhabitant in home.inhabitants:
         inhabitant.act()
-        if inhabitant.check_alive():  #  заметил что не выходит из цикла
+        if inhabitant.check_dead():  #  заметил что не выходит из цикла
                                       # -- если все живы то и не должен
             break
 
@@ -388,51 +336,6 @@ for day in range(1, 366):
 print('The household earn {} for this year'.format(home.annual_income))
 print('The household ate {} food'.format(home.ate_food_total))
 print('The woman bought {} fur coats'.format(home.fur_coats))
-
-#  подкрутить параметры чтобы они выживали 3-4 раза из 5 запусков!
-
-# зачет второго этапа
-
-######################################################## Часть вторая бис
-#
-# После реализации первой части надо в ветке мастер продолжить работу над семьей - добавить ребенка
-#
-# Ребенок может:
-#   есть,
-#   спать,
-#
-# отличия от взрослых - кушает максимум 10 единиц еды,
-# степень счастья  - не меняется, всегда ==100 ;)
-
-
-
-
-# TODO после реализации второй части - отдать на проверку учителем две ветки
-
-
-######################################################## Часть третья
-#
-# после подтверждения учителем второй части (обоих веток)
-# влить в мастер все коммиты из ветки develop и разрешить все конфликты
-# отправить на проверку учителем.
-
-
-# home = House()
-# serge = Husband(name='Сережа')
-# masha = Wife(name='Маша')
-# kolya = Child(name='Коля')
-# murzik = Cat(name='Мурзик')
-#
-# for day in range(365):
-#     cprint('================== День {} =================='.format(day), color='red')
-#     serge.act()
-#     masha.act()
-#     kolya.act()
-#     murzik.act()
-#     cprint(serge, color='cyan')
-#     cprint(masha, color='cyan')
-#     cprint(kolya, color='cyan')
-#     cprint(murzik, color='cyan')
 
 
 # Усложненное задание (делать по желанию)
