@@ -52,6 +52,8 @@ class House:
         self.fur_coats = 0
         self.food = 50
         self.dirt = 0  # Если поставить 1000, то все работает
+        self.cat_food = 30
+        self.inhabitants = []
 
     def __str__(self):
         return 'There are {} money, {} food and {} dirt'.format(self.money, self.food, self.dirt)
@@ -68,6 +70,7 @@ class Human:
         self.fullness = 30
         self.happiness = 100
         self.home = home
+        home.inhabitants.append(self)
 
     def __str__(self):
         return 'It is {}, my fullness is {}, my happiness is {}'.format(self.name, self.fullness, self.happiness)
@@ -106,6 +109,7 @@ class Human:
 class Husband(Human):
 
     def act(self):
+        self.pollution_happiness()
         dice = randint(1, 7)
         if self.home.money <= 100:
             self.work()
@@ -121,6 +125,13 @@ class Husband(Human):
             self.gaming()
         else:
             self.pet_cat()
+        if self.happiness >= 100:  # Заметил что за 100 выходит, можно как-то сделать это красивее?
+                                   # -- Cделать сеттер для этого атрибута, и в сеттер спрятать логику ограничения, со
+                                   # стороны добавление к атрибуту будет выглядеть по-старому, а на деле добавилось или
+                                   # нет будет зависеть от сеттера
+            self.happiness = 100
+        if self.fullness >= 100:
+            self.fullness = 100
 
     def work(self):
         print('{} went to work'.format(self.name))
@@ -134,6 +145,11 @@ class Husband(Human):
         self.happiness += 20
         if self.happiness >= 100:
             self.happiness = 100
+
+    def pick_up_cat(self):
+        self.fullness -= 10
+        home.inhabitants.append(barsik)
+        cprint('{} picked up a cat'.format(self.name), color='green')
 
 
 class Wife(Husband):
@@ -150,6 +166,12 @@ class Wife(Husband):
         #     self.buy_fur_coat()
         # elif self.home.dirt >= 90:
         #     self.clean_house()
+        elif self.home.cat_food <= 30:
+            self.shopping_for_cat()
+        # elif self.happiness <= 30:
+        #     self.pet_cat()
+        elif self.home.dirt >= 80:
+            self.clean_house()
         elif dice == 1:
             self.eat()
         elif dice == 2:
@@ -158,8 +180,14 @@ class Wife(Husband):
             self.clean_house()
         elif dice == 4:
             self.pet_cat()
+        elif dice == 5:
+            self.shopping_for_cat()
         else:
             self.buy_fur_coat()
+        if self.happiness >= 100:
+            self.happiness = 100
+        if self.fullness >= 100:
+            self.fullness = 100
 
     def shopping(self):
         bought_food = 0
@@ -173,6 +201,19 @@ class Wife(Husband):
             bought_food += self.home.money
             self.home.food += self.home.money
         print('{} bought {} food'.format(self.name, bought_food))
+
+    def shopping_for_cat(self):  # Пусть будет разные методы
+        bought_food = 0
+        self.fullness -= 10
+        if self.home.money >= (100 - self.home.cat_food):  # если есть возможность - покупает еду до 100
+            self.home.money -= (100 - self.home.cat_food)
+            bought_food += 100 - self.home.cat_food
+            self.home.cat_food = 100
+        else:
+            self.home.money -= self.home.money  # покупает еду на все что есть
+            bought_food += self.home.money
+            self.home.cat_food += self.home.money
+        print('{} bought {} food for {}'.format(self.name, bought_food, barsik.name))
 
     def buy_fur_coat(self):
         if self.happiness >= 100 and self.home.money >= 350:
@@ -270,23 +311,87 @@ print('The woman bought {} fur coats'.format(home.fur_coats))
 # Если кот дерет обои, то грязи становится больше на 5 пунктов
 
 
-# class Cat:
-#
-#     def __init__(self):
-#         pass
-#
-#     def act(self):
-#         pass
-#
-#     def eat(self):
-#         pass
-#
-#     def sleep(self):
-#         pass
-#
-#     def soil(self):
-#         pass
+class Cat:
 
+    def __init__(self, name):
+        self.name = name
+        self.fullness = 30
+        self.home = home
+
+    def __str__(self):
+        return 'It is {}, my fullness is {}'.format(self.name, self.fullness)
+
+    def act(self):
+        dice = randint(1, 3)
+        if self.fullness <= 10:
+            self.eat()
+        elif dice == 1:
+            self.sleep()
+        elif dice == 2:
+            self.soil()
+            self.home.dirt += 5
+        else:
+            self.eat()
+
+    def eat(self):
+        ate_food = 0
+        if self.home.cat_food >= 5:
+            self.fullness += 10
+            self.home.cat_food -= 5
+            ate_food += 5
+        else:
+            self.fullness += 2*self.home.cat_food
+            self.home.cat_food -= self.home.cat_food
+            ate_food += self.home.cat_food
+        print('{} ate {} food'.format(self.name, ate_food))
+
+    def sleep(self):
+        self.fullness -= 10
+        print('{} slept'.format(self.name))
+
+    def soil(self):
+        print('{} made a mess'.format(self.name))
+        self.fullness -= 10
+
+    def check_alive(self):
+        if self.fullness <= 0:
+            print('{} is dead cause of hunger'.format(self.name))
+            return True
+
+
+home = House()
+serge = Husband(name='Сережа')
+masha = Wife(name='Маша')
+barsik = Cat(name='Barsik')
+
+serge.pick_up_cat()
+
+for inhabitant in home.inhabitants:
+    cprint(inhabitant, color='cyan')
+cprint(home, color='cyan')
+
+for day in range(1, 366):
+    cprint('================== День {} =================='.format(day), color='red')
+    home.pollute()
+
+    for inhabitant in home.inhabitants:
+        inhabitant.act()
+        if inhabitant.check_alive():  #  заметил что не выходит из цикла
+                                      # -- если все живы то и не должен
+            break
+
+    for inhabitant in home.inhabitants:
+        cprint(inhabitant, color='cyan')
+
+    cprint(home, color='cyan')
+
+print('The household earn {} for this year'.format(home.annual_income))
+print('The household ate {} food'.format(home.ate_food_total))
+print('The woman bought {} fur coats'.format(home.fur_coats))
+
+#  подкрутить параметры чтобы они выживали 3-4 раза из 5 запусков!
+
+# зачет второго этапа
 
 ######################################################## Часть вторая бис
 #
