@@ -166,9 +166,10 @@ class Husband(Human):
         if self.happiness >= 100:
             self.happiness = 100
 
-    def pick_up_cat(self):
+    def pick_up_cat(self):  # todo Тут кота надо передавать через параметер метода
         self.fullness -= 10
-        self.home.inhabitants.append(barsik)
+        self.home.inhabitants.append(barsik)  # todo ...так как barsik это переменная из внешней области видимости, а
+                                              #  это плохая практика
         cprint('{} picked up a cat'.format(self.name), color='green')
         home.cats += 1
 
@@ -344,7 +345,7 @@ masha = Wife(name='Маша', home=home)
 barsik = Cat(name='Barsik')
 nick = Child(name='Nick', home=home)
 possible_cats = [Cat('Stepa'), Cat('Murzik'), Cat('Dymka'), Cat('Persik'), Cat('Vaska')]
-serge.pick_up_cat()
+serge.pick_up_cat()  # todo тут надо передать объект кота в метод
 
 for inhabitant in home.inhabitants:
     cprint(inhabitant, color='cyan')
