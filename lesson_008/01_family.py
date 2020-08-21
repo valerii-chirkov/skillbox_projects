@@ -69,7 +69,7 @@ class Human:
         self.fullness = 30
         self.happiness = 100
         self.home = home
-        home.inhabitants.append(self)
+        self.home.inhabitants.append(self)
 
     def __str__(self):
         return 'It is {}, my fullness is {}, my happiness is {}'.format(self.name, self.fullness, self.happiness)
@@ -145,7 +145,7 @@ class Husband(Human):
 
     def pick_up_cat(self):
         self.fullness -= 10
-        home.inhabitants.append(barsik)
+        self.home.inhabitants.append(barsik)
         cprint('{} picked up a cat'.format(self.name), color='green')
 
 
