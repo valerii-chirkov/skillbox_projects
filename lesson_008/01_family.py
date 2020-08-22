@@ -167,17 +167,20 @@ class Husband(Human):
         if self.happiness >= 100:
             self.happiness = 100
 
-    def pick_up_cat(self):  # todo Тут кота надо передавать через параметер метода
-                            # TODO если передавать, то где он тут будет использоваться?
+    def pick_up_cat(self, cat):  # todo Тут кота надо передавать через параметер метода
+                            #  если передавать, то где он тут будет использоваться?
+        # todo Предлагал вот так: self.home.inhabitants.append(cat), а выбор имени делать во внешнем коде. Но можно и
+        #  как у вас сейчас.
         name = choice(self.cats_names) + ' ' + choice(self.cats_Surnames) + '.' + choice(self.cats_Surnames) + '.'
-        if not self.cats_namespace.count(name):  # TODO получилось сделать проверку на повтор?
+        if not self.cats_namespace.count(name):  #  получилось сделать проверку на повтор?
+            # todo Проще удалять выбранное имя из списка, тогда при следующем выборе не надо будет проверять
             # Если в списке имен нет только что зарандомленого имени, то пропускаем, если есть, то еще раз пробует
             self.home.inhabitants.append(Cat(name=name))  # Добавить кота
             cprint('{} picked up {}'.format(self.name, name), color='green')  # Принт подбора кота
             self.cats_namespace.append(name)  # Добавляем имя кота в список
             home.cats += 1  # Плюсуем кота для проверки главного цикла и для вывода 'сколько всего котов'
         else:
-            self.pick_up_cat()
+            self.pick_up_cat()  # todo Рекурсию старайте не использовать, если можно обойтись циклом
 
 
 class Wife(Husband):
