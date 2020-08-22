@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from termcolor import cprint
-from random import randint
+from random import randint, choice
 
 ######################################################## Часть первая
 #
@@ -87,7 +87,6 @@ class Human:
         self.happiness = 100
         self.home = home
         self.home.inhabitants.append(self)  # Поправил - доступ к home должен быть только через self.
-        self.salary = 100
 
     def __str__(self):
         return 'It is {}, my fullness is {}, my happiness is {}'.format(self.name, self.fullness, self.happiness)
@@ -124,11 +123,13 @@ class Human:
 
 
 class Husband(Human):
+    cats_names = ['Barsik', 'Stepa', 'Murzik', 'Dymka', 'Persik', 'Vaska', ]
+    cats_Surnames = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+    cats_namespace = []
 
-    # def __init__(self):  todo Тут надо повторить интерфейс метода предка и добавить третий аргумент - зарплату
-        # super().__init__(self) #  не пойму как добавить еще один аргумент
-            # todo тут self не нужно указывать, так как вы взываете метод, а не определяете.
-        # self.salary = 100
+    def __init__(self, name, home=None):
+        super().__init__(name=name, home=home)
+        self.salary = 100
 
     def act(self):
         self.pollution_happiness()
@@ -167,22 +168,16 @@ class Husband(Human):
             self.happiness = 100
 
     def pick_up_cat(self):  # todo Тут кота надо передавать через параметер метода
-        self.fullness -= 10
-        self.home.inhabitants.append(barsik)  # todo ...так как barsik это переменная из внешней области видимости, а
-                                              #  это плохая практика
-        cprint('{} picked up a cat'.format(self.name), color='green')
-        home.cats += 1
-
-    def pick_up_extra_cats(self):
-        chance = randint(0, 100)
-        if chance == 100:
-            if home.cats == len(possible_cats):
-                cprint('The household is cat-lovers', color='green')
-            else:
-                home.cats += 1
-                self.fullness -= 10
-                self.home.inhabitants.append(possible_cats[home.cats-1])
-                cprint('{} picked up a cat'.format(self.name), color='green')
+                            # TODO если передавать, то где он тут будет использоваться?
+        name = choice(self.cats_names) + ' ' + choice(self.cats_Surnames) + '.' + choice(self.cats_Surnames) + '.'
+        if not self.cats_namespace.count(name):  # TODO получилось сделать проверку на повтор?
+            # Если в списке имен нет только что зарандомленого имени, то пропускаем, если есть, то еще раз пробует
+            self.home.inhabitants.append(Cat(name=name))  # Добавить кота
+            cprint('{} picked up {}'.format(self.name, name), color='green')  # Принт подбора кота
+            self.cats_namespace.append(name)  # Добавляем имя кота в список
+            home.cats += 1  # Плюсуем кота для проверки главного цикла и для вывода 'сколько всего котов'
+        else:
+            self.pick_up_cat()
 
 
 class Wife(Husband):
@@ -246,7 +241,7 @@ class Wife(Husband):
             self.home.money -= self.home.money  # покупает еду на все что есть
             bought_food += self.home.money
             self.home.cat_food += self.home.money
-        print('{} bought {} food for {}'.format(self.name, bought_food, barsik.name))
+        print('{} bought {} food for cats'.format(self.name, bought_food))
 
     def buy_fur_coat(self):
         if self.happiness >= 100 and self.home.money >= 350:
@@ -342,19 +337,24 @@ class Cat:
 home = House()
 serge = Husband(name='Сережа', home=home)
 masha = Wife(name='Маша', home=home)
-barsik = Cat(name='Barsik')
+# barsik = Cat(name='Barsik')
 nick = Child(name='Nick', home=home)
-possible_cats = [Cat('Stepa'), Cat('Murzik'), Cat('Dymka'), Cat('Persik'), Cat('Vaska')]
-serge.pick_up_cat()  # todo тут надо передать объект кота в метод
+# possible_cats = [Cat('Stepa'), Cat('Murzik'), Cat('Dymka'), Cat('Persik'), Cat('Vaska')]
 
 for inhabitant in home.inhabitants:
     cprint(inhabitant, color='cyan')
 cprint(home, color='cyan')
 
-for day in range(1, 366):
+for day in range(1, 1366):  # TODO сделал чтобы посмотреть как добавляются коты
     cprint('================== День {} =================='.format(day), color='red')
     home.pollute()
-    serge.pick_up_extra_cats()
+    dice = randint(0, 100)
+
+    if home.cats == 0:
+        serge.pick_up_cat()
+    elif dice == 100:
+        serge.pick_up_cat()
+
     for inhabitant in home.inhabitants:
         inhabitant.act()
         if inhabitant.check_dead():
@@ -369,6 +369,7 @@ for day in range(1, 366):
 print('The household earn {} for this year'.format(home.annual_income))
 print('The household ate {} food'.format(home.ate_food_total))
 print('The woman bought {} fur coats'.format(home.fur_coats))
+print('They have {some} cats'.format(some=home.cats))
 
 # зачет первого этапа
 # зачет второго этапа
