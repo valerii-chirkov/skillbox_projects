@@ -167,20 +167,22 @@ class Husband(Human):
         if self.happiness >= 100:
             self.happiness = 100
 
-    def pick_up_cat(self, cat):  # todo Тут кота надо передавать через параметер метода
-                            #  если передавать, то где он тут будет использоваться?
-        # todo Предлагал вот так: self.home.inhabitants.append(cat), а выбор имени делать во внешнем коде. Но можно и
-        #  как у вас сейчас.
-        name = choice(self.cats_names) + ' ' + choice(self.cats_Surnames) + '.' + choice(self.cats_Surnames) + '.'
-        if not self.cats_namespace.count(name):  #  получилось сделать проверку на повтор?
-            # todo Проще удалять выбранное имя из списка, тогда при следующем выборе не надо будет проверять
-            # Если в списке имен нет только что зарандомленого имени, то пропускаем, если есть, то еще раз пробует
-            self.home.inhabitants.append(Cat(name=name))  # Добавить кота
-            cprint('{} picked up {}'.format(self.name, name), color='green')  # Принт подбора кота
-            self.cats_namespace.append(name)  # Добавляем имя кота в список
-            home.cats += 1  # Плюсуем кота для проверки главного цикла и для вывода 'сколько всего котов'
-        else:
-            self.pick_up_cat()  # todo Рекурсию старайте не использовать, если можно обойтись циклом
+    def pick_up_cat(self):
+        # TODO вроде так работает да?
+        while True:
+            name = choice(self.cats_names) + ' ' + choice(self.cats_Surnames) + '.' + choice(self.cats_Surnames) + '.'
+            if not self.cats_namespace.count(name):  # получилось сделать проверку на повтор?
+                # todo Проще удалять выбранное имя из списка, тогда при следующем выборе не надо будет проверять
+                # TODO Тогда они могут кончиться, а я предлагаю сделать им уникальные три параметра ФИО,
+                #  тогда код становится расширяем, правильная же логика?
+                # Если в списке имен нет только что зарандомленого имени, то пропускаем, если есть, то еще раз пробует
+                self.home.inhabitants.append(Cat(name=name))  # Добавить кота
+                cprint('{} picked up {}'.format(self.name, name), color='green')  # Принт подбора кота
+                self.cats_namespace.append(name)  # Добавляем имя кота в список
+                home.cats += 1  # Плюсуем кота для проверки главного цикла и для вывода 'сколько всего котов'
+                return
+            else:
+                return True  # todo Рекурсию старайте не использовать, если можно обойтись циклом
 
 
 class Wife(Husband):
@@ -193,14 +195,8 @@ class Wife(Husband):
             self.shopping()
         elif self.happiness <= 30:
             self.pet_cat()
-        # elif self.happiness <= 20:
-        #     self.buy_fur_coat()
-        # elif self.home.dirt >= 90:
-        #     self.clean_house()
         elif self.home.cat_food <= 30:
             self.shopping_for_cat()
-        # elif self.happiness <= 30:
-        #     self.pet_cat()
         elif self.home.dirt >= 80:
             self.clean_house()
         elif dice == 1:
@@ -348,7 +344,7 @@ for inhabitant in home.inhabitants:
     cprint(inhabitant, color='cyan')
 cprint(home, color='cyan')
 
-for day in range(1, 1366):  # TODO сделал чтобы посмотреть как добавляются коты
+for day in range(1, 1366):
     cprint('================== День {} =================='.format(day), color='red')
     home.pollute()
     dice = randint(0, 100)
@@ -376,21 +372,3 @@ print('They have {some} cats'.format(some=home.cats))
 
 # зачет первого этапа
 # зачет второго этапа
-
-
-
-# Усложненное задание (делать по желанию)
-#
-# Сделать из семьи любителей котов - пусть котов будет 3, или даже 5-10.
-# Коты должны выжить вместе с семьей!
-#
-# Определить максимальное число котов, которое может прокормить эта семья при значениях зарплаты от 50 до 400.
-# Для сглаживание случайностей моделирование за год делать 3 раза, если 2 из 3х выжили - считаем что выжили.
-#
-# в итоге должен получится приблизительно такой код экспериментов
-# for food_incidents in range(6):
-#   for money_incidents in range(6):
-#       life = Simulation(money_incidents, food_incidents)
-#       for salary in range(50, 401, 50):
-#           max_cats = life.experiment(salary)
-#           print(f'При зарплате {salary} максимально можно прокормить {max_cats} котов')
