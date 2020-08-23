@@ -367,3 +367,5 @@ print('They have {some} cats'.format(some=home.cats))
 
 # зачет первого этапа
 # зачет второго этапа
+
+# зачет!
