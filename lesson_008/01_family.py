@@ -170,22 +170,14 @@ class Husband(Human):
     def pick_up_cat(self):
         #  вроде так работает да?
         while True:
-            name = choice(self.cats_names) + ' ' + choice(self.cats_Surnames) + '.' + choice(self.cats_Surnames) + '.'
-            # todo Сделайте с помощью форматирования строк, без конкатенации, например f-строками
+            name = f'{choice(self.cats_names)} {choice(self.cats_Surnames)}.{choice(self.cats_Surnames)}.'
             if not self.cats_namespace.count(name):  # получилось сделать проверку на повтор?
-                #  Проще удалять выбранное имя из списка, тогда при следующем выборе не надо будет проверять
-                #  Тогда они могут кончиться, а я предлагаю сделать им уникальные три параметра ФИО,
-                #  тогда код становится расширяем, правильная же логика?
-                # todo Принимается, так действительно больше вариантов
                 # Если в списке имен нет только что зарандомленого имени, то пропускаем, если есть, то еще раз пробует
                 self.home.inhabitants.append(Cat(name=name))  # Добавить кота
                 cprint('{} picked up {}'.format(self.name, name), color='green')  # Принт подбора кота
                 self.cats_namespace.append(name)  # Добавляем имя кота в список
                 home.cats += 1  # Плюсуем кота для проверки главного цикла и для вывода 'сколько всего котов'
-                return # todo лучше break, это специальная команда выхода из цикла
-            else:
-                return True  # todo Это завершение выполнения кода метода (выход из него), а нужно продолжение, то есть
-                # ветку else нужно просто убрать
+                break
 
 
 class Wife(Husband):
