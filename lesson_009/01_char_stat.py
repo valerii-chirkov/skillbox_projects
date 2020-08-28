@@ -40,6 +40,8 @@ class StatMaker:
         for filename in zfile.namelist():
             zfile.extract(filename)
         self.file_name = filename  # TODO Можно что-то исправить, чтобы не подсвечивало? Или это нормально?
+        # todo Если архив будет пуст (без файлов) то переменная окажется не определена, для порядка, объявите её до
+        #  цикла и инициализируйте пустой строкой
 
     def open(self):  # 1) получение данных (тут может быть подготовка файла - его разахивация, при необходимости),
         if self.file_name.endswith('.zip'):
@@ -54,40 +56,47 @@ class StatMaker:
                 self.stat[char] = self.stat.get(char, 0) + 1
 
     def sort_chars(self):  # 3) сортировка статистических данных,
-        stat = sorted(self.stat.items(), key=operator.itemgetter(1), reverse=True)
+        stat = sorted(self.stat.items(), key=operator.itemgetter(1), reverse=True)  # todo забыли указать self. перед
+                                                                                    #  именем атрибута stat
         return stat
 
     def print_stat(self):  # 4) вывод в консоль таблицы с данными.
         print('+---------+----------+')
         print('|  буква  | частота  |')
         print('+---------+----------+')
-        # TODO почему так не работает?, если sort_chars такой:
+        #  почему так не работает?, если sort_chars такой:
         # def sort_chars(self):  # 3) сортировка статистических данных,
         #     sorted(self.stat.items(), key=operator.itemgetter(1), reverse=True)
-        # TODO а вывод такой:
+        #  а вывод такой:
         # for char, amount in self.stat:
         #     pprint(char, amount)
-        # TODO соответственно так тоже не работает:
+        # соответственно так тоже не работает:
         # for item in self.stat:
         #     print(f'|{item[0]:^5}|{item[1]:^7}|')
-        for item in self.sort_chars():
+        # todo причина выше, в методе сортировки
+        for item in self.sort_chars(): # todo итерируйте по атрибуту self.stat
             print(f'|{item[0]:^9}|{item[1]:^10}|')
         print('+---------+----------+')
-        values = self.stat.values()  # TODO хотел перенести их в инит, но не давал вызвать
+        values = self.stat.values()  #  хотел перенести их в инит, но не давал вызвать
         total_chars = sum(values)
-        print(f'|  ИТОГО  |{total_chars:^10}|')  # TODO не разобрался как вставить ^9 в строку ИТОГО
+        print(f'|  ИТОГО  |{total_chars:^10}|')  #  не разобрался как вставить ^9 в строку ИТОГО
+                                                 # todo print(f'|{"ИТОГО": ^9}|...
         print('+---------+----------+')
 
     def launch(self):
         self.open()  # а) подготовка файла (разархивация, при необходимости)
-        # б) сбор данных из файла  # TODO по шаблонному методу должно быть так (ниже)
-        # self.collect_char(line)  # TODO как вызвать этот метод, если он уже вызывается в .open()?
+        # б) сбор данных из файла  #  по шаблонному методу должно быть так (ниже)
+        # self.collect_char(line)  #  как вызвать этот метод, если он уже вызывается в .open()?
+        # todo значить open назовите "сбор данных" и именно его тут вызывайте
         self.sort_chars()  # в) сортировка
         self.print_stat()  # г) вывод в консоль
 
 
 STATMAKER = StatMaker(file_name='voyna-i-mir.txt.zip')
 STATMAKER.launch()
+# TODO Не так меня поняли. Нужно имя файла в строков виде ('voyna-i-mir.txt.zip') присвоить константе, а в коде
+#  использовать константу. Кстати, согласно РЕР8, константы должны быть расположены в начале модуля, сразу после
+#  импортов сторонних модулей
 
 # После зачета первого этапа нужно сделать упорядочивание статистики
 #  - по частоте по возрастанию
