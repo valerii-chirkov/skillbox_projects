@@ -28,6 +28,7 @@ import zipfile
 import zipfile
 import operator
 from pprint import pprint
+FILE = 'voyna-i-mir.txt.zip'
 
 
 class StatMaker:
@@ -37,13 +38,12 @@ class StatMaker:
 
     def unzip(self):  # 1) получение данных (тут может быть подготовка файла - его разахивация, при необходимости),
         zfile = zipfile.ZipFile(self.file_name, 'r')
+        self.file_name = ''
         for filename in zfile.namelist():
             zfile.extract(filename)
-        self.file_name = filename  # TODO Можно что-то исправить, чтобы не подсвечивало? Или это нормально?
-        # todo Если архив будет пуст (без файлов) то переменная окажется не определена, для порядка, объявите её до
-        #  цикла и инициализируйте пустой строкой
+        self.file_name = filename
 
-    def open(self):  # 1) получение данных (тут может быть подготовка файла - его разахивация, при необходимости),
+    def collect_data(self):  # 1) получение данных (тут может быть подготовка файла - его разахивация, при необходимости),
         if self.file_name.endswith('.zip'):
             self.unzip()
         with open(self.file_name, 'r', encoding='cp1251') as file:
@@ -56,47 +56,41 @@ class StatMaker:
                 self.stat[char] = self.stat.get(char, 0) + 1
 
     def sort_chars(self):  # 3) сортировка статистических данных,
-        stat = sorted(self.stat.items(), key=operator.itemgetter(1), reverse=True)  # todo забыли указать self. перед
-                                                                                    #  именем атрибута stat
+        stat = sorted(self.stat.items(), key=operator.itemgetter(1), reverse=True)
+        # todo забыли указать self. перед именем атрибута stat
+        # TODO если так делаю, то подсвечивается .items() и выдает ошибку Unresolved attribute reference 'items' for class 'list'
         return stat
 
     def print_stat(self):  # 4) вывод в консоль таблицы с данными.
         print('+---------+----------+')
         print('|  буква  | частота  |')
         print('+---------+----------+')
-        #  почему так не работает?, если sort_chars такой:
-        # def sort_chars(self):  # 3) сортировка статистических данных,
-        #     sorted(self.stat.items(), key=operator.itemgetter(1), reverse=True)
-        #  а вывод такой:
-        # for char, amount in self.stat:
-        #     pprint(char, amount)
-        # соответственно так тоже не работает:
-        # for item in self.stat:
-        #     print(f'|{item[0]:^5}|{item[1]:^7}|')
-        # todo причина выше, в методе сортировки
-        for item in self.sort_chars(): # todo итерируйте по атрибуту self.stat
-            print(f'|{item[0]:^9}|{item[1]:^10}|')
+        for item in self.sort_chars():
+            # todo итерируйте по атрибуту self.stat
+            # TODO выдает ошибку
+            # TODO File "/Users/valeriichirkov/PycharmProjects/python_base/lesson_009/01_char_stat.py", line 70, in print_stat
+            #     print(f'|{item[0]:^9}|{item[1]:^10}|')
+            # IndexError: string index out of range
+            print(f'|{item[0]:^9}|{item[1]:^10}|')  # На вот это жалуется, думаю из-за того что в sort_chars() нужно
+            # делать self.stat = ... return self.stat, но выдает ошибку, написал в туду.
         print('+---------+----------+')
-        values = self.stat.values()  #  хотел перенести их в инит, но не давал вызвать
+        values = self.stat.values()
         total_chars = sum(values)
-        print(f'|  ИТОГО  |{total_chars:^10}|')  #  не разобрался как вставить ^9 в строку ИТОГО
-                                                 # todo print(f'|{"ИТОГО": ^9}|...
+        print(f'|{"ИТОГО": ^9}|{total_chars:^10}|')
         print('+---------+----------+')
 
     def launch(self):
-        self.open()  # а) подготовка файла (разархивация, при необходимости)
-        # б) сбор данных из файла  #  по шаблонному методу должно быть так (ниже)
+        # а) подготовка файла (разархивация, при необходимости)
+        self.collect_data()  # б) сбор данных из файла  #  по шаблонному методу должно быть так (ниже)
         # self.collect_char(line)  #  как вызвать этот метод, если он уже вызывается в .open()?
         # todo значить open назовите "сбор данных" и именно его тут вызывайте
+        # TODO переименовал, но тогда подготовки файла получается нет
         self.sort_chars()  # в) сортировка
         self.print_stat()  # г) вывод в консоль
 
 
-STATMAKER = StatMaker(file_name='voyna-i-mir.txt.zip')
-STATMAKER.launch()
-# TODO Не так меня поняли. Нужно имя файла в строков виде ('voyna-i-mir.txt.zip') присвоить константе, а в коде
-#  использовать константу. Кстати, согласно РЕР8, константы должны быть расположены в начале модуля, сразу после
-#  импортов сторонних модулей
+statmaker = StatMaker(file_name=FILE)
+statmaker.launch()
 
 # После зачета первого этапа нужно сделать упорядочивание статистики
 #  - по частоте по возрастанию
