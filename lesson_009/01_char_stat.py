@@ -45,8 +45,8 @@ class StatMaker:
             for filename in zfile.namelist():
                 zfile.extract(filename)
             self.file_name = filename
-        with open(self.file_name, 'r', encoding='cp1251') as file:  # TODO перенес сюда, чтобы избежать большой
-            # TODO вложенности в collect_data()
+        with open(self.file_name, 'r', encoding='cp1251') as file:  # перенес сюда, чтобы избежать большой
+            # вложенности в collect_data()
             self.collect_data(file)
 
     def collect_data(self, file):  # 2) сбор даннных - подсчёт частоты использования букв
@@ -81,6 +81,7 @@ class StatMaker:
 statmaker = StatMaker(file_name=FILE)
 statmaker.launch()
 
+# зачет первой части
 # После зачета первого этапа нужно сделать упорядочивание статистики
 #  - по частоте по возрастанию
 #  - по алфавиту по возрастанию
