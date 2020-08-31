@@ -37,6 +37,8 @@ class StatMaker:
         self.stat = {}
         self.sorted_stat = []
         self.file = ''
+        self.stat_keys = []
+        self.sort_input = ''
 
     def prepare_file(self):  # 1) получение данных (тут может быть подготовка файла/его разахивация)
         if self.file_name.endswith('.zip'):
@@ -45,8 +47,7 @@ class StatMaker:
             for filename in zfile.namelist():
                 zfile.extract(filename)
             self.file_name = filename
-        with open(self.file_name, 'r', encoding='cp1251') as file:  # перенес сюда, чтобы избежать большой
-            # вложенности в collect_data()
+        with open(self.file_name, 'r', encoding='cp1251') as file:
             self.collect_data(file)
 
     def collect_data(self, file):  # 2) сбор даннных - подсчёт частоты использования букв
@@ -55,8 +56,52 @@ class StatMaker:
                 if char.isalpha():
                     self.stat[char] = self.stat.get(char, 0) + 1
 
-    def sort_chars(self):  # 3) сортировка статистических данных,
+    def sort_chars(self):
+        while True:
+            print('1 - по частоте по убыванию')
+            print('2  - по частоте по возрастанию')
+            print('3  - по алфавиту по возрастанию')
+            print('4  - по алфавиту по убыванию')
+            self.sort_input = input('Введите способ сортировки: ')
+            if self.sort_input == '1':
+                self.sort_chars_frequency_decrease()
+                break
+            elif self.sort_input == '2':
+                self.sort_chars_frequency_increase()
+                break
+            elif self.sort_input == '3':
+                self.sort_chars_alphabet_increase()
+                break
+            elif self.sort_input == '4':
+                self.sort_chars_alphabet_decrease()
+                break
+            else:
+                print('Повторите попытку')
+
+    def sort_chars_frequency_decrease(self):  # 3) сортировка статистических данных (убывание по частоте)
         self.sorted_stat = sorted(self.stat.items(), key=operator.itemgetter(1), reverse=True)
+        return self.sorted_stat
+
+    def sort_chars_frequency_increase(self):  # 3) сортировка статистических данных (возрастание по частоте)
+        self.sorted_stat = sorted(self.stat.items(), key=operator.itemgetter(1), reverse=False)
+        return self.sorted_stat
+
+    def sort_chars_alphabet_increase(self):  # 3) сортировка статистических данных (возрастание по алфавиту)
+        self.stat_keys = list(self.stat.keys())
+        self.stat_keys.sort()
+        # self.stat_keys = list(self.stat.keys()).sort()  # так не работает
+        for key in self.stat_keys:
+            self.sorted_stat.append([key, self.stat[key]])  # TODO Он не совсем правильно сортирует, например буква ё в
+            # TODO конце, может быть потому что она идет как спецсимвол у букв?
+        return self.sorted_stat
+
+    def sort_chars_alphabet_decrease(self):  # 3) сортировка статистических данных (убывание по алфавиту)
+        self.stat_keys = list(self.stat.keys())
+        self.stat_keys.sort()
+        self.stat_keys.reverse()  # TODO Есть ли в python'е что-то на подобие наследования от методов? Чтобы код не повторять
+        for key in self.stat_keys:
+            self.sorted_stat.append(
+                [key, self.stat[key]])
         return self.sorted_stat
 
     def print_stat(self):  # 4) вывод в консоль таблицы с данными.
@@ -74,7 +119,8 @@ class StatMaker:
     def launch(self):
         self.prepare_file()  # а) подготовка файла (разархивация, при необходимости)
         self.collect_data(file=self.file)  # б) сбор данных из файла
-        self.sort_chars()  # в) сортировка
+        self.sort_chars_alphabet_decrease()  # в) сортировка
+        self.sort_chars()
         self.print_stat()  # г) вывод в консоль
 
 
