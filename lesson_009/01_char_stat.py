@@ -142,7 +142,7 @@ class SortCharsAlphabetIncrease(StatMaker):  # 3) сортировка стат�
 
 
 class SortCharsAlphabetDecrease(StatMaker):
-    def sort_chars_alphabet_decrease(self):  # 3) сортировка статистических данных (убывание по алфавиту)
+    def sort(self):  # 3) сортировка статистических данных (убывание по алфавиту)
         self.stat_keys = list(self.stat.keys())
         self.stat_keys.sort()
         self.stat_keys.reverse()
@@ -152,10 +152,10 @@ class SortCharsAlphabetDecrease(StatMaker):
 
 
 statmaker = StatMaker(file_name=FILE)
-statmaker.launch()
-sort1 = SortCharsFrequencyIncrease
-sort2 = SortCharsAlphabetIncrease
-sort3 = SortCharsAlphabetDecrease
+sort1 = SortCharsFrequencyIncrease(file_name=FILE)
+sort2 = SortCharsAlphabetIncrease(file_name=FILE)
+sort3 = SortCharsAlphabetDecrease(file_name=FILE)
+sort2.launch()
 # зачет первой части
 # После зачета первого этапа нужно сделать упорядочивание статистики
 #  - по частоте по возрастанию
