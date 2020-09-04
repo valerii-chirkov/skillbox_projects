@@ -24,10 +24,6 @@
 #   и https://gitlab.skillbox.ru/vadim_shandrinov/python_base_snippets/snippets/4
 
 import zipfile
-import time
-import datetime
-#  думал что получится решить через библиотеки со временем и датой, но не разобрался как ими пользоваться
-# TODO Для данной задачи достаточно слайса строки. Уберите неиспользуемые импорты модулей
 FILE = 'events.txt'
 OUT_FILE = 'events_out.txt'
 
@@ -36,64 +32,66 @@ class NOKParser:
     def __init__(self, file_name, out_file):
         self.file_name = file_name
         self.out_file = out_file
-        self.prev_line = ''
-        self.counter = 1
+        self.keys = {}
+        self.date = ''
+        self.amount = 1
 
-    def prepare_file(self):  # 1) получение данных (тут может быть подготовка файла/его разахивация)
-        if self.file_name.endswith('.zip'):
-            zfile = zipfile.ZipFile(self.file_name, 'r')
-            self.file_name = ''
-            for filename in zfile.namelist():
-                zfile.extract(filename)
-            self.file_name = filename
-
-    def save_noks(self, out_file):
-        file_out = open(out_file, 'w', encoding='utf8')
+    def fill_dict(self):
         with open(self.file_name, 'r', encoding='cp1251') as file:
-            for line in file:  # Запись первой строки
-                self.get_first_nok(line)
-                self.counter = 0
-                break
             for line in file:
-                self.count_noks(file_out, line)
+                if 'NOK' in line:
+                    self.grouping(line)
 
-    def get_first_nok(self, line):
-        if 'NOK' in line:
-            self.prev_line = line
+    def get_date(self, line):  # TODO добавил, тк заметил что доп классы были большие, а изменялась только эта строка
+        self.date = line[0:17] + ']'
 
-    def count_noks(self, file_out, line):
-        if 'NOK' in line:  # if line.count('NOK')  Есть разница? -- Первый вариант легче для чтения
-            if self.prev_line[0:18] in line[0: 18]:  # Если содержание пред. строки(до секунд)совпадает с линией
-                self.counter += 1  # то накидываем в каунтер
-            else:
-                self.counter = str(self.counter)  # Переводим счетчик в строку
-                appendix = f']{self.counter}'  # Добавляем к нему скобку
-                file_out.write(self.prev_line[0:17] + appendix + '\n')  # И записываем с переносом строки
-                self.counter = 1  # возвращаем счетчик
-            self.prev_line = line  # И все по новой, теперь у нас эта строка стала предыдущей, по ней будем проверять
+    def grouping(self, line):
+        # TODO это тоже усложненный алгоритм?
+        self.get_date(line)
+        if self.date in self.keys:
+            self.amount += 1
+        else:
+            self.amount = 1
+        self.keys.update({self.date: self.amount})
+
+    def write_out_file(self):
+        with open(self.out_file, 'w', encoding='utf8') as file:
+            for date in self.keys:
+                amount = str(self.keys.get(date))
+                line = date + ' ' + amount + '\n'
+                file.write(line)
 
     def launch(self):
-        self.save_noks(out_file=OUT_FILE)
-        #  знаю что по шаблонному методу тут должны быть другие методы, но не понимаю принцип:
-        #  если мы передаем в метод параметры и вызываем его в другом методе, то его в launch уже не нужно добавлять
+        self.fill_dict()
+        self.write_out_file()
 
-        #  По сути у меня один метод разбит на маленькие другие,
-        #  получается структура должна была быть такой:
-        # 1. Распаковка файла
-        # 2. Сохраняем в файл ноки
-        # 3. Откидываем лишнее (секунды и млсекунды)
-        # 4. Потом считаем сколько у нас повторялось и откидываем повторные
-        # 5. Запускаем все попорядку
-        #  но у меня возникала проблема, что на каждый метод мне нужно было или перезаписывать предыдущий events_out
-        #  или создавать временный, передавать его в следующий метод, там его удалять и создавать опять новый временный
-        #  я не решил какой метод будет лучше, потому что и так, и так не работало :) поэтому пошел по такому пути.
-        # todo Усложили очень сильно. Первое - тут нет речи про архивы. Совсем нет. Второе: надо просто сгрупиировать
-        #  НОК по соответствующим временным "ключам" и выдать результат этой группировки. Третье: в шаблонном методе
-        #  достаточно: а) установить временной ключ; б) сгруппировать; в) вывести в консоль
+
+class GroupingHours(NOKParser):
+    def get_date(self, line):
+        self.date = line[0:14] + ']'
+
+
+class GroupingDays(NOKParser):  # TODO Добавил, тк месяц только один
+    def get_date(self, line):
+        self.date = line[0:11] + ']'
+
+
+class GroupingMonths(NOKParser):
+    def get_date(self, line):
+        self.date = line[0:8] + ']'
+
+
+class GroupingYears(NOKParser):
+    def get_date(self, line):
+        self.date = line[0:5] + ']'
 
 
 nokparser = NOKParser(file_name=FILE, out_file=OUT_FILE)
-nokparser.launch()
+sort1 = GroupingHours(file_name=FILE, out_file=OUT_FILE)
+sort2 = GroupingDays(file_name=FILE, out_file=OUT_FILE)
+sort3 = GroupingMonths(file_name=FILE, out_file=OUT_FILE)
+sort4 = GroupingYears(file_name=FILE, out_file=OUT_FILE)
+sort4.launch()
 
 # После зачета первого этапа нужно сделать группировку событий
 #  - по часам
