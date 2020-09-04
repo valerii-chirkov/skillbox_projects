@@ -42,13 +42,16 @@ class NOKParser:
                 if 'NOK' in line:
                     self.grouping(line)
 
-    def get_date(self, line):  # TODO добавил, тк заметил что доп классы были большие, а изменялась только эта строка
-        self.date = line[0:17] + ']'
+    def get_date(self, line):  #  добавил, тк заметил что доп классы были большие, а изменялась только эта строка
+        self.date = line[0:17] + ']'  # todo На самом деле отличие только в правой границе слайса, вот для неё и
+                                      #  сделайте атрибут и метод установки - у наследников будет ещё короче код
+
 
     def grouping(self, line):
-        # TODO это тоже усложненный алгоритм?
+        #  это тоже усложненный алгоритм?
         self.get_date(line)
-        if self.date in self.keys:
+        if self.date in self.keys:  # todo Используя метод .get словарного типа данных, можно записать код заполнения
+                                    #  словаря одной строкой вместо 5ти
             self.amount += 1
         else:
             self.amount = 1
