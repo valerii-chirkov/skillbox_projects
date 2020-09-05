@@ -29,33 +29,26 @@ OUT_FILE = 'events_out.txt'
 
 
 class NOKParser:
-    def __init__(self, file_name, out_file):
+    def __init__(self, file_name, out_file, cut):
         self.file_name = file_name
         self.out_file = out_file
         self.keys = {}
         self.date = ''
-        self.amount = 1
+        self.cut = cut
 
     def fill_dict(self):
         with open(self.file_name, 'r', encoding='cp1251') as file:
             for line in file:
                 if 'NOK' in line:
-                    self.grouping(line)
+                    self.get_date(line)
+                    self.grouping()
 
-    def get_date(self, line):  #  добавил, тк заметил что доп классы были большие, а изменялась только эта строка
-        self.date = line[0:17] + ']'  # todo На самом деле отличие только в правой границе слайса, вот для неё и
-                                      #  сделайте атрибут и метод установки - у наследников будет ещё короче код
+    def get_date(self, line):
+        self.date = line[0:self.cut] + ']'
+        return self.date
 
-
-    def grouping(self, line):
-        #  это тоже усложненный алгоритм?
-        self.get_date(line)
-        if self.date in self.keys:  # todo Используя метод .get словарного типа данных, можно записать код заполнения
-                                    #  словаря одной строкой вместо 5ти
-            self.amount += 1
-        else:
-            self.amount = 1
-        self.keys.update({self.date: self.amount})
+    def grouping(self):
+        self.keys[self.date] = self.keys.get(self.date, 0) + 1
 
     def write_out_file(self):
         with open(self.out_file, 'w', encoding='utf8') as file:
@@ -69,32 +62,28 @@ class NOKParser:
         self.write_out_file()
 
 
-class GroupingHours(NOKParser):
-    def get_date(self, line):
-        self.date = line[0:14] + ']'
+class GroupingHours(NOKParser):  # TODO это ведь не так должно быть реализовано да?
+    pass  # TODO что классы пустые
 
 
-class GroupingDays(NOKParser):  # TODO Добавил, тк месяц только один
-    def get_date(self, line):
-        self.date = line[0:11] + ']'
+class GroupingDays(NOKParser):
+    pass
 
 
 class GroupingMonths(NOKParser):
-    def get_date(self, line):
-        self.date = line[0:8] + ']'
+    pass
 
 
 class GroupingYears(NOKParser):
-    def get_date(self, line):
-        self.date = line[0:5] + ']'
+    pass
 
 
-nokparser = NOKParser(file_name=FILE, out_file=OUT_FILE)
-sort1 = GroupingHours(file_name=FILE, out_file=OUT_FILE)
-sort2 = GroupingDays(file_name=FILE, out_file=OUT_FILE)
-sort3 = GroupingMonths(file_name=FILE, out_file=OUT_FILE)
-sort4 = GroupingYears(file_name=FILE, out_file=OUT_FILE)
-sort4.launch()
+nokparser = NOKParser(file_name=FILE, out_file=OUT_FILE, cut=17)
+sort1 = GroupingHours(file_name=FILE, out_file=OUT_FILE, cut=14)
+sort2 = GroupingDays(file_name=FILE, out_file=OUT_FILE, cut=11)
+sort3 = GroupingMonths(file_name=FILE, out_file=OUT_FILE, cut=8)
+sort4 = GroupingYears(file_name=FILE, out_file=OUT_FILE, cut=5)
+sort3.launch()
 
 # После зачета первого этапа нужно сделать группировку событий
 #  - по часам
