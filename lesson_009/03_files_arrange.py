@@ -3,6 +3,11 @@
 import os
 import time
 import shutil
+import zipfile
+import platform
+from pprint import pprint
+FILE = 'icons.zip'
+FILE_OUT = 'icons_by_year'
 
 # Нужно написать скрипт для упорядочивания фотографий (вообще любых файлов)
 # Скрипт должен разложить файлы из одной папки по годам и месяцам в другую.
@@ -40,7 +45,60 @@ import shutil
 #   см https://refactoring.guru/ru/design-patterns/template-method
 #   и https://gitlab.skillbox.ru/vadim_shandrinov/python_base_snippets/snippets/4
 
-# TODO здесь ваш код
+
+class OrderFiles:
+    def __init__(self, file_name, out_file):
+        self.file_name = file_name
+        self.out_file = out_file
+        self.icons = {}
+        self.icons_local_time = {}
+
+    def prepare_file(self):
+        if self.file_name.endswith('.zip'):
+            zfile = zipfile.ZipFile(self.file_name, 'r')
+            for filename in zfile.namelist():
+                zfile.extract(filename)
+            self.file_name = self.file_name[:-4]
+
+    def run(self):
+        count = 0
+        for dirpath, dirnames, filenames in os.walk(self.file_name):
+            print('*' * 27)
+            count += len(filenames)
+            for file in filenames:
+                full_file_path = os.path.join(dirpath, file)
+                modification_time = os.path.getmtime(full_file_path)
+                local_time = time.ctime(modification_time)
+
+                # self.icons[local_time] = self.icons.get(local_time, full_file_path)  TODO Почему-то не работает
+
+                # self.icons[modification_time] = self.icons.get(modification_time, full_file_path)
+                # self.icons[local_time] = self.icons[modification_time]  TODO так тоже, оставляет один файл
+                # del self.icons[modification_time]
+
+                self.icons[modification_time] = self.icons.get(modification_time, full_file_path)
+                # self.icons_local_time[local_time] = self.icons.get(local_time, full_file_path)
+
+        # pprint(self.icons)
+        # pprint(self.icons_local_time)
+
+    def convert_to_local(self):
+        pass
+
+    def icons_by_year(self):
+        pass
+
+    def launch(self):
+        self.prepare_file()
+        self.run()
+        self.convert_to_local()
+
+
+order = OrderFiles(file_name=FILE, out_file=FILE_OUT)
+order.launch()
+
+
+
 
 # Усложненное задание (делать по желанию)
 # Нужно обрабатывать zip-файл, содержащий фотографии, без предварительного извлечения файлов в папку.
