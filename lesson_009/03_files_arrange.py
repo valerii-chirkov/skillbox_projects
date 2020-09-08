@@ -53,9 +53,15 @@ class OrderFiles:
         self.icons = {}
         self.icons_local_time = {}
 
-    def prepare_file(self):
+    def prepare_file(self):  # todo Этого делать не надо, в задании указано, цитата:
+        # Файлы для работы взять из архива icons.zip - раззиповать проводником ОС в папку icons перед написанием кода.
+        # todo В усложнённом варианте, надо итрериовать по zfile.infolist(), получать данные о времени из архива,
+        #  открывать файл в архиве средсвами zipfile и копировать этот файл в нужное место. Но это надо делать после
+        #  того как выполните основную задачу.
+
         if self.file_name.endswith('.zip'):
             zfile = zipfile.ZipFile(self.file_name, 'r')
+
             for filename in zfile.namelist():
                 zfile.extract(filename)
             self.file_name = self.file_name[:-4]
@@ -69,16 +75,19 @@ class OrderFiles:
                 full_file_path = os.path.join(dirpath, file)
                 modification_time = os.path.getmtime(full_file_path)
                 local_time = time.ctime(modification_time)
-
-                # self.icons[local_time] = self.icons.get(local_time, full_file_path)  TODO Почему-то не работает
+                # todo используйте time.gmtime() чтобы преобразовать секунды из local_time в список с годом, месяцем и
+                #  т.д. Из этого списка получите индексацией нужные данные и сконструируйте "путь" для копирования файла
+                # self.icons[local_time] = self.icons.get(local_time, full_file_path)   Почему-то не работает
 
                 # self.icons[modification_time] = self.icons.get(modification_time, full_file_path)
-                # self.icons[local_time] = self.icons[modification_time]  TODO так тоже, оставляет один файл
+                # self.icons[local_time] = self.icons[modification_time]   так тоже, оставляет один файл
                 # del self.icons[modification_time]
 
                 self.icons[modification_time] = self.icons.get(modification_time, full_file_path)
                 # self.icons_local_time[local_time] = self.icons.get(local_time, full_file_path)
-
+                # todo Не вполне ясно, зачем перекладывать информацию из одного ключа в другой. Нужно получить год и
+                #  месяц модификации файла, "сконструировать" пусть куда файл надо скопировать и выполнить копирование -
+                #  собирать данные в словари не надо - а только по очереди копировать файлы.
         # pprint(self.icons)
         # pprint(self.icons_local_time)
 
