@@ -68,3 +68,5 @@ while True:
     if total_carma >= ENLIGHTENMENT_CARMA_LEVEL:
         print(f'Вышел из цикла с кармой {total_carma}')
         break
+
+# зачет!
