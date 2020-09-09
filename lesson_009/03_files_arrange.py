@@ -62,13 +62,22 @@ class OrderFiles:
                 month = actual_time.tm_mon
                 path = self.out_file
                 pathos = os.path.join(path, str(year))
-                if str(year) in self.out_file:
-                    os.makedirs(pathos)
-                    shutil.copy2(full_file_path, pathos)
+                path_month = os.path.join(pathos, str(month))
+                # if str(year) in self.out_file:  # TODO а почему так папка 2018 криво создавалась?
+                #     os.makedirs(pathos)
+                #     shutil.copy2(full_file_path, pathos)
+                # else:
+                #     shutil.copy2(full_file_path, pathos)
+                if os.path.exists(pathos):
+                    if os.path.exists(path_month):
+                        shutil.copy2(full_file_path, path_month)
+                    else:
+                        os.makedirs(path_month)
+                        shutil.copy2(full_file_path, path_month)
                 else:
-                    shutil.copy2(full_file_path, pathos)
-                # todo Нужно проверять наличие папки куда собираетесь копировать и если её нет - создавать:
-                #  os.path.exists() и os.makedirs()
+                    os.makedirs(path_month)
+                    shutil.copy2(full_file_path, path_month)
+
     def launch(self):
         self.run()
 
