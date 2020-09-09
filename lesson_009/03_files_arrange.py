@@ -67,7 +67,8 @@ class OrderFiles:
                     shutil.copy2(full_file_path, pathos)
                 else:
                     shutil.copy2(full_file_path, pathos)
-
+                # todo Нужно проверять наличие папки куда собираетесь копировать и если её нет - создавать:
+                #  os.path.exists() и os.makedirs()
     def launch(self):
         self.run()
 
