@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
 # Умножить константу BRUCE_WILLIS на пятый элемент строки, введенный пользователем
-
+BRUCE_WILLIS = 42
 while True:
     try:
-        BRUCE_WILLIS = 42  # TODO Константу расположите в начале файла
         input_data = input('Если хочешь что-нибудь сделать, сделай это сам: ')
         leeloo = int(input_data[4])
         result = BRUCE_WILLIS * leeloo
