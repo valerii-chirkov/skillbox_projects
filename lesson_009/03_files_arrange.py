@@ -63,7 +63,9 @@ class OrderFiles:
                 path = self.out_file
                 pathos = os.path.join(path, str(year))
                 path_month = os.path.join(pathos, str(month))
-                # if str(year) in self.out_file:  # TODO а почему так папка 2018 криво создавалась?
+                # if str(year) in self.out_file:  #  а почему так папка 2018 криво создавалась?
+                                                  # -- Подозреваю что она вообще не создавалась. Не понятно зачем
+                                                  #  проверять наличие года в имени "корневой" папки, чего не может быть
                 #     os.makedirs(pathos)
                 #     shutil.copy2(full_file_path, pathos)
                 # else:
@@ -93,3 +95,5 @@ order.launch()
 # Это относится только к чтению файлов в архиве. В случае паттерна "Шаблонный метод" изменяется способ
 # получения данных (читаем os.walk() или zip.namelist и т.д.)
 # Документация по zipfile: API https://docs.python.org/3/library/zipfile.html
+
+# зачет!
