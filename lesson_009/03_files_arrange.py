@@ -54,7 +54,11 @@ class OrderFiles:
     def run(self):
         zfile = zipfile.ZipFile(self.file_name, 'r')
         self.file_name = ''
-        for filename in zfile.namelist():
+        for filename in zfile.namelist(): # todo итерируйте по infolist()
+            # todo Вы разархивируете файлы с помощью zipfile -при этом пропадают атрибуты модификации файлов,
+            #  после этого бессмысленно пытаться брать время модификации - оно стало временем извлечения файлов. Время
+            #  надо брать из архива непосредственно, у объектов из infolist()  есть атрибут date_time. После этого или
+            #  открывать файл в архиве и копировать его, либо разархивировать в нужную папку, а не папку по-умолчанию.
             for dirpath, dirnames, filenames in os.walk(zfile.extract(filename)):
                 for file in filenames:
                     full_file_path = os.path.join(dirpath, file)
@@ -77,7 +81,7 @@ class OrderFiles:
                         os.makedirs(path_month)
                         shutil.copy2(full_file_path, path_month)
 
-    def launch(self):
+    def launch(self):  # todo Дополнительный метод "запуск" выглядит избыточным, когда уже есть run
         self.run()
 
 
