@@ -6,7 +6,7 @@ import shutil
 import zipfile
 import platform
 from pprint import pprint
-FILE = 'icons'
+FILE = 'icons.zip'
 FILE_OUT = 'icons_by_year'
 
 # Нужно написать скрипт для упорядочивания фотографий (вообще любых файлов)
@@ -52,33 +52,30 @@ class OrderFiles:
         self.out_file = out_file
 
     def run(self):
-        for dirpath, dirnames, filenames in os.walk(self.file_name):
-            for file in filenames:
-                full_file_path = os.path.join(dirpath, file)
-                modification_time = os.path.getmtime(full_file_path)
-                actual_time = time.gmtime(modification_time)
+        zfile = zipfile.ZipFile(self.file_name, 'r')
+        self.file_name = ''
+        for filename in zfile.namelist():
+            for dirpath, dirnames, filenames in os.walk(zfile.extract(filename)):
+                for file in filenames:
+                    full_file_path = os.path.join(dirpath, file)
+                    modification_time = os.path.getmtime(full_file_path)
+                    actual_time = time.gmtime(modification_time)
 
-                year = actual_time.tm_year
-                month = actual_time.tm_mon
-                path = self.out_file
-                pathos = os.path.join(path, str(year))
-                path_month = os.path.join(pathos, str(month))
-                # if str(year) in self.out_file:  #  а почему так папка 2018 криво создавалась?
-                                                  # -- Подозреваю что она вообще не создавалась. Не понятно зачем
-                                                  #  проверять наличие года в имени "корневой" папки, чего не может быть
-                #     os.makedirs(pathos)
-                #     shutil.copy2(full_file_path, pathos)
-                # else:
-                #     shutil.copy2(full_file_path, pathos)
-                if os.path.exists(pathos):
-                    if os.path.exists(path_month):
-                        shutil.copy2(full_file_path, path_month)
+                    year = actual_time.tm_year
+                    month = actual_time.tm_mon
+                    path = self.out_file
+                    pathos = os.path.join(path, str(year))
+                    path_month = os.path.join(pathos, str(month))
+
+                    if os.path.exists(pathos):
+                        if os.path.exists(path_month):
+                            shutil.copy2(full_file_path, path_month)
+                        else:
+                            os.makedirs(path_month)
+                            shutil.copy2(full_file_path, path_month)
                     else:
                         os.makedirs(path_month)
                         shutil.copy2(full_file_path, path_month)
-                else:
-                    os.makedirs(path_month)
-                    shutil.copy2(full_file_path, path_month)
 
     def launch(self):
         self.run()
