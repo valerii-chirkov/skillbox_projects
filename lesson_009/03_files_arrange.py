@@ -57,7 +57,11 @@ class OrderFiles:
         for filename in archive.namelist():
             modification_time = archive.getinfo(filename).date_time
             year, month, day = modification_time[0], modification_time[1], modification_time[2]
+            print(year, month)  # todо посмотрите в консоль при запуске - вот это реальные данные о времени модификации
+            # папок и файлов
             for dirpath, dirnames, filenames in os.walk(archive.extract(filename)):
+                # todo При первом запуске извлекаются все файлы в icons, при втором из icons копируются в icons_by_year,
+                #  постарайтесь обойтись одним циклом, а не тремя вложенными
                 for file in filenames:
                     full_file_path = os.path.join(dirpath, file)
                     path = self.out_file
@@ -74,7 +78,7 @@ class OrderFiles:
                         os.makedirs(path_month)
                         shutil.copy2(full_file_path, path_month)
 
-                    print(modification_time)
+                    # print(modification_time)
 
             # modification_time = os.path.getmtime(full_file_path)
             # actual_time = time.gmtime(modification_time)
