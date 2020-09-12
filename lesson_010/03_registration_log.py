@@ -57,62 +57,24 @@ def check_age(age):
 
 
 with open(FILE, 'r') as ff:
+    file_good = open(FILE_OUT_GOOD, 'a')
+    file_bad = open(FILE_OUT_BAD, 'a')
     for line in ff:
         try:
-            name, email, age = line.split(' ')
-            name = str(name)
-            email = str(email)
-            age = int(age)
             try:
+                name, email, age = line.split(' ')
+                name = str(name)
+                email = str(email)
+                age = int(age)
                 if check_name(name) and check_email(email) and check_age(age):
-                    with open(FILE_OUT_GOOD, 'w') as file:
-                        file.write(line)
+                    file_good.write(line)
 
             except Exception as ex:
-                with open(FILE_OUT_BAD, 'w') as file:
-                    file.write(line + str(ex))
-                    continue
+                file_bad.write(line[:-1] + " " + str(ex) + '\n')
+                continue
 
         except ValueError as ex:
-            with open(FILE_OUT_BAD, 'w') as file:
-                file.write(line + str(ex))
-                continue
-# TODO Файлы перезаписываются от того, что вы их открываете с режимом "w" перед каждой новой записью (записью новой
-#  строки в лог). При этом файл перезаписывается поверх старого. Надо или поменять режим на "а", а ещё лучше - открыть
-#  их все разом там же где открываете файл на чтение - with может открывать несколько файлов сразу. Последний вариант
-#  будет ещё и быстрее работать.
-# def calc(line):
-#     # print(f'Read line {line}', flush=True)
-#     operand_1, operation, operand_2 = line.split(' ')
-#     operand_1 = int(operand_1)
-#     operand_2 = int(operand_2)
-#     if operation == '+':
-#         value = operand_1 + operand_2
-#     elif operation == '-':
-#         value = operand_1 - operand_2
-#     elif operation == '/':
-#         value = operand_1 / operand_2
-#     elif operation == '*':
-#         value = operand_1 * operand_2
-#     elif operation == '//':
-#         value = operand_1 // operand_2
-#     elif operation == '%':
-#         value = operand_1 % operand_2
-#     else:
-#         raise ValueError('Unknown operation {operation}')
-#     return value
-#
-#
-# total = 0
-# with open('calc.txt', 'r') as ff:
-#     for line in ff:
-#         line = line[:-1]
-#         try:
-#             total += calc(line)
-#         except ValueError as exc:
-#             if 'unpack' in exc.args[0]:
-#                 print(f'Не хватает операндов {exc} в строке {line}')
-#             else:
-#                 print(f'Не могу преобразовать к целому {exc} в строке {line}')
-#
-# print(f'Total {total}')
+            file_bad.write(line + " " + str(ex))
+            continue
+    file_good.close()
+    file_bad.close()
