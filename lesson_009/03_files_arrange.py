@@ -4,6 +4,7 @@ import os
 import time
 import shutil
 import zipfile
+import pathlib
 import platform
 from pprint import pprint
 FILE = 'icons.zip'
@@ -52,21 +53,13 @@ class OrderFiles:
         self.out_file = out_file
 
     def run(self):
-        zfile = zipfile.ZipFile(self.file_name, 'r')
-        self.file_name = ''
-        for filename in zfile.namelist(): # todo итерируйте по infolist()
-            # todo Вы разархивируете файлы с помощью zipfile -при этом пропадают атрибуты модификации файлов,
-            #  после этого бессмысленно пытаться брать время модификации - оно стало временем извлечения файлов. Время
-            #  надо брать из архива непосредственно, у объектов из infolist()  есть атрибут date_time. После этого или
-            #  открывать файл в архиве и копировать его, либо разархивировать в нужную папку, а не папку по-умолчанию.
-            for dirpath, dirnames, filenames in os.walk(zfile.extract(filename)):
+        archive = zipfile.ZipFile(self.file_name, 'r')
+        for filename in archive.namelist():
+            modification_time = archive.getinfo(filename).date_time
+            year, month, day = modification_time[0], modification_time[1], modification_time[2]
+            for dirpath, dirnames, filenames in os.walk(archive.extract(filename)):
                 for file in filenames:
                     full_file_path = os.path.join(dirpath, file)
-                    modification_time = os.path.getmtime(full_file_path)
-                    actual_time = time.gmtime(modification_time)
-
-                    year = actual_time.tm_year
-                    month = actual_time.tm_mon
                     path = self.out_file
                     pathos = os.path.join(path, str(year))
                     path_month = os.path.join(pathos, str(month))
@@ -81,12 +74,38 @@ class OrderFiles:
                         os.makedirs(path_month)
                         shutil.copy2(full_file_path, path_month)
 
-    def launch(self):  # todo Дополнительный метод "запуск" выглядит избыточным, когда уже есть run
-        self.run()
+                    print(modification_time)
+
+            # modification_time = os.path.getmtime(full_file_path)
+            # actual_time = time.gmtime(modification_time)
+            #
+            # year = actual_time.tm_year
+            # month = actual_time.tm_mon
+            # path = self.out_file
+            # pathos = os.path.join(path, str(year))
+            # path_month = os.path.join(pathos, str(month))
+            #
+            # if os.path.exists(pathos):
+            #     if os.path.exists(path_month):
+            #         shutil.copy2(full_file_path, path_month)
+            #     else:
+            #         os.makedirs(path_month)
+            #         shutil.copy2(full_file_path, path_month)
+            # else:
+            #     os.makedirs(path_month)
+            #     shutil.copy2(full_file_path, path_month)
+            # todo Вы разархивируете файлы с помощью zipfile -при этом пропадают атрибуты модификации файлов,
+            #  после этого бессмысленно пытаться брать время модификации - оно стало временем извлечения файлов. Время
+            #  надо брать из архива непосредственно, у объектов из infolist()  есть атрибут date_time. После этого или
+            #  открывать файл в архиве и копировать его, либо разархивировать в нужную папку, а не папку по-умолчанию.
+            # for dirpath, dirnames, filenames in os.walk(zfile.extract(filename)):
+            #     for file in filenames:
+            #
+            #
 
 
 order = OrderFiles(file_name=FILE, out_file=FILE_OUT)
-order.launch()
+order.run()
 
 
 
