@@ -46,21 +46,24 @@ def check_email(email):
     if '.' and '@' in email:
         return True
     else:
-        raise NotNameError('There is not enough symbols')
+        raise NotNameError('There is not enough symbols')  # TODO Опечатка - не то исключение выбросили
 
 
 def check_age(age):
     if age in range(10, 99):
         return True
     else:
-        raise ValueError('Value Error')
+        raise ValueError('Value Error')  # TODO Тут надо дать пояснение: "возраст вне диапазона допустимых значенией"
+                                         #  или "неверный возраст"
 
 
-with open(FILE, 'r') as ff:
-    file_good = open(FILE_OUT_GOOD, 'a')
-    file_bad = open(FILE_OUT_BAD, 'a')
+with open(FILE, 'r') as ff:  # TODO продолжайте открывать файлы через запятую, with умеет работать с несклькими файлами
+                             #  сразу
+    file_good = open(FILE_OUT_GOOD, 'w')
+    file_bad = open(FILE_OUT_BAD, 'w')
     for line in ff:
-        try:
+        try:  # TODO Вы сделали вложенный try, но вот этот "внешний" не работает, так как внутренний всё перехватывает
+              #  и отрабатывает, тогда зачем он нужен?
             try:
                 name, email, age = line.split(' ')
                 name = str(name)
@@ -69,8 +72,9 @@ with open(FILE, 'r') as ff:
                 if check_name(name) and check_email(email) and check_age(age):
                     file_good.write(line)
 
-            except Exception as ex:
-                file_bad.write(line[:-1] + " " + str(ex) + '\n')
+            except Exception as ex:  # todo Вместо Exception укажите кортеж с конкретными классами которые обрабатываются
+                file_bad.write(line[:-1] + " " + str(ex) + '\n')  # TODO Используйте f-строки, а вот так можно получить
+                                                                  #  имя класса исключения f'{ex.__class__.__name__}'
                 continue
 
         except ValueError as ex:
