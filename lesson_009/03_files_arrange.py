@@ -54,58 +54,26 @@ class OrderFiles:
 
     def run(self):
         archive = zipfile.ZipFile(self.file_name, 'r')
-        for filename in archive.namelist():
-            modification_time = archive.getinfo(filename).date_time
-            year, month, day = modification_time[0], modification_time[1], modification_time[2]
-            print(year, month)  # todо посмотрите в консоль при запуске - вот это реальные данные о времени модификации
-            # папок и файлов
-            for dirpath, dirnames, filenames in os.walk(archive.extract(filename)):
-                # todo При первом запуске извлекаются все файлы в icons, при втором из icons копируются в icons_by_year,
-                #  постарайтесь обойтись одним циклом, а не тремя вложенными
-                for file in filenames:
-                    full_file_path = os.path.join(dirpath, file)
-                    path = self.out_file
-                    pathos = os.path.join(path, str(year))
-                    path_month = os.path.join(pathos, str(month))
+        with open(self.out_file, 'a') as ff:
+            for file in archive.namelist():
+                modification_time = archive.getinfo(file).date_time
+                year, month, day = modification_time[0], modification_time[1], modification_time[2]
+                print(year, month)
 
-                    if os.path.exists(pathos):
-                        if os.path.exists(path_month):
-                            shutil.copy2(full_file_path, path_month)
-                        else:
-                            os.makedirs(path_month)
-                            shutil.copy2(full_file_path, path_month)
+                full_file_path = os.path.join(file)
+
+                pathos = os.path.join(ff.name, str(year))
+                path_month = os.path.join(pathos, str(month))
+
+                if os.path.exists(pathos):
+                    if os.path.exists(path_month):
+                        shutil.copy2(full_file_path, path_month)
                     else:
                         os.makedirs(path_month)
                         shutil.copy2(full_file_path, path_month)
-
-                    # print(modification_time)
-
-            # modification_time = os.path.getmtime(full_file_path)
-            # actual_time = time.gmtime(modification_time)
-            #
-            # year = actual_time.tm_year
-            # month = actual_time.tm_mon
-            # path = self.out_file
-            # pathos = os.path.join(path, str(year))
-            # path_month = os.path.join(pathos, str(month))
-            #
-            # if os.path.exists(pathos):
-            #     if os.path.exists(path_month):
-            #         shutil.copy2(full_file_path, path_month)
-            #     else:
-            #         os.makedirs(path_month)
-            #         shutil.copy2(full_file_path, path_month)
-            # else:
-            #     os.makedirs(path_month)
-            #     shutil.copy2(full_file_path, path_month)
-            # todo Вы разархивируете файлы с помощью zipfile -при этом пропадают атрибуты модификации файлов,
-            #  после этого бессмысленно пытаться брать время модификации - оно стало временем извлечения файлов. Время
-            #  надо брать из архива непосредственно, у объектов из infolist()  есть атрибут date_time. После этого или
-            #  открывать файл в архиве и копировать его, либо разархивировать в нужную папку, а не папку по-умолчанию.
-            # for dirpath, dirnames, filenames in os.walk(zfile.extract(filename)):
-            #     for file in filenames:
-            #
-            #
+                else:
+                    os.makedirs(path_month)
+                    shutil.copy2(full_file_path, path_month)
 
 
 order = OrderFiles(file_name=FILE, out_file=FILE_OUT)
