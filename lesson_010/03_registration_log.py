@@ -46,39 +46,27 @@ def check_email(email):
     if '.' and '@' in email:
         return True
     else:
-        raise NotNameError('There is not enough symbols')  # TODO Опечатка - не то исключение выбросили
+        raise NotEmailError('There is not enough symbols')
 
 
 def check_age(age):
     if age in range(10, 99):
         return True
     else:
-        raise ValueError('Value Error')  # TODO Тут надо дать пояснение: "возраст вне диапазона допустимых значенией"
-                                         #  или "неверный возраст"
+        raise ValueError('Wrong age')
 
 
-with open(FILE, 'r') as ff:  # TODO продолжайте открывать файлы через запятую, with умеет работать с несклькими файлами
-                             #  сразу
-    file_good = open(FILE_OUT_GOOD, 'w')
-    file_bad = open(FILE_OUT_BAD, 'w')
-    for line in ff:
-        try:  # TODO Вы сделали вложенный try, но вот этот "внешний" не работает, так как внутренний всё перехватывает
-              #  и отрабатывает, тогда зачем он нужен?
-            try:
-                name, email, age = line.split(' ')
-                name = str(name)
-                email = str(email)
-                age = int(age)
-                if check_name(name) and check_email(email) and check_age(age):
-                    file_good.write(line)
+exceptions = (NotNameError, NotEmailError)
+with open(FILE, 'r') as file, open(FILE_OUT_GOOD, 'w') as g_file, open(FILE_OUT_BAD, 'w') as b_file:
+    for line in file:
+        try:
+            name, email, age = line.split(' ')
+            name = str(name)
+            email = str(email)
+            age = int(age)
+            if check_name(name) and check_email(email) and check_age(age):
+                g_file.write(line)
 
-            except Exception as ex:  # todo Вместо Exception укажите кортеж с конкретными классами которые обрабатываются
-                file_bad.write(line[:-1] + " " + str(ex) + '\n')  # TODO Используйте f-строки, а вот так можно получить
-                                                                  #  имя класса исключения f'{ex.__class__.__name__}'
-                continue
-
-        except ValueError as ex:
-            file_bad.write(line + " " + str(ex))
+        except Exception as ex:  # Почему-то не работает с exceptions
+            b_file.write(f'{line[:-1]} {ex.__class__.__name__} \n')  # ex.__class__.__name__
             continue
-    file_good.close()
-    file_bad.close()
