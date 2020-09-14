@@ -56,7 +56,6 @@ def check_age(age):
         raise ValueError('Wrong age')
 
 
-exceptions = (NotNameError, NotEmailError)
 with open(FILE, 'r') as file, open(FILE_OUT_GOOD, 'w') as g_file, open(FILE_OUT_BAD, 'w') as b_file:
     for line in file:
         try:
@@ -67,7 +66,6 @@ with open(FILE, 'r') as file, open(FILE_OUT_GOOD, 'w') as g_file, open(FILE_OUT_
             if check_name(name) and check_email(email) and check_age(age):
                 g_file.write(line)
 
-        except Exception as ex:  # Почему-то не работает с exceptions
-            b_file.write(f'{line[:-1]} {ex.__class__.__name__} \n')  # todo Чтобы вывести сопроводительное сообщение об
-                                                                     #  ошибке нужно указать ex в фигурных скобках
+        except (NotNameError, NotEmailError, ValueError) as ex:
+            b_file.write(f'{line[:-1]} {ex.__class__.__name__} {ex}\n')
             continue
