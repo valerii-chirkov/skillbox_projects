@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import os
-import time
 import shutil
 import zipfile
-import pathlib
-import platform
-from pprint import pprint
 FILE = 'icons.zip'
 FILE_OUT = 'icons_by_year'
 
@@ -54,7 +50,12 @@ class OrderFiles:
 
     def run(self):
         archive = zipfile.ZipFile(self.file_name, 'r')
-        with open(self.out_file, 'a') as ff:
+        with open(self.out_file, 'a') as ff:  # todo Вы пытаетесь открыть папку, которой на самом деле может не быть
+                                              #  (удалите папки icons и icons_by_year, если они есть.
+                                              #  Папка icons_by_year должна создаваться этой программой). Тут надо
+                                              #  открывать файл архива, перебирать (итерировать) файлы, смотреть время
+                                              #  модификации именно внутри архива, а потом извлекать или копировать файл
+                                              #  из архива на диск, в целевую папку
             for file in archive.namelist():
                 modification_time = archive.getinfo(file).date_time
                 year, month, day = modification_time[0], modification_time[1], modification_time[2]
@@ -78,8 +79,6 @@ class OrderFiles:
 
 order = OrderFiles(file_name=FILE, out_file=FILE_OUT)
 order.run()
-
-
 
 
 # Усложненное задание (делать по желанию)
