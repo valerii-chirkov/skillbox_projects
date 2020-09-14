@@ -68,5 +68,6 @@ with open(FILE, 'r') as file, open(FILE_OUT_GOOD, 'w') as g_file, open(FILE_OUT_
                 g_file.write(line)
 
         except Exception as ex:  # Почему-то не работает с exceptions
-            b_file.write(f'{line[:-1]} {ex.__class__.__name__} \n')  # ex.__class__.__name__
+            b_file.write(f'{line[:-1]} {ex.__class__.__name__} \n')  # todo Чтобы вывести сопроводительное сообщение об
+                                                                     #  ошибке нужно указать ex в фигурных скобках
             continue
