@@ -50,20 +50,19 @@ class OrderFiles:
 
     def run(self):
         archive = zipfile.ZipFile(self.file_name, 'r')
-        with open(self.out_file, 'a') as ff:  # todo Вы пытаетесь открыть папку, которой на самом деле может не быть
-                                              #  (удалите папки icons и icons_by_year, если они есть.
-                                              #  Папка icons_by_year должна создаваться этой программой). Тут надо
-                                              #  открывать файл архива, перебирать (итерировать) файлы, смотреть время
-                                              #  модификации именно внутри архива, а потом извлекать или копировать файл
-                                              #  из архива на диск, в целевую папку
+        if not os.path.exists(self.out_file):
+            os.mkdir(self.out_file)
+
+        with open(self.file_name, 'a') as ff:
             for file in archive.namelist():
                 modification_time = archive.getinfo(file).date_time
                 year, month, day = modification_time[0], modification_time[1], modification_time[2]
                 print(year, month)
 
-                full_file_path = os.path.join(file)
+                full_file_path = os.path.join(ff.name)  # TODO проблема в определении пути
+                # TODO сейчас он в папки закидывает зип, а как брать именно file?
 
-                pathos = os.path.join(ff.name, str(year))
+                pathos = os.path.join(self.out_file, str(year))
                 path_month = os.path.join(pathos, str(month))
 
                 if os.path.exists(pathos):
@@ -75,6 +74,7 @@ class OrderFiles:
                 else:
                     os.makedirs(path_month)
                     shutil.copy2(full_file_path, path_month)
+            print(ff.name, str(file[6:])) # TODO Должен же получиться примерно такой путь?
 
 
 order = OrderFiles(file_name=FILE, out_file=FILE_OUT)
