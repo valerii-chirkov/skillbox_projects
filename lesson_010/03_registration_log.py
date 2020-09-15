@@ -69,3 +69,5 @@ with open(FILE, 'r') as file, open(FILE_OUT_GOOD, 'w') as g_file, open(FILE_OUT_
         except (NotNameError, NotEmailError, ValueError) as ex:
             b_file.write(f'{line[:-1]} {ex.__class__.__name__} {ex}\n')
             continue
+
+# зачет!
