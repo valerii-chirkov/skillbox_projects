@@ -59,24 +59,24 @@ class OrderFiles:
                 year, month, day = modification_time[0], modification_time[1], modification_time[2]
                 print(year, month)
 
-                full_file_path = os.path.join(ff.name)  #  проблема в определении пути
-                #  сейчас он в папки закидывает зип, а как брать именно file?
-                # todo Верно! Но проверять что это именно файл, ведь там и папки попадаются, а нам нужны только файлы
-                pathos = os.path.join(self.out_file, str(year))
-                path_month = os.path.join(pathos, str(month))
+                archive.extract(file)
+                full_file_path = os.path.join(file)
 
-                if os.path.exists(pathos):
-                    if os.path.exists(path_month):
-                        shutil.copy2(full_file_path, path_month)
+                path_year = os.path.join(self.out_file, str(year))
+                path_month = os.path.join(path_year, str(month))
+                try:
+                    if os.path.exists(path_year):
+                        if os.path.exists(path_month):
+                            shutil.copy2(full_file_path, path_month)
+                        else:
+                            os.makedirs(path_month, exist_ok=True)
+                            shutil.copy2(full_file_path, path_month)
                     else:
-                        os.makedirs(path_month)  # todo используйте параметр exist_ok чтобы избежать проверки наличия
-                                                 #  папки
+                        os.makedirs(path_month)
                         shutil.copy2(full_file_path, path_month)
-                else:
-                    os.makedirs(path_month)
-                    shutil.copy2(full_file_path, path_month)
-            print(ff.name, str(file[6:])) #  Должен же получиться примерно такой путь?
-            # todo Верно, только не забывайте про icons_by_year
+                except Exception:
+                    pass
+            print(self.out_file, str(file[6:]))
 
 
 order = OrderFiles(file_name=FILE, out_file=FILE_OUT)
