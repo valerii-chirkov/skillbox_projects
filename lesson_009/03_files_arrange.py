@@ -59,12 +59,13 @@ class OrderFiles:
                 year, month, day = modification_time[0], modification_time[1], modification_time[2]
                 print(year, month)
 
-                archive.extract(file)
-                full_file_path = os.path.join(file)
+                archive.extract(file)  # TODO  создаю промежуточную папку
+                full_file_path = os.path.join(file)  # TODO не могу догадаться как брать файл из зипа и сразу его кидать
+                # TODO в icons_by_year без создание промежут. папки
 
                 path_year = os.path.join(self.out_file, str(year))
                 path_month = os.path.join(path_year, str(month))
-                try:
+                try:  # TODO Жалуется на папку, говорит что проблема в 70 строке (прод. строка 76)
                     if os.path.exists(path_year):
                         if os.path.exists(path_month):
                             shutil.copy2(full_file_path, path_month)
@@ -73,9 +74,10 @@ class OrderFiles:
                             shutil.copy2(full_file_path, path_month)
                     else:
                         os.makedirs(path_month)
-                        shutil.copy2(full_file_path, path_month)
+                        shutil.copy2(full_file_path, path_month)  # TODO Но выходит из цикла на первом проходе здесь (67)
                 except Exception:
                     pass
+            shutil.rmtree(self.file_name[:-4])  # TODO удаляю папку
             print(self.out_file, str(file[6:]))
 
 
