@@ -59,9 +59,9 @@ class OrderFiles:
                 year, month, day = modification_time[0], modification_time[1], modification_time[2]
                 print(year, month)
 
-                full_file_path = os.path.join(ff.name)  # TODO проблема в определении пути
-                # TODO сейчас он в папки закидывает зип, а как брать именно file?
-
+                full_file_path = os.path.join(ff.name)  #  проблема в определении пути
+                #  сейчас он в папки закидывает зип, а как брать именно file?
+                # todo Верно! Но проверять что это именно файл, ведь там и папки попадаются, а нам нужны только файлы
                 pathos = os.path.join(self.out_file, str(year))
                 path_month = os.path.join(pathos, str(month))
 
@@ -69,12 +69,14 @@ class OrderFiles:
                     if os.path.exists(path_month):
                         shutil.copy2(full_file_path, path_month)
                     else:
-                        os.makedirs(path_month)
+                        os.makedirs(path_month)  # todo используйте параметр exist_ok чтобы избежать проверки наличия
+                                                 #  папки
                         shutil.copy2(full_file_path, path_month)
                 else:
                     os.makedirs(path_month)
                     shutil.copy2(full_file_path, path_month)
-            print(ff.name, str(file[6:])) # TODO Должен же получиться примерно такой путь?
+            print(ff.name, str(file[6:])) #  Должен же получиться примерно такой путь?
+            # todo Верно, только не забывайте про icons_by_year
 
 
 order = OrderFiles(file_name=FILE, out_file=FILE_OUT)
