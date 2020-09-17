@@ -59,30 +59,24 @@ class OrderFiles:
                 year, month, day = modification_time[0], modification_time[1], modification_time[2]
                 print(year, month)
 
-                archive.extract(file)  #   создаю промежуточную папку
-                full_file_path = os.path.join(file)  #  не могу догадаться как брать файл из зипа и сразу его кидать
-                #  в icons_by_year без создание промежут. папки
-                # todo Открывайте файл средствами zipfile примерно так: self.archive.open() и копируйте вот такой
-                #  функцией shutil.copyfileobj
+                archive.open(file)
+                input_path = os.path.join(file)
 
                 path_year = os.path.join(self.out_file, str(year))
                 path_month = os.path.join(path_year, str(month))
-                try:  #  Жалуется на папку, говорит что проблема в 70 строке (прод. строка 76)
-                    # todo просто создавайте весь путь сразу: и с годом и с месяцем, проверять уже не надо,
-                    #  ведь параметр exist_ok как раз защищает от выбрасывания исключения при наличии папки.
-                    if os.path.exists(path_year):
-                        if os.path.exists(path_month):
-                            shutil.copy2(full_file_path, path_month)
-                        else:
-                            os.makedirs(path_month, exist_ok=True)
-                            shutil.copy2(full_file_path, path_month)
-                    else:
-                        os.makedirs(path_month)
-                        shutil.copy2(full_file_path, path_month)  #  Но выходит из цикла на первом проходе здесь (67)
-                except Exception:
-                    pass
-            shutil.rmtree(self.file_name[:-4])  #  удаляю папку
-            print(self.out_file, str(file[6:]))
+                output_path = os.path.join(path_year, path_month)
+
+                # shutil.copyfileobj(file, self.out_file)
+
+                # shutil.copy2(input_path, output_path) if os.path.exists(output_path) else os.makedirs(output_path, exist_ok=True)
+                if os.path.exists(output_path):
+                    shutil.copy2(input_path, output_path)  # TODO какая-то такая логика?
+                else:
+                    os.makedirs(output_path, exist_ok=True)
+                    shutil.copy2(input_path, output_path)
+
+            # shutil.rmtree(self.file_name[:-4])  #  удаляю папку
+            # print(self.out_file, str(file[6:]))
 
 
 order = OrderFiles(file_name=FILE, out_file=FILE_OUT)
