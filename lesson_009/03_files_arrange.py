@@ -69,11 +69,11 @@ class OrderFiles:
                 # shutil.copyfileobj(file, self.out_file)
 
                 # shutil.copy2(input_path, output_path) if os.path.exists(output_path) else os.makedirs(output_path, exist_ok=True)
-                if os.path.exists(output_path):
-                    shutil.copy2(input_path, output_path)  # TODO какая-то такая логика?
-                else:
-                    os.makedirs(output_path, exist_ok=True)
-                    shutil.copy2(input_path, output_path)
+                # if os.path.exists(output_path):
+                #     shutil.copy2(input_path, output_path)  #  какая-то такая логика? -- при указании exist_ok=True проверка не нужна
+                # else:
+                os.makedirs(output_path, exist_ok=True)
+                shutil.copy2(input_path, output_path)
 
             # shutil.rmtree(self.file_name[:-4])  #  удаляю папку
             # print(self.out_file, str(file[6:]))
