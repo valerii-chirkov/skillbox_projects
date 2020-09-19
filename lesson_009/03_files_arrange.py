@@ -47,36 +47,46 @@ class OrderFiles:
     def __init__(self, file_name, out_file):
         self.file_name = file_name
         self.out_file = out_file
+        self.zfile = zipfile.ZipFile(self.file_name, 'r')
+        self.list_files = self.zfile.namelist()
+
+    # def run(self):
+    #     archive = zipfile.ZipFile(self.file_name, 'r')
+    #     if not os.path.exists(self.out_file):
+    #         os.mkdir(self.out_file)
+    #
+    #     with open(self.file_name, 'a') as ff:
+    #         for file in archive.namelist():
+    #             modification_time = archive.getinfo(file).date_time
+    #             year, month, day = modification_time[0], modification_time[1], modification_time[2]
+    #             print(year, month)
+    #
+    #             archive.open(file)
+    #             input_path = os.path.join(file)
+    #
+    #             path_year = os.path.join(self.out_file, str(year))
+    #             path_month = os.path.join(path_year, str(month))
+    #             output_path = os.path.join(path_year, path_month)
+    #
+    #             os.makedirs(output_path, exist_ok=True)
+    #             shutil.copy2(input_path, output_path)
 
     def run(self):
-        archive = zipfile.ZipFile(self.file_name, 'r')
-        if not os.path.exists(self.out_file):
-            os.mkdir(self.out_file)
 
-        with open(self.file_name, 'a') as ff:
-            for file in archive.namelist():
-                modification_time = archive.getinfo(file).date_time
-                year, month, day = modification_time[0], modification_time[1], modification_time[2]
-                print(year, month)
+        for file in self.list_files:
+            modification_time = self.zfile.getinfo(file).date_time
+            path = os.path.join(self.out_file, str(modification_time[0]), str(modification_time[1]))
 
-                archive.open(file)
-                input_path = os.path.join(file)
+            try:
+                os.makedirs(path, exist_ok=True)
+            except FileExistsError:
+                pass
 
-                path_year = os.path.join(self.out_file, str(year))
-                path_month = os.path.join(path_year, str(month))
-                output_path = os.path.join(path_year, path_month)
-
-                # shutil.copyfileobj(file, self.out_file)
-
-                # shutil.copy2(input_path, output_path) if os.path.exists(output_path) else os.makedirs(output_path, exist_ok=True)
-                # if os.path.exists(output_path):
-                #     shutil.copy2(input_path, output_path)  #  какая-то такая логика? -- при указании exist_ok=True проверка не нужна
-                # else:
-                os.makedirs(output_path, exist_ok=True)
-                shutil.copy2(input_path, output_path)
-
-            # shutil.rmtree(self.file_name[:-4])  #  удаляю папку
-            # print(self.out_file, str(file[6:]))
+            try:
+                with self.zfile.open(file, 'r') as source, open(path, 'wb') as dest:
+                    shutil.copyfileobj(source, dest)
+            except Exception:
+                pass
 
 
 order = OrderFiles(file_name=FILE, out_file=FILE_OUT)
