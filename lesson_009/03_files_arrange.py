@@ -3,6 +3,7 @@
 import os
 import shutil
 import zipfile
+from pprint import pprint
 FILE = 'icons.zip'
 FILE_OUT = 'icons_by_year'
 
@@ -72,21 +73,18 @@ class OrderFiles:
     #             shutil.copy2(input_path, output_path)
 
     def run(self):
+        try:
+            for file in self.list_files:
+                if file.endswith('.png'):
+                    modification_time = self.zfile.getinfo(file).date_time
+                    filename = os.path.basename(file)
+                    path = os.path.join(self.out_file, str(modification_time[0]), str(modification_time[1]), filename)
 
-        for file in self.list_files:
-            modification_time = self.zfile.getinfo(file).date_time
-            path = os.path.join(self.out_file, str(modification_time[0]), str(modification_time[1]))
-
-            try:
-                os.makedirs(path, exist_ok=True)
-            except FileExistsError:
-                pass
-
-            try:
-                with self.zfile.open(file, 'r') as source, open(path, 'wb') as dest:
-                    shutil.copyfileobj(source, dest)
-            except Exception:
-                pass
+                    os.makedirs(path, exist_ok=True)
+                    with self.zfile.open(file, 'r') as source:
+                        shutil.copyfileobj(source, path)
+        except Exception:
+            pass
 
 
 order = OrderFiles(file_name=FILE, out_file=FILE_OUT)
