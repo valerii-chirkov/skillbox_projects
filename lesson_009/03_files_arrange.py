@@ -79,10 +79,13 @@ class OrderFiles:
                     modification_time = self.zfile.getinfo(file).date_time
                     filename = os.path.basename(file)
                     path = os.path.join(self.out_file, str(modification_time[0]), str(modification_time[1]), filename)
+                    # todo Назовите переменную более точно "новое_имя_файла", например
 
-                    os.makedirs(path, exist_ok=True)
-                    with self.zfile.open(file, 'r') as source:
-                        shutil.copyfileobj(source, path)
+                    os.makedirs(path, exist_ok=True)  # todo тут надо создавать только папку для файла, то есть убрать
+                                                      #  само имя файла, воспользуйтесь os.path.dirname()
+                    with self.zfile.open(file, 'r') as source:  # todo добавьте открытие файла "назначения" через
+                                                                # запятую: , open(path, mode='wb') as dest:
+                        shutil.copyfileobj(source, path)  # todo а тут вместо path укажите открытый файл dest
         except Exception:
             pass
 
