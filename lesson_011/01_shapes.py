@@ -15,7 +15,8 @@ import simple_draw as sd
 
 def get_polygon(n):
     def draw_shape(point, angle, length):
-        for delta in range(0, 360 + round(360/n), round(360/n)):  # TODO не знаю, подойдет такой вариант или нет
+        step = round(360/n)
+        for delta in range(0, 360 + step, step):  # TODO не знаю, подойдет такой вариант или нет
             # vec = sd.vector(start=point, angle=delta + angle, length=length)  # TODO долго пытался вызвать им, но
             # он рисовал 'звездочку', тк end_point почему-то не возвращал
             v = sd.Vector(start_point=point, direction=delta+angle, length=length)
