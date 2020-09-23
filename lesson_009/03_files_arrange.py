@@ -73,21 +73,15 @@ class OrderFiles:
     #             shutil.copy2(input_path, output_path)
 
     def run(self):
-        try:
-            for file in self.list_files:
-                if file.endswith('.png'):
-                    modification_time = self.zfile.getinfo(file).date_time
-                    filename = os.path.basename(file)
-                    path = os.path.join(self.out_file, str(modification_time[0]), str(modification_time[1]), filename)
-                    # todo Назовите переменную более точно "новое_имя_файла", например
+        for file in self.list_files:
+            if file.endswith('.png'):
+                modification_time = self.zfile.getinfo(file).date_time
+                filename = os.path.basename(file)
+                new_name = os.path.join(self.out_file, str(modification_time[0]), str(modification_time[1]), filename)
 
-                    os.makedirs(path, exist_ok=True)  # todo тут надо создавать только папку для файла, то есть убрать
-                                                      #  само имя файла, воспользуйтесь os.path.dirname()
-                    with self.zfile.open(file, 'r') as source:  # todo добавьте открытие файла "назначения" через
-                                                                # запятую: , open(path, mode='wb') as dest:
-                        shutil.copyfileobj(source, path)  # todo а тут вместо path укажите открытый файл dest
-        except Exception:
-            pass
+                os.makedirs(os.path.dirname(new_name), exist_ok=True)
+                with self.zfile.open(file, 'r') as source, open(new_name, mode='wb') as dest:
+                    shutil.copyfileobj(source, dest)
 
 
 order = OrderFiles(file_name=FILE, out_file=FILE_OUT)
