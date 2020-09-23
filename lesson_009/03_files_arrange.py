@@ -95,3 +95,4 @@ order.run()
 # Документация по zipfile: API https://docs.python.org/3/library/zipfile.html
 
 # зачет!
+# зачет! усложнённого задания
