@@ -15,11 +15,13 @@ import simple_draw as sd
 
 def get_polygon(n):
     def draw_shape(point, angle, length):
-        step = round(360/n)
-        for delta in range(0, 360 + step, step):  # TODO не знаю, подойдет такой вариант или нет
-            # vec = sd.vector(start=point, angle=delta + angle, length=length)  # TODO долго пытался вызвать им, но
+        step = round(360 / n)
+        for delta in range(0, 360 + step, step):  #  не знаю, подойдет такой вариант или нет - OK
+            # vec = sd.vector(start=point, angle=delta + angle, length=length)  #  долго пытался вызвать им, но
             # он рисовал 'звездочку', тк end_point почему-то не возвращал
-            v = sd.Vector(start_point=point, direction=delta+angle, length=length)
+            # TODO sd.vector возвращает именно крайнюю точку, только её надо брать сразу, а не пытаться искать атрибуты:
+            #  point = sd.vector...
+            v = sd.Vector(start_point=point, direction=delta+angle, length=length)  # todo смысла менять get_vector на Vector нет
             v.draw()
             point = v.end_point
     return draw_shape
