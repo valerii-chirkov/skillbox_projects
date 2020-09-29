@@ -23,9 +23,9 @@ def get_prime_numbers(n):
 
 class PrimeNumbers:
     def __init__(self, n):
-        self.amount = n
+        self.amount = n   # todo точнее это "максимальное число" или "предел" вычислений
         self.prime_numbers = []
-        self.i = 0
+        self.i = 0  # todo назовите "текущее_число"
 
     def __iter__(self):
         self.i = 1
@@ -53,6 +53,8 @@ prime_number_iterator = PrimeNumbers(n=10000)
 for number in prime_number_iterator:
     print(number)
 print(prime_number_iterator)
+
+# зачет первой части
 
 # TODO после подтверждения части 1 преподователем, можно делать
 # Часть 2

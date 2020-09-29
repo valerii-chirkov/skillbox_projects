@@ -13,7 +13,7 @@
 # на консоли должно появится что-то вроде
 #
 # [2018-05-17 01:57] 1234
-FILE = 'events.txt'
+FILE = 'events.txt'  # TODO Уточните название, "лог-файл", например
 
 
 def get_noks():
@@ -28,13 +28,13 @@ def get_noks():
 
     for date in keys:
         amount = str(keys.get(date))
-        line = date + ' ' + amount + '\n'
+        line = date + ' ' + amount + '\n'  # TODO Используйте форматирование строк вместо конкатенаци
         yield line
 
 
-grouped_events = get_noks()
-for nok in grouped_events:
-    print(nok)
+# grouped_events = get_noks()
+# for nok in grouped_events:
+#     print(nok)
 
 
 # class NOKParser:
@@ -81,3 +81,5 @@ for nok in grouped_events:
 # nokparser = NOKParser(file_name=FILE)
 # sort1 = GroupingMinutes(file_name=FILE)
 # sort1.launch()
+
+# зачет!
