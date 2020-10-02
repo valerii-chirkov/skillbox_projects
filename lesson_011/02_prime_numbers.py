@@ -50,9 +50,9 @@ class PrimeNumbers:
 
 
 prime_number_iterator = PrimeNumbers(n=10000)
-for number in prime_number_iterator:
-    print(number)
-print(prime_number_iterator)
+# for number in prime_number_iterator:
+#     print(number)
+# print(prime_number_iterator)
 
 # зачет первой части
 
@@ -62,11 +62,17 @@ print(prime_number_iterator)
 # Распечатать все простые числа до 10000 в столбик
 
 
-# def prime_numbers_generator(n):
-#     pass
-#     # TODO здесь ваш код
-#
-#
+def prime_numbers_generator(n):
+    prime_numbers = []
+    for number in range(2, n + 1):
+        for prime in prime_numbers:
+            if number % prime == 0:
+                break
+        else:
+            prime_numbers.append(number)
+            yield number
+
+
 # for number in prime_numbers_generator(n=10000):
 #     print(number)
 
@@ -86,3 +92,36 @@ print(prime_number_iterator)
 # простых счастливых палиндромных чисел и так далее. Придумать не менее 2х способов.
 #
 # Подсказка: возможно, нужно будет добавить параметр в итератор/генератор.
+def lucky_number(number):
+    count_left = 0
+    count_right = 0
+    number_length = len(str(number))
+    number_list = list(str(number))
+    if len(str(number)) % 2 == 0:
+        for i in range(number_length):
+            if i <= (number_length / 2) - 1:
+                count_left += int(number_list[i])
+            else:
+                count_right += int(number_list[i])
+        print(f'{number} -> {count_left} = {count_right} -> {count_left == count_right}')
+    else:
+        for i in range(number_length//2):
+            count_left += int(number_list[i])
+        for i in range((number_length//2)+1, number_length):
+            count_right += int(number_list[i])
+        print(f'{number} -> {count_left} = {count_right} -> {count_left == count_right}')
+
+
+# lucky_number(number=552066200)
+for number in prime_numbers_generator(n=10000):
+    print(lucky_number(number))
+
+
+def palindrome(number):
+    pass
+
+
+def pentatope(n):
+    pass
+
+
