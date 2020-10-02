@@ -56,7 +56,7 @@ prime_number_iterator = PrimeNumbers(n=10000)
 
 # зачет первой части
 
-# TODO после подтверждения части 1 преподователем, можно делать
+#  после подтверждения части 1 преподователем, можно делать
 # Часть 2
 # Теперь нужно создать генератор, который выдает последовательность простых чисел до n
 # Распечатать все простые числа до 10000 в столбик
@@ -76,6 +76,7 @@ def prime_numbers_generator(n):
 # for number in prime_numbers_generator(n=10000):
 #     print(number)
 
+# зачет второй части
 
 # Часть 3
 # Написать несколько функций-фильтров, которые выдает True, если число:
@@ -97,7 +98,9 @@ def lucky_number(number):
     count_right = 0
     number_length = len(str(number))
     number_list = list(str(number))
-    if len(str(number)) % 2 == 0:
+    if len(str(number)) % 2 == 0:  # TODO от того четное или нечетное число цифр в числе ничего не зависит: берёте
+                                   #  половину цифр слева и справа и сравниваете суммы. "Половину" находить так:
+                                   #  len(str(number)) // 2
         for i in range(number_length):
             if i <= (number_length / 2) - 1:
                 count_left += int(number_list[i])
@@ -115,7 +118,10 @@ def lucky_number(number):
 # lucky_number(number=552066200)
 for number in prime_numbers_generator(n=10000):
     print(lucky_number(number))
-
+# TODO Это не верный способ. Можно добавить в генератор простых чисел параметр - функцию-фильтр и после нахождаения
+#  очередного простого числа проверять его ещё и на "счастливость" и только в этом случае возвращать. А можно
+#  воспользоваться функцией filter или создать декоратор превращающий генератор простых чисел в генерарот
+#  счастливых простых чисел.
 
 def palindrome(number):
     pass
