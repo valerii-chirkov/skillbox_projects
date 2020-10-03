@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-
+from math import ceil
 # Есть функция генерации списка простых чисел
 
 
@@ -98,36 +98,59 @@ def lucky_number(number):
     count_right = 0
     number_length = len(str(number))
     number_list = list(str(number))
-    if len(str(number)) % 2 == 0:  # TODO от того четное или нечетное число цифр в числе ничего не зависит: берёте
-                                   #  половину цифр слева и справа и сравниваете суммы. "Половину" находить так:
-                                   #  len(str(number)) // 2
-        for i in range(number_length):
-            if i <= (number_length / 2) - 1:
-                count_left += int(number_list[i])
-            else:
-                count_right += int(number_list[i])
-        print(f'{number} -> {count_left} = {count_right} -> {count_left == count_right}')
-    else:
-        for i in range(number_length//2):
-            count_left += int(number_list[i])
-        for i in range((number_length//2)+1, number_length):
-            count_right += int(number_list[i])
+    # TODO первая попытка
+    # for i in range(number_length):
+    #     if i < (number_length//2):
+    #         count_left += int(number_list[i])
+    #     elif i > (number_length//2):
+    #         count_right += int(number_list[i])
+
+    # TODO вторая попытка
+    # for i in range(number_length//2):  #TODO если просто делением делать, то он коряво выдает числа с правой стороны
+    #     count_left += int(number_list[i])
+    # for i in range(number_length//2, number_length): #TODO тк если начинать с половины, то он берет с собой среднюю цифру
+    #     count_right += int(number_list[i])
+    # #TODO а если сделать половину +1, то в четных числах тоже беда будет
+
+    # TODO с импортом math.ceil
+    for i in range(number_length//2):
+        count_left += int(number_list[i])
+    for i in range(ceil(number_length/2), number_length):
+        count_right += int(number_list[i])
+
+    if count_left == count_right:
         print(f'{number} -> {count_left} = {count_right} -> {count_left == count_right}')
 
 
-# lucky_number(number=552066200)
-for number in prime_numbers_generator(n=10000):
-    print(lucky_number(number))
-# TODO Это не верный способ. Можно добавить в генератор простых чисел параметр - функцию-фильтр и после нахождаения
-#  очередного простого числа проверять его ещё и на "счастливость" и только в этом случае возвращать. А можно
-#  воспользоваться функцией filter или создать декоратор превращающий генератор простых чисел в генерарот
-#  счастливых простых чисел.
+lucky_number_generator = filter(lucky_number, prime_number_iterator)
+# for number in lucky_number_generator:
+#     print(number)
+
 
 def palindrome(number):
-    pass
+    number = str(number)
+    left_part = number[:len(number)//2]
+    right_part = number[ceil(len(number)/2):]
+    right_part = right_part[::-1]
+
+    if left_part == right_part:
+        print(f'{number} is {left_part == right_part}')
 
 
-def pentatope(n):
-    pass
+# test_numbers = [x for x in range(100000)]  # TODO в счастливых числах были только 3х значные цифры, проверил на больших
+# palindrome_generator = filter(palindrome, test_numbers)
+
+palindrome_generator = filter(palindrome, prime_number_iterator)
+# for number in palindrome_generator:
+#     print(number)
 
 
+def own_number(number):
+    # Есть число 1256, если сумма цифр (14) содержится в числе, то True, в нашем случае False
+    number = str(number)
+    sum_digit = sum(map(int, number))
+    if number.count(str(sum_digit)):
+        print(f'It\'s {sum_digit}, {number} is {True}')
+
+
+own_number(123143)
