@@ -94,62 +94,19 @@ def prime_numbers_generator(n):
 #
 # Подсказка: возможно, нужно будет добавить параметр в итератор/генератор.
 def lucky_number(number):
-    count_left = 0  # TODO Назвалбы left_summa и right_summa
-    count_right = 0
     number_length = len(str(number))
-    number_list = list(str(number))  # TODO Строка уже и есть список символов
-    #  первая попытка
-    # for i in range(number_length):
-    #     if i < (number_length//2):
-    #         count_left += int(number_list[i])
-    #     elif i > (number_length//2):
-    #         count_right += int(number_list[i])
+    number_list = list(str(number))
 
-    #  вторая попытка
-    # for i in range(number_length//2):  # если просто делением делать, то он коряво выдает числа с правой стороны
-    #     count_left += int(number_list[i])
-    # for i in range(number_length//2, number_length): # тк если начинать с половины, то он берет с собой среднюю цифру
-    #     count_right += int(number_list[i])
-    # # а если сделать половину +1, то в четных числах тоже беда будет
-
-    #  с импортом math.ceil
-    # for i in range(number_length//2):
-    #     count_left += int(number_list[i])
-    # for i in range(ceil(number_length/2), number_length):
-    #     count_right += int(number_list[i])
-    # todo Мой вариант
-    half_lenght = number_length // 2
-    count_left = sum(map(int, number_list[:half_lenght]))
-    count_right = sum(map(int, number_list[-half_lenght:]))
-    if count_left == count_right:
-        print(f'{number} -> {count_left} = {count_right} -> {count_left == count_right}')
-
-
-lucky_number_generator = filter(lucky_number, prime_number_iterator)
-# for number in lucky_number_generator:
-#     print(number)
-
-print(lucky_number(1234321))
+    half_length = number_length // 2
+    left_sum = sum(map(int, number_list[:half_length]))
+    right_sum = sum(map(int, number_list[-half_length:]))
+    if left_sum == right_sum:
+        print(f'{number} -> {left_sum} = {right_sum} -> {left_sum == right_sum}')
 
 
 def palindrome(number):
-    number = str(number)
-    left_part = number[:len(number)//2]
-    right_part = number[ceil(len(number)/2):]
-    right_part = right_part[::-1]
-
-    if left_part == right_part:
-        print(f'{number} is {left_part == right_part}')
-    # todo Палиндром это слово читающееся в обе стороны одинаково, поэтому достаточно сравнить строковые представления
-    #  числа прямое и обратное
-
-
-# test_numbers = [x for x in range(100000)]  # TODO в счастливых числах были только 3х значные цифры, проверил на больших
-# palindrome_generator = filter(palindrome, test_numbers)
-
-palindrome_generator = filter(palindrome, prime_number_iterator)
-# for number in palindrome_generator:
-#     print(number)
+    if str(number) == str(number)[::-1]:
+        print(f'{number} is True')
 
 
 def own_number(number):
@@ -160,4 +117,27 @@ def own_number(number):
         print(f'It\'s {sum_digit}, {number} is {True}')
 
 
-own_number(123143)
+lucky_number_generator = filter(lucky_number, prime_number_iterator)
+palindrome_generator = filter(palindrome, prime_number_iterator)
+own_number_generator = filter(own_number, prime_number_iterator)
+
+# for number in palindrome_generator:
+#     print(number)
+
+# for number in lucky_number_generator:
+#     print(number)
+
+for number in own_number:  # TOdo почему выдает 'function' object is not iterable?
+    print(number)
+
+
+
+
+
+
+
+
+
+
+
+# own_number(123143)
