@@ -23,27 +23,27 @@ def get_prime_numbers(n):
 
 class PrimeNumbers:
     def __init__(self, n):
-        self.amount = n   # todo точнее это "максимальное число" или "предел" вычислений
+        self.maximum = n
         self.prime_numbers = []
-        self.i = 0  # todo назовите "текущее_число"
+        self.current_number = 0
 
     def __iter__(self):
-        self.i = 1
+        self.current_number = 1
         return self
 
     def get_prime(self):
-        self.i += 1
+        self.current_number += 1
         for prime in self.prime_numbers:
-            if self.i % prime == 0:
+            if self.current_number % prime == 0:
                 return None
-        self.prime_numbers.append(self.i)
-        return self.i
+        self.prime_numbers.append(self.current_number)
+        return self.current_number
 
     def __next__(self):
         value = None
         while value is None:
             value = self.get_prime()
-        if self.i < self.amount:
+        if self.current_number < self.maximum:
             return value
         else:
             raise StopIteration()
@@ -62,19 +62,19 @@ prime_number_iterator = PrimeNumbers(n=10000)
 # Распечатать все простые числа до 10000 в столбик
 
 
-def prime_numbers_generator(n):
+def prime_numbers_generator(n):  #TODO не совсем понял какой сюда параметр нужно
     prime_numbers = []
     for number in range(2, n + 1):
         for prime in prime_numbers:
             if number % prime == 0:
                 break
         else:
-            prime_numbers.append(number)
-            yield number
+            if own_number(number=number):  # TODO так можно?
+                prime_numbers.append(number)
+                yield number
 
 
-# for number in prime_numbers_generator(n=10000):
-#     print(number)
+
 
 # зачет второй части
 
@@ -127,17 +127,8 @@ own_number_generator = filter(own_number, prime_number_iterator)
 # for number in lucky_number_generator:
 #     print(number)
 
-for number in own_number:  # TOdo почему выдает 'function' object is not iterable?
+# for number in own_number_generator:
+#     print(number)
+
+for number in prime_numbers_generator(n=10000):
     print(number)
-
-
-
-
-
-
-
-
-
-
-
-# own_number(123143)
