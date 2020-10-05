@@ -102,6 +102,7 @@ def lucky_number(number):
     right_sum = sum(map(int, number_list[-half_length:]))
     if left_sum == right_sum:
         print(f'{number} -> {left_sum} = {right_sum} -> {left_sum == right_sum}')
+# TODO Чтобы можно было использовать фуункцию-фильтр в комбинации с генератором, она должна возвращать булево значение
 
 
 def palindrome(number):
@@ -127,7 +128,8 @@ own_number_generator = filter(own_number, prime_number_iterator)
 # for number in lucky_number_generator:
 #     print(number)
 
-for number in own_number:  # TOdo почему выдает 'function' object is not iterable?
+for number in own_number:  #  почему выдает 'function' object is not iterable?
+                           # todo потому что тут нужна не простая функция, а генератор own_number_generator
     print(number)
 
 
