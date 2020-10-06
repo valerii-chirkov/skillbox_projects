@@ -62,15 +62,21 @@ prime_number_iterator = PrimeNumbers(n=10000)
 # Распечатать все простые числа до 10000 в столбик
 
 
-def prime_numbers_generator(n):  #TODO не совсем понял какой сюда параметр нужно
+def prime_numbers_generator(n):  # не совсем понял какой сюда параметр нужно
+                                  # TODO 1) Создайте новый генератор, дайте ему соответствующее название, например:
+                                  #  "генератор_простых_числе_с_фильтром"
+                                  #  2) в дополение к максимальному числу добавьть параметр "фильтр" куда передавать
+                                  #  функцию фильтр при "запуске" генератора
     prime_numbers = []
     for number in range(2, n + 1):
         for prime in prime_numbers:
             if number % prime == 0:
                 break
         else:
-            if own_number(number=number):  # TODO так можно?
-                prime_numbers.append(number)
+            if own_number(number=number):  # так можно?
+                # TODO так можно,только вызывайте функцию которая присвоена параметру
+                prime_numbers.append(number)  # TODO а добавлять простые числа в список надо в любом случае, то есть до
+                                              #  условия, если не хотите нарушить работу генератора простых чисел
                 yield number
 
 
