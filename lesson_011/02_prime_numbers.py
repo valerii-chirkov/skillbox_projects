@@ -63,23 +63,26 @@ prime_number_iterator = PrimeNumbers(n=10000)
 
 
 def prime_numbers_generator(n):  # не совсем понял какой сюда параметр нужно
-                                  # TODO 1) Создайте новый генератор, дайте ему соответствующее название, например:
-                                  #  "генератор_простых_числе_с_фильтром"
-                                  #  2) в дополение к максимальному числу добавьть параметр "фильтр" куда передавать
-                                  #  функцию фильтр при "запуске" генератора
     prime_numbers = []
     for number in range(2, n + 1):
         for prime in prime_numbers:
             if number % prime == 0:
                 break
         else:
-            if own_number(number=number):  # так можно?
-                # TODO так можно,только вызывайте функцию которая присвоена параметру
-                prime_numbers.append(number)  # TODO а добавлять простые числа в список надо в любом случае, то есть до
-                                              #  условия, если не хотите нарушить работу генератора простых чисел
+            prime_numbers.append(number)
+            yield number
+
+
+def prime_number_generator_filtered(n, filter):
+    prime_numbers = []
+    for number in range(2, n + 1):
+        for prime in prime_numbers:
+            if number % prime == 0:
+                break
+        else:
+            if filter:
+                prime_numbers.append(number)
                 yield number
-
-
 
 
 # зачет второй части
@@ -107,8 +110,13 @@ def lucky_number(number):
     left_sum = sum(map(int, number_list[:half_length]))
     right_sum = sum(map(int, number_list[-half_length:]))
     if left_sum == right_sum:
-        print(f'{number} -> {left_sum} = {right_sum} -> {left_sum == right_sum}')
-# TODO Чтобы можно было использовать фуункцию-фильтр в комбинации с генератором, она должна возвращать булево значение
+        x = print(f'{number} -> {left_sum} = {right_sum} -> {left_sum == right_sum}')  # TODO А как выводить эту строку?
+        return True, x
+
+
+for number in prime_number_generator_filtered(n=1000, filter=lucky_number):
+    if str(number).isdigit():  # TODO так не работает
+        print(lucky_number(number))
 
 
 def palindrome(number):
@@ -137,5 +145,5 @@ own_number_generator = filter(own_number, prime_number_iterator)
 # for number in own_number_generator:
 #     print(number)
 
-for number in prime_numbers_generator(n=10000):
-    print(number)
+# for number in prime_numbers_generator(n=10000):
+#     print(number)
