@@ -49,7 +49,7 @@ class PrimeNumbers:
             raise StopIteration()
 
 
-prime_number_iterator = PrimeNumbers(n=10000)
+# prime_number_iterator = PrimeNumbers(n=10000)
 # for number in prime_number_iterator:
 #     print(number)
 # print(prime_number_iterator)
@@ -73,15 +73,17 @@ def prime_numbers_generator(n):  # не совсем понял какой сю�
             yield number
 
 
-def prime_number_generator_filtered(n, filter):
+def prime_number_generator_filtered(n, filter):  # TODO переопределили встроенную функцию filter() - выберите другое
+                                                 #  название
     prime_numbers = []
     for number in range(2, n + 1):
         for prime in prime_numbers:
             if number % prime == 0:
                 break
         else:
-            if filter:
-                prime_numbers.append(number)
+            if filter:  # TODO функции-фильтру надо передать параметр - найденное текущее простое число
+                prime_numbers.append(number)  # TODO А добавлять простые числа надо безусловно - перенесите эту строку
+                                              #  выше и поставьте до if
                 yield number
 
 
@@ -110,12 +112,16 @@ def lucky_number(number):
     left_sum = sum(map(int, number_list[:half_length]))
     right_sum = sum(map(int, number_list[-half_length:]))
     if left_sum == right_sum:
-        x = print(f'{number} -> {left_sum} = {right_sum} -> {left_sum == right_sum}')  # TODO А как выводить эту строку?
-        return True, x
+        x = print(f'{number} -> {left_sum} = {right_sum} -> {left_sum == right_sum}')  # А как выводить эту строку?
+        # TODO 1) функция print ничего не возвращает, поэтому присваивать это значение переменной икс бессмысленно
+        #  2) что такое икс? координата? вроде нет :) Принт можете оставить если сильно хотите, а возвращать надо только
+        #  результат сравнения.
+        return True, x  # TODO Лучше всего перенесите сюда сравнение левой и правой суммы, а икс убираем
 
 
 for number in prime_number_generator_filtered(n=1000, filter=lucky_number):
-    if str(number).isdigit():  # TODO так не работает
+    # TODO Просто выводите number и всё
+    if str(number).isdigit():  #  так не работает
         print(lucky_number(number))
 
 
