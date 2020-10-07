@@ -6,12 +6,22 @@
 # Имя файла лога - function_errors.log
 # Формат лога: <имя функции> <параметры вызова> <тип ошибки> <текст ошибки>
 # Лог файл открывать каждый раз при ошибке в режиме 'a'
+import logging
+
+# def log_errors(func):
+#     LOG_FILE = 'function_errors.log'
+#     with open(LOG_FILE, 'a') as ff:
+#         if exc:
+#             ff.write(f'{exc}')
 
 
 def log_errors(func):
-    pass
-    # TODO здесь ваш код
-
+    def wrapper(self):
+        func(self)
+        logging.basicConfig(filename='function_errors.log', level=logging.INFO, format='%(message)s')
+        logging.info("\t- %s" % func.__doc__)
+        return func(self)
+    return wrapper
 
 # Проверить работу на следующих функциях
 @log_errors
