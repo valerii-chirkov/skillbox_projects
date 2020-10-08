@@ -62,7 +62,7 @@ class PrimeNumbers:
 # Распечатать все простые числа до 10000 в столбик
 
 
-def prime_numbers_generator(n):  # не совсем понял какой сюда параметр нужно
+def prime_numbers_generator(n):
     prime_numbers = []
     for number in range(2, n + 1):
         for prime in prime_numbers:
@@ -73,17 +73,15 @@ def prime_numbers_generator(n):  # не совсем понял какой сю�
             yield number
 
 
-def prime_number_generator_filtered(n, filter):  # TODO переопределили встроенную функцию filter() - выберите другое
-                                                 #  название
+def prime_number_generator_filtered(n, filtered):
     prime_numbers = []
     for number in range(2, n + 1):
         for prime in prime_numbers:
             if number % prime == 0:
                 break
         else:
-            if filter:  # TODO функции-фильтру надо передать параметр - найденное текущее простое число
-                prime_numbers.append(number)  # TODO А добавлять простые числа надо безусловно - перенесите эту строку
-                                              #  выше и поставьте до if
+            prime_numbers.append(number)
+            if filtered:
                 yield number
 
 
@@ -112,17 +110,11 @@ def lucky_number(number):
     left_sum = sum(map(int, number_list[:half_length]))
     right_sum = sum(map(int, number_list[-half_length:]))
     if left_sum == right_sum:
-        x = print(f'{number} -> {left_sum} = {right_sum} -> {left_sum == right_sum}')  # А как выводить эту строку?
-        # TODO 1) функция print ничего не возвращает, поэтому присваивать это значение переменной икс бессмысленно
-        #  2) что такое икс? координата? вроде нет :) Принт можете оставить если сильно хотите, а возвращать надо только
-        #  результат сравнения.
-        return True, x  # TODO Лучше всего перенесите сюда сравнение левой и правой суммы, а икс убираем
+        return left_sum == right_sum
 
 
-for number in prime_number_generator_filtered(n=1000, filter=lucky_number):
-    # TODO Просто выводите number и всё
-    if str(number).isdigit():  #  так не работает
-        print(lucky_number(number))
+for number in prime_number_generator_filtered(n=1000, filtered=lucky_number):
+    print(number)
 
 
 def palindrome(number):
@@ -138,9 +130,9 @@ def own_number(number):
         print(f'It\'s {sum_digit}, {number} is {True}')
 
 
-lucky_number_generator = filter(lucky_number, prime_number_iterator)
-palindrome_generator = filter(palindrome, prime_number_iterator)
-own_number_generator = filter(own_number, prime_number_iterator)
+# lucky_number_generator = filter(lucky_number, prime_number_iterator)
+# palindrome_generator = filter(palindrome, prime_number_iterator)
+# own_number_generator = filter(own_number, prime_number_iterator)
 
 # for number in palindrome_generator:
 #     print(number)
