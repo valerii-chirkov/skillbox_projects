@@ -16,11 +16,16 @@ import logging
 
 
 def log_errors(func):
-    def wrapper(self):
-        func(self)
-        logging.basicConfig(filename='function_errors.log', level=logging.INFO, format='%(message)s')
-        logging.info("\t- %s" % func.__doc__)
-        return func(self)
+    def wrapper(*args, **kwargs):
+        with open('function_errors.log', 'a') as ff:
+            # TODO
+            try:
+                func(*args, **kwargs)
+            except Exception as exc:
+                ff.write(f'{func} {args} {type(exc)} {exc} \n')
+                raise exc
+            # TODO try except дублируется с for line in lines: так и должно быть?
+        return ff
     return wrapper
 
 # Проверить работу на следующих функциях
