@@ -118,7 +118,7 @@ for number in prime_number_generator_filtered(n=1000, filtered=lucky_number):
 
 
 def palindrome(number):
-    if str(number) == str(number)[::-1]:
+    if str(number) == str(number)[::-1]:  # TODO Все функции-фильтры возвращают только True/False
         print(f'{number} is True')
 
 

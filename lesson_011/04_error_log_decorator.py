@@ -20,9 +20,9 @@ def log_errors(func):
         with open('function_errors.log', 'a') as ff:
             # TODO
             try:
-                func(*args, **kwargs)
+                func(*args, **kwargs)  # TODO Функция может и должна возвращать значение
             except Exception as exc:
-                ff.write(f'{func} {args} {type(exc)} {exc} \n')
+                ff.write(f'{func} {args} {type(exc)} {exc} \n')  # TODO И kwargs добавьте
                 raise exc
             # TODO try except дублируется с for line in lines: так и должно быть?
         return ff
