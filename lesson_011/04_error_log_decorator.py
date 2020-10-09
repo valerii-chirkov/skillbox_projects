@@ -21,8 +21,9 @@ def log_errors(func):
             # TODO
             try:
                 func(*args, **kwargs)  # TODO Функция может и должна возвращать значение
+                # TODO не понял этого todo
             except Exception as exc:
-                ff.write(f'{func} {args} {type(exc)} {exc} \n')  # TODO И kwargs добавьте
+                ff.write(f'{func} {args, kwargs} {type(exc)} {exc} \n')
                 raise exc
             # TODO try except дублируется с for line in lines: так и должно быть?
         return ff
