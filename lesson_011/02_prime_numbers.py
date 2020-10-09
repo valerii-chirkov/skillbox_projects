@@ -118,8 +118,8 @@ for number in prime_number_generator_filtered(n=1000, filtered=lucky_number):
 
 
 def palindrome(number):
-    if str(number) == str(number)[::-1]:  # TODO Все функции-фильтры возвращают только True/False
-        print(f'{number} is True')
+    if str(number) == str(number)[::-1]:
+        return str(number) == str(number)[::-1]
 
 
 def own_number(number):
@@ -127,7 +127,7 @@ def own_number(number):
     number = str(number)
     sum_digit = sum(map(int, number))
     if number.count(str(sum_digit)):
-        print(f'It\'s {sum_digit}, {number} is {True}')
+        return number.count(str(sum_digit))
 
 
 # lucky_number_generator = filter(lucky_number, prime_number_iterator)
