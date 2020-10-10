@@ -109,8 +109,8 @@ def lucky_number(number):
     half_length = number_length // 2
     left_sum = sum(map(int, number_list[:half_length]))
     right_sum = sum(map(int, number_list[-half_length:]))
-    if left_sum == right_sum:
-        return left_sum == right_sum
+    # if left_sum == right_sum:
+    return left_sum == right_sum  # поправил - if тут не нужен
 
 
 for number in prime_number_generator_filtered(n=1000, filtered=lucky_number):
@@ -118,16 +118,16 @@ for number in prime_number_generator_filtered(n=1000, filtered=lucky_number):
 
 
 def palindrome(number):
-    if str(number) == str(number)[::-1]:
-        return str(number) == str(number)[::-1]
+    # if str(number) == str(number)[::-1]:
+    return str(number) == str(number)[::-1]  # поправил - if тут не нужен
 
 
 def own_number(number):
     # Есть число 1256, если сумма цифр (14) содержится в числе, то True, в нашем случае False
     number = str(number)
     sum_digit = sum(map(int, number))
-    if number.count(str(sum_digit)):
-        return number.count(str(sum_digit))
+    # if number.count(str(sum_digit)):
+    return number.count(str(sum_digit))  # поправил - if тут не нужен
 
 
 # lucky_number_generator = filter(lucky_number, prime_number_iterator)
@@ -145,3 +145,5 @@ def own_number(number):
 
 # for number in prime_numbers_generator(n=10000):
 #     print(number)
+
+# зачет!
