@@ -15,24 +15,26 @@ import logging
 #             ff.write(f'{exc}')
 
 
-def log_errors(func):
-    def wrapper(*args, **kwargs):
-        with open('function_errors.log', 'a') as ff:
-            try:
-                return func(*args, **kwargs)
-            except Exception as exc:
-                ff.write(f'{func} {args, kwargs} {type(exc)} {exc} \n')
-                raise exc
-        return ff
-    return wrapper
+def log_errors(filename):
+    def outer(func):
+        def wrapper(*args, **kwargs):
+            with open(filename, 'a') as ff:
+                try:
+                    return func(*args, **kwargs)
+                except Exception as exc:
+                    ff.write(f'{func} {args, kwargs} {type(exc)} {exc} \n')
+                    # raise exc  # TODO чтобы func() сработал
+            return ff
+        return wrapper
+    return outer
 
 # Проверить работу на следующих функциях
-@log_errors
+@log_errors('function_errors.log')
 def perky(param):
     return param / 0
 
 
-@log_errors
+@log_errors('function_errors.log')
 def check_line(line):
     name, email, age = line.split(' ')
     if not name.isalpha():
@@ -62,6 +64,9 @@ perky(param=42)
 # Усложненное задание (делать по желанию).
 # Написать декоратор с параметром - именем файла
 #
-# @log_errors('function_errors.log')
-# def func():
-#     pass
+@log_errors('function_errors.log')
+def func(message):
+    raise Exception(message)
+
+
+func('it works')
