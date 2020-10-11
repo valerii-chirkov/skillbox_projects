@@ -19,17 +19,10 @@ def log_errors(func):
     def wrapper(*args, **kwargs):
         with open('function_errors.log', 'a') as ff:
             try:
-                func(*args, **kwargs)  # TODO Функция может и должна возвращать значение
-                # TODO не понял этого todo
-                # TODO у фукнции func может быть возращаемое значение, к примеру: смотрите на perky. Декоратор должен
-                #  "поддержать" этот возможность: добавьте return перед func
+                return func(*args, **kwargs)
             except Exception as exc:
                 ff.write(f'{func} {args, kwargs} {type(exc)} {exc} \n')
                 raise exc
-            #  try except дублируется с for line in lines: так и должно быть?
-            # TODO Это не дублирование - в указанном цикле поймают исключение которое выбрасывается декоратором
-            #  (повторяется им) так как этот декоратор не должен "скрывать" проблему, он только логгирует её выбрасывает
-            #  далее
         return ff
     return wrapper
 
