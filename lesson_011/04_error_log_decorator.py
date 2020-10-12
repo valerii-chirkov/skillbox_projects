@@ -23,7 +23,7 @@ def log_errors(filename):
                     return func(*args, **kwargs)
                 except Exception as exc:
                     ff.write(f'{func} {args, kwargs} {type(exc)} {exc} \n')
-                    # raise exc  # TODO чтобы func() сработал
+                    raise exc  #  чтобы func() сработал
             return ff
         return wrapper
     return outer
@@ -70,3 +70,5 @@ def func(message):
 
 
 func('it works')
+
+# зачет!
