@@ -65,12 +65,27 @@
 #
 # Для плавного перехода к мультипоточности, код оформить в обьектном стиле, используя следующий каркас
 #
-# class <Название класса>:
-#
-#     def __init__(self, <параметры>):
-#         <сохранение параметров>
-#
-#     def run(self):
-#         <обработка данных>
+import csv
+import os
+DIRECTORY = 'trades'
+
+
+class Volatility:
+
+    def __init__(self, file_name):
+        self.file_name = file_name
+        self.stat = {}
+        self.list_files = os.listdir(file_name)
+
+    def run(self):
+        for file_csv in self.list_files:
+            with open(file_csv, 'r') as ff:
+                reader = csv.reader(ff)
+                for row in reader:
+                    print(row)
+
+
+volatility_calculator = Volatility(file_name=DIRECTORY)
+volatility_calculator.run()
 
 # TODO написать код в однопоточном/однопроцессорном стиле
