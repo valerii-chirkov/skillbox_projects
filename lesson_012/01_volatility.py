@@ -67,6 +67,8 @@
 #
 import csv
 import os
+from itertools import groupby
+import threading
 DIRECTORY = 'trades'
 
 
@@ -76,16 +78,60 @@ class Volatility:
         self.file_name = file_name
         self.stat = {}
         self.list_files = os.listdir(file_name)
+        self.volatility_stat = []
+        self.min_volatility = []
+        self.max_volatility = []
+        self.zero_volatility = []
 
-    def run(self):
+    def open(self):
         for file_csv in self.list_files:
-            with open(file_csv, 'r') as ff:
+            path = self.file_name + '/' + file_csv
+            with open(path, 'r') as ff:
                 reader = csv.reader(ff)
-                for row in reader:
-                    print(row)
+                self.run(reader)
+
+    def run(self, reader):
+        ticker, prices = '', []
+        for row in reader:
+            ticker = row[0]
+            if not row.count('PRICE'):
+                prices.append(row[2])
+
+        max_price, min_price = float(max(prices)), float(min(prices))
+        half_sum = ((max_price + min_price) / 2)
+        volatility = round((((max_price - min_price) / half_sum) * 100), 2)
+        # TODO появляется отрицательная волатильность, проблема в max_price и min_price, некоректно показываются
+        self.volatility_stat.append([ticker, volatility])
+
+    def sort(self):
+        self.open()
+        self.min_volatility = sorted(self.volatility_stat, key=lambda price: price[1])
+        self.min_volatility = [el for el, _ in groupby(self.min_volatility)]  # TODO тут в роли костыля,
+        # тк повторялся O2H9 - -2.04, но вообще отрицательной не может быть, поэтому что-то с min и max price'ами
+        self.max_volatility = sorted(self.volatility_stat, key=lambda price: price[1], reverse=True)
+        for ticker in self.volatility_stat:
+            if ticker[1] == 0.0:
+                self.zero_volatility.append(ticker[0])
+        self.zero_volatility = sorted(self.zero_volatility)
+        self.zero_volatility = [el for el, _ in groupby(self.zero_volatility)]  # TODO чтобы сохранить порядок
+        return self.min_volatility, self.max_volatility, self.zero_volatility
+
+    def print(self):
+        print('Max volatility: ')
+        for value in self.sort()[1][:3]:
+            print('   ' + str(value[0]) + ' - ' + str(value[1]))
+        print('Min volatility: ')
+        for value in self.sort()[0][:3]:
+            print('   ' + str(value[0]) + ' - ' + str(value[1]))
+        print('Zero volatility: ')
+        print('  ', ', '.join(self.zero_volatility))
+
+    def threading(self):
+        thread = threading.Thread(target=self.print(), args=(1,))
+        thread.start()
 
 
 volatility_calculator = Volatility(file_name=DIRECTORY)
-volatility_calculator.run()
+volatility_calculator.threading()
 
 # TODO написать код в однопоточном/однопроцессорном стиле
