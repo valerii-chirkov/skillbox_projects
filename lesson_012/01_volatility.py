@@ -100,20 +100,20 @@ class Volatility:
         max_price, min_price = float(max(prices)), float(min(prices))
         half_sum = ((max_price + min_price) / 2)
         volatility = round((((max_price - min_price) / half_sum) * 100), 2)
-        # TODO появляется отрицательная волатильность, проблема в max_price и min_price, некоректно показываются
+        #  появляется отрицательная волатильность, проблема в max_price и min_price, некоректно показываются
         self.volatility_stat.append([ticker, volatility])
 
     def sort(self):
         self.open()
         self.min_volatility = sorted(self.volatility_stat, key=lambda price: price[1])
-        self.min_volatility = [el for el, _ in groupby(self.min_volatility)]  # TODO тут в роли костыля,
+        self.min_volatility = [el for el, _ in groupby(self.min_volatility)]  #  тут в роли костыля,
         # тк повторялся O2H9 - -2.04, но вообще отрицательной не может быть, поэтому что-то с min и max price'ами
         self.max_volatility = sorted(self.volatility_stat, key=lambda price: price[1], reverse=True)
         for ticker in self.volatility_stat:
             if ticker[1] == 0.0:
                 self.zero_volatility.append(ticker[0])
         self.zero_volatility = sorted(self.zero_volatility)
-        self.zero_volatility = [el for el, _ in groupby(self.zero_volatility)]  # TODO чтобы сохранить порядок
+        self.zero_volatility = [el for el, _ in groupby(self.zero_volatility)]  #  чтобы сохранить порядок
         return self.min_volatility, self.max_volatility, self.zero_volatility
 
     def print(self):
@@ -129,6 +129,12 @@ class Volatility:
     def threading(self):
         thread = threading.Thread(target=self.print(), args=(1,))
         thread.start()
+# TODO Так как в следующей задаче будет попытка посчитать тоже самое во многопоточном варианте, нам нужно будет
+#  запускать обработку каждого файла отдельным объектом класса, для чего код должен быть организован таким образом,
+#  чтобы каждый объект "работал" бы только над одним файлом. Вынесите цикл по файлам из класса, это должен быть внешний
+#  цикл. Данные можно складывать в глобальные переменные либо создавать список объектов (откуда потом объединять все
+#  данные по тикерам в общую переменую) и обрабатывать данные атрибутов объектов тоже внешним кодом (сортировка,
+#  вывод результата)
 
 
 volatility_calculator = Volatility(file_name=DIRECTORY)
