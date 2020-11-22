@@ -78,73 +78,63 @@ class Volatility:
         self.file_name = file_name
         self.stat = {}
         self.list_files = os.listdir(file_name)
-        # TODO 1) список файлов этому классу не нужен, этот класс должен "знать" только об одном файле который он
-        #  обрабатывает, для этого есть атрибут file_name. При создании объекта через одно имённый параметр
-        #  надо передавать имя файла тикера.
-        #  2) Согласно заданию, интерфейс класса должен включать метод run, запуск которого должен найти волатильность
-        #  одно конкректного тикера:
-        #  class <Название класса>:
-        #      def __init__(self, <параметры>):
-        #          <сохранение параметров>
-        #      def run(self):
-        #          <обработка данных>
-
         self.volatility_stat = []
+        self.min_volatility, self.max_volatility, self.zero_volatility = [], [], []
+        self.volatility = 0.0
+        self.max_price, self.min_price, self.half_sum, self.ticker, self.prices = 0, 0, 0, '', []
 
-    def print(self, max, min, zero):  # TODO Вывод в консоль результатов обработки всех тикеров папки надо офоримить
-        # внешней функцией, ведь она выводит обобщённые данные по всем тикерам, в то время как объект "знает" только
-        # один свой тикер и не может работать с данными по всем тикерам одновременно.
-        print('Max volatility: ')
-        # for value in self.sort()[1][:3]:
-        for value in max[:3]:
-            print('   ' + str(value[0]) + ' - ' + str(value[1]))
-        print('Min volatility: ')
-        # for value in self.sort()[0][:3]:
-        for value in min[:3]:
-            print('   ' + str(value[0]) + ' - ' + str(value[1]))
-        print('Zero volatility: ')
-        print('  ', ', '.join(zero))
+    def run(self):
+        path = volatility_calculator.file_name + '/' + file_csv
+        with open(path, 'r') as ff:
+            reader = csv.reader(ff)
 
-# TODO Так как в следующей задаче будет попытка посчитать тоже самое во многопоточном варианте, нам нужно будет
-#  запускать обработку каждого файла отдельным объектом класса, для чего код должен быть организован таким образом,
-#  чтобы каждый объект "работал" бы только над одним файлом. Вынесите цикл по файлам из класса, это должен быть внешний
-#  цикл. Данные можно складывать в глобальные переменные либо создавать список объектов (откуда потом объединять все
-#  данные по тикерам в общую переменую) и обрабатывать данные атрибутов объектов тоже внешним кодом (сортировка,
-#  вывод результата)
+            for row in reader:
+                self.ticker = row[0]
+                if not row.count('PRICE'):
+                    self.prices.append(float(row[2]))
+
+            self.max_price, self.min_price = float(max(self.prices)), float(min(self.prices))
+            half_sum = ((self.max_price + self.min_price) / 2)
+            self.volatility = round((((self.max_price - self.min_price) / half_sum) * 100), 2)
+
+
+def print_stat(max, min, zero):
+    print('Max volatility: ')
+    for value in max[:3]:
+        print('   ' + str(value[0]) + ' - ' + str(value[1]))
+
+    print('Min volatility: ')
+    for value in min[:3]:
+        print('   ' + str(value[0]) + ' - ' + str(value[1]))
+
+    print('Zero volatility: ')
+    print('  ', ', '.join(zero))
 
 
 volatility_calculator = Volatility(file_name=DIRECTORY)
+
 for file_csv in volatility_calculator.list_files:
-    path = volatility_calculator.file_name + '/' + file_csv
-    with open(path, 'r') as ff:  # TODO Код этого with - вплоть до нахождения волатильности тикера - должен быть кодом
-                                 #  класса расчёта волатильности
-        reader = csv.reader(ff)
-        min_volatility, max_volatility, zero_volatility = [], [], []
-        max_price, min_price, half_sum, ticker, prices = 0, 0, 0, '', []
-        for row in reader:
-            ticker = row[0]
-            if not row.count('PRICE'):
-                prices.append(row[2])
-        max_price, min_price = float(max(prices)), float(min(prices))  # TODO максимум и минимум надо находить среди
-                                                                       #  чисел, а не строк
-        half_sum = ((max_price + min_price) / 2)
-        volatility = round((((max_price - min_price) / half_sum) * 100), 2)
-            #  появляется отрицательная волатильность, проблема в max_price и min_price, некоректно показываются
+    volatility_calculator.run()
+    volatility_calculator.volatility_stat.append([volatility_calculator.ticker, volatility_calculator.volatility])
+    volatility_calculator.max_price, volatility_calculator.min_price, volatility_calculator.half_sum = 0, 0, 0
+    volatility_calculator.ticker, volatility_calculator.prices = '', []
 
-        # TODO  А этот код оставьте в основном код, но учтите, что сортировать надо данные по всем тикерам, то есть
-        #  после обработки всех файлов, а не после каждого - это излишняя непродуктивная работа
-        volatility_calculator.volatility_stat.append([ticker, volatility])
-        min_volatility = sorted(volatility_calculator.volatility_stat, key=lambda price: price[1])
-        min_volatility = [el for el, _ in groupby(min_volatility)]  # тут в роли костыля,
-        # тк повторялся O2H9 - -2.04, но вообще отрицательной не может быть, поэтому что-то с min и max price'ами
-        max_volatility = sorted(volatility_calculator.volatility_stat, key=lambda price: price[1], reverse=True)
-        for ticker in volatility_calculator.volatility_stat:
-            if ticker[1] == 0.0:
-                zero_volatility.append(ticker[0])
-        zero_volatility = sorted(zero_volatility)
-        zero_volatility = [el for el, _ in groupby(zero_volatility)]
-        # volatility_calculator.sort()
+for ticker in volatility_calculator.volatility_stat:
+    if ticker[1] == 0.0:
+        volatility_calculator.zero_volatility.append(ticker[0])
+        # volatility_calculator.min_volatility.remove(ticker)
+        # print(ticker) # TODO почему-то не удаляется элемент из списка
 
-volatility_calculator.print(max=max_volatility, min=min_volatility, zero=zero_volatility)
+volatility_calculator.zero_volatility = sorted(volatility_calculator.zero_volatility)
+
+volatility_calculator.min_volatility = sorted(volatility_calculator.volatility_stat, key=lambda price: price[1])
+volatility_calculator.min_volatility = [el for el, _ in groupby(volatility_calculator.min_volatility)]
+
+volatility_calculator.max_volatility = sorted(volatility_calculator.volatility_stat, key=lambda price: price[1],
+                                              reverse=True)
+
+print_stat(max=volatility_calculator.max_volatility,
+           min=volatility_calculator.min_volatility,
+           zero=volatility_calculator.zero_volatility)
 
 # TODO написать код в однопоточном/однопроцессорном стиле
