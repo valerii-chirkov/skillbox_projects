@@ -78,9 +78,22 @@ class Volatility:
         self.file_name = file_name
         self.stat = {}
         self.list_files = os.listdir(file_name)
+        # TODO 1) список файлов этому классу не нужен, этот класс должен "знать" только об одном файле который он
+        #  обрабатывает, для этого есть атрибут file_name. При создании объекта через одно имённый параметр
+        #  надо передавать имя файла тикера.
+        #  2) Согласно заданию, интерфейс класса должен включать метод run, запуск которого должен найти волатильность
+        #  одно конкректного тикера:
+        #  class <Название класса>:
+        #      def __init__(self, <параметры>):
+        #          <сохранение параметров>
+        #      def run(self):
+        #          <обработка данных>
+
         self.volatility_stat = []
 
-    def print(self, max, min, zero):
+    def print(self, max, min, zero):  # TODO Вывод в консоль результатов обработки всех тикеров папки надо офоримить
+        # внешней функцией, ведь она выводит обобщённые данные по всем тикерам, в то время как объект "знает" только
+        # один свой тикер и не может работать с данными по всем тикерам одновременно.
         print('Max volatility: ')
         # for value in self.sort()[1][:3]:
         for value in max[:3]:
@@ -103,7 +116,8 @@ class Volatility:
 volatility_calculator = Volatility(file_name=DIRECTORY)
 for file_csv in volatility_calculator.list_files:
     path = volatility_calculator.file_name + '/' + file_csv
-    with open(path, 'r') as ff:
+    with open(path, 'r') as ff:  # TODO Код этого with - вплоть до нахождения волатильности тикера - должен быть кодом
+                                 #  класса расчёта волатильности
         reader = csv.reader(ff)
         min_volatility, max_volatility, zero_volatility = [], [], []
         max_price, min_price, half_sum, ticker, prices = 0, 0, 0, '', []
@@ -111,10 +125,14 @@ for file_csv in volatility_calculator.list_files:
             ticker = row[0]
             if not row.count('PRICE'):
                 prices.append(row[2])
-        max_price, min_price = float(max(prices)), float(min(prices))
+        max_price, min_price = float(max(prices)), float(min(prices))  # TODO максимум и минимум надо находить среди
+                                                                       #  чисел, а не строк
         half_sum = ((max_price + min_price) / 2)
         volatility = round((((max_price - min_price) / half_sum) * 100), 2)
             #  появляется отрицательная волатильность, проблема в max_price и min_price, некоректно показываются
+
+        # TODO  А этот код оставьте в основном код, но учтите, что сортировать надо данные по всем тикерам, то есть
+        #  после обработки всех файлов, а не после каждого - это излишняя непродуктивная работа
         volatility_calculator.volatility_stat.append([ticker, volatility])
         min_volatility = sorted(volatility_calculator.volatility_stat, key=lambda price: price[1])
         min_volatility = [el for el, _ in groupby(min_volatility)]  # тут в роли костыля,
