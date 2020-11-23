@@ -71,6 +71,7 @@ from itertools import groupby
 
 DIRECTORY = 'trades'
 min_volatility, max_volatility, zero_volatility, volatility_stat = [], [], [], []
+files_list = []
 
 
 class Volatility:
@@ -96,6 +97,36 @@ class Volatility:
             self.volatility = round((((self.max_price - self.min_price) / half_sum) * 100), 2)
 
 
+def get_list_of_objects():  # TODO так имелось ввиду?
+    """Также хорошо бы не по очереди создавать объект и запускать его,
+    а создать список объектов, а потому итерируя по списку запускать метод run(),
+    как будет плавнее переход к многопоточности и далее."""
+    for file_csv in os.listdir(DIRECTORY):
+        files_list.append(Volatility(file_csv))
+
+
+def get_values():
+    for object in files_list:
+        object.run()
+        volatility_stat.append([object.ticker, object.volatility])
+        object.max_price, object.min_price, object.half_sum = 0, 0, 0
+        object.ticker, object.prices = '', []
+
+
+def sort():
+    global min_volatility, max_volatility, zero_volatility
+    min_volatility = sorted(volatility_stat, key=lambda price: price[1])
+    min_volatility = [el for el, _ in groupby(min_volatility)]
+    max_volatility = sorted(volatility_stat, key=lambda price: price[1], reverse=True)
+
+    for ticker in volatility_stat:  # TODO можно как-то убрать этот уродливый цикл?Чтобы привести к функц. стилю
+        if ticker[1] == 0.0:
+            zero_volatility.append(ticker[0])
+            min_volatility.remove(ticker)
+
+    zero_volatility = sorted(zero_volatility)
+
+
 def print_stat(max, min, zero):
     print('Max volatility: ')
     for value in max[:3]:
@@ -109,24 +140,9 @@ def print_stat(max, min, zero):
     print('  ', ', '.join(zero))
 
 
-for file_csv in os.listdir(DIRECTORY):
-    volatility_calculator = Volatility(file_name=file_csv)
-    volatility_calculator.run()
-    volatility_stat.append([volatility_calculator.ticker, volatility_calculator.volatility])
-    volatility_calculator.max_price, volatility_calculator.min_price, volatility_calculator.half_sum = 0, 0, 0
-    volatility_calculator.ticker, volatility_calculator.prices = '', []
-
-min_volatility = sorted(volatility_stat, key=lambda price: price[1])
-min_volatility = [el for el, _ in groupby(min_volatility)]
-max_volatility = sorted(volatility_stat, key=lambda price: price[1], reverse=True)
-
-for ticker in volatility_stat:
-    if ticker[1] == 0.0:
-        zero_volatility.append(ticker[0])
-        min_volatility.remove(ticker)
-
-zero_volatility = sorted(zero_volatility)
-
+get_list_of_objects()
+get_values()
+sort()
 print_stat(max=max_volatility,
            min=min_volatility,
            zero=zero_volatility)
