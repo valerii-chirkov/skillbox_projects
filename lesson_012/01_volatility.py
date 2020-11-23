@@ -70,6 +70,7 @@ import os
 from itertools import groupby
 
 DIRECTORY = 'trades'
+min_volatility, max_volatility, zero_volatility, volatility_stat = [], [], [], []
 
 
 class Volatility:
@@ -77,18 +78,11 @@ class Volatility:
     def __init__(self, file_name):
         self.file_name = file_name
         self.stat = {}
-        self.list_files = os.listdir(file_name)  # TODO Не может этот класс знать о списке файлов! Дайте ему один файл,
-                                                 #  и путь он занимается только им.
-        self.volatility_stat = []  # TODO Не храните обобщённые данные в этом классе! Этот класс обрабатывает ОДИН файл
-                                   #  и больше ни о чём другом не знает
-        self.min_volatility, self.max_volatility, self.zero_volatility = [], [], []  # TODO Эти аргументы должны быть
-                                                       # глобальными переменными, их не надо хранить в атрибутах объекта
         self.volatility = 0.0
         self.max_price, self.min_price, self.half_sum, self.ticker, self.prices = 0, 0, 0, '', []
 
     def run(self):
-        path = volatility_calculator.file_name + '/' + file_csv  # TODO пути надо собирать специальными инструментами,
-                                                                 #  например os.path.join
+        path = os.path.join(DIRECTORY, self.file_name)
         with open(path, 'r') as ff:
             reader = csv.reader(ff)
 
@@ -115,31 +109,26 @@ def print_stat(max, min, zero):
     print('  ', ', '.join(zero))
 
 
-volatility_calculator = Volatility(file_name=DIRECTORY)
-
-for file_csv in volatility_calculator.list_files:
+for file_csv in os.listdir(DIRECTORY):
+    volatility_calculator = Volatility(file_name=file_csv)
     volatility_calculator.run()
-    volatility_calculator.volatility_stat.append([volatility_calculator.ticker, volatility_calculator.volatility])
+    volatility_stat.append([volatility_calculator.ticker, volatility_calculator.volatility])
     volatility_calculator.max_price, volatility_calculator.min_price, volatility_calculator.half_sum = 0, 0, 0
     volatility_calculator.ticker, volatility_calculator.prices = '', []
 
-for ticker in volatility_calculator.volatility_stat:
+min_volatility = sorted(volatility_stat, key=lambda price: price[1])
+min_volatility = [el for el, _ in groupby(min_volatility)]
+max_volatility = sorted(volatility_stat, key=lambda price: price[1], reverse=True)
+
+for ticker in volatility_stat:
     if ticker[1] == 0.0:
-        volatility_calculator.zero_volatility.append(ticker[0])
-        # volatility_calculator.min_volatility.remove(ticker)
-        # print(ticker) # почему-то не удаляется элемент из списка
-        # -- Потому что этот список min_volatility пуст, вы его заполняете чуть ниже по ходу программы
+        zero_volatility.append(ticker[0])
+        min_volatility.remove(ticker)
 
-volatility_calculator.zero_volatility = sorted(volatility_calculator.zero_volatility)
+zero_volatility = sorted(zero_volatility)
 
-volatility_calculator.min_volatility = sorted(volatility_calculator.volatility_stat, key=lambda price: price[1])
-volatility_calculator.min_volatility = [el for el, _ in groupby(volatility_calculator.min_volatility)]
-
-volatility_calculator.max_volatility = sorted(volatility_calculator.volatility_stat, key=lambda price: price[1],
-                                              reverse=True)
-
-print_stat(max=volatility_calculator.max_volatility,
-           min=volatility_calculator.min_volatility,
-           zero=volatility_calculator.zero_volatility)
+print_stat(max=max_volatility,
+           min=min_volatility,
+           zero=zero_volatility)
 
 # TODO написать код в однопоточном/однопроцессорном стиле
