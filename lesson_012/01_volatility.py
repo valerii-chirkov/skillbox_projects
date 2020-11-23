@@ -77,14 +77,18 @@ class Volatility:
     def __init__(self, file_name):
         self.file_name = file_name
         self.stat = {}
-        self.list_files = os.listdir(file_name)
-        self.volatility_stat = []
-        self.min_volatility, self.max_volatility, self.zero_volatility = [], [], []
+        self.list_files = os.listdir(file_name)  # TODO Не может этот класс знать о списке файлов! Дайте ему один файл,
+                                                 #  и путь он занимается только им.
+        self.volatility_stat = []  # TODO Не храните обобщённые данные в этом классе! Этот класс обрабатывает ОДИН файл
+                                   #  и больше ни о чём другом не знает
+        self.min_volatility, self.max_volatility, self.zero_volatility = [], [], []  # TODO Эти аргументы должны быть
+                                                       # глобальными переменными, их не надо хранить в атрибутах объекта
         self.volatility = 0.0
         self.max_price, self.min_price, self.half_sum, self.ticker, self.prices = 0, 0, 0, '', []
 
     def run(self):
-        path = volatility_calculator.file_name + '/' + file_csv
+        path = volatility_calculator.file_name + '/' + file_csv  # TODO пути надо собирать специальными инструментами,
+                                                                 #  например os.path.join
         with open(path, 'r') as ff:
             reader = csv.reader(ff)
 
@@ -123,7 +127,8 @@ for ticker in volatility_calculator.volatility_stat:
     if ticker[1] == 0.0:
         volatility_calculator.zero_volatility.append(ticker[0])
         # volatility_calculator.min_volatility.remove(ticker)
-        # print(ticker) # TODO почему-то не удаляется элемент из списка
+        # print(ticker) # почему-то не удаляется элемент из списка
+        # -- Потому что этот список min_volatility пуст, вы его заполняете чуть ниже по ходу программы
 
 volatility_calculator.zero_volatility = sorted(volatility_calculator.zero_volatility)
 
