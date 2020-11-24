@@ -97,12 +97,15 @@ class Volatility:
             self.volatility = round((((self.max_price - self.min_price) / half_sum) * 100), 2)
 
 
-def get_list_of_objects():  # TODO так имелось ввиду?
+def get_list_of_objects():  # так имелось ввиду?
     """Также хорошо бы не по очереди создавать объект и запускать его,
     а создать список объектов, а потому итерируя по списку запускать метод run(),
     как будет плавнее переход к многопоточности и далее."""
     for file_csv in os.listdir(DIRECTORY):
         files_list.append(Volatility(file_csv))
+        # TODO 1) всё же это не список файлов, а "объекты расчтёта волатильности", для простоты можно и "тикеры" назвать
+        #  (list да и любые другие названия типов данных не используйте в именах переменных)
+        #  2) список создайте тут же, в функции, а результат верните через return
 
 
 def get_values():
@@ -119,7 +122,8 @@ def sort():
     min_volatility = [el for el, _ in groupby(min_volatility)]
     max_volatility = sorted(volatility_stat, key=lambda price: price[1], reverse=True)
 
-    for ticker in volatility_stat:  # TODO можно как-то убрать этот уродливый цикл?Чтобы привести к функц. стилю
+    for ticker in volatility_stat:  #  можно как-то убрать этот уродливый цикл?Чтобы привести к функц. стилю
+                                    # -- Попробуйте использовать встроенную функцию filter
         if ticker[1] == 0.0:
             zero_volatility.append(ticker[0])
             min_volatility.remove(ticker)
@@ -147,4 +151,4 @@ print_stat(max=max_volatility,
            min=min_volatility,
            zero=zero_volatility)
 
-# TODO написать код в однопоточном/однопроцессорном стиле
+#  написать код в однопоточном/однопроцессорном стиле
