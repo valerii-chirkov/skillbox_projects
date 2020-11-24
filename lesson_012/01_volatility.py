@@ -71,7 +71,6 @@ from itertools import groupby
 
 DIRECTORY = 'trades'
 min_volatility, max_volatility, zero_volatility, volatility_stat = [], [], [], []
-files_list = []
 
 
 class Volatility:
@@ -97,23 +96,26 @@ class Volatility:
             self.volatility = round((((self.max_price - self.min_price) / half_sum) * 100), 2)
 
 
-def get_list_of_objects():  # так имелось ввиду?
-    """Также хорошо бы не по очереди создавать объект и запускать его,
-    а создать список объектов, а потому итерируя по списку запускать метод run(),
-    как будет плавнее переход к многопоточности и далее."""
+def get_tickers():
+    files_list = []
     for file_csv in os.listdir(DIRECTORY):
         files_list.append(Volatility(file_csv))
-        # TODO 1) всё же это не список файлов, а "объекты расчтёта волатильности", для простоты можно и "тикеры" назвать
-        #  (list да и любые другие названия типов данных не используйте в именах переменных)
-        #  2) список создайте тут же, в функции, а результат верните через return
+
+    return files_list
 
 
 def get_values():
-    for object in files_list:
-        object.run()
-        volatility_stat.append([object.ticker, object.volatility])
-        object.max_price, object.min_price, object.half_sum = 0, 0, 0
-        object.ticker, object.prices = '', []
+    for ticker in get_tickers():
+        ticker.run()
+        volatility_stat.append([ticker.ticker, ticker.volatility])
+        ticker.max_price, ticker.min_price, ticker.half_sum = 0, 0, 0
+        ticker.ticker, ticker.prices = '', []
+
+
+def define_zero(ticker):
+    if ticker[1] == 0.0:
+        zero_volatility.append(ticker[0])
+        min_volatility.remove(ticker)
 
 
 def sort():
@@ -121,13 +123,8 @@ def sort():
     min_volatility = sorted(volatility_stat, key=lambda price: price[1])
     min_volatility = [el for el, _ in groupby(min_volatility)]
     max_volatility = sorted(volatility_stat, key=lambda price: price[1], reverse=True)
-
-    for ticker in volatility_stat:  #  можно как-то убрать этот уродливый цикл?Чтобы привести к функц. стилю
-                                    # -- Попробуйте использовать встроенную функцию filter
-        if ticker[1] == 0.0:
-            zero_volatility.append(ticker[0])
-            min_volatility.remove(ticker)
-
+    for ticker in volatility_stat:  # TODO мне показалось так красивее чем filter
+        define_zero(ticker)
     zero_volatility = sorted(zero_volatility)
 
 
@@ -144,7 +141,6 @@ def print_stat(max, min, zero):
     print('  ', ', '.join(zero))
 
 
-get_list_of_objects()
 get_values()
 sort()
 print_stat(max=max_volatility,
