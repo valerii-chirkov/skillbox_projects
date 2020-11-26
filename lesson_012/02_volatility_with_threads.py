@@ -27,7 +27,7 @@ DIRECTORY = 'trades'
 min_volatility, max_volatility, zero_volatility, volatility_stat = [], [], [], []
 
 
-class Volatility:  # TODO Наследуйте от Thread
+class Volatility(Thread):
 
     def __init__(self, file_name):
         self.file_name = file_name
@@ -76,8 +76,7 @@ def sort():
     min_volatility = sorted(volatility_stat, key=lambda price: price[1])
     min_volatility = [el for el, _ in groupby(min_volatility)]
     max_volatility = sorted(volatility_stat, key=lambda price: price[1], reverse=True)
-    for ticker in volatility_stat:  # мне показалось так красивее чем filter -- Только это не фунциональный стиль как
-                                    #  вы хотели
+    for ticker in volatility_stat:
         define_zero(ticker)
     zero_volatility = sorted(zero_volatility)
 
@@ -95,10 +94,7 @@ def print_stat(max, min, zero):
     print('  ', ', '.join(zero))
 
 
-# get_values()
-for ticker in enumerate(get_tickers()):
-    Thread(target=get_values(), args=()).start()  # TODO этот код должен сохраниться как в задаче 1
-    # print(ticker)
+get_values()
 sort()
 print_stat(max=max_volatility,
            min=min_volatility,
