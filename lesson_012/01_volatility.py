@@ -123,7 +123,7 @@ def sort():
     min_volatility = sorted(volatility_stat, key=lambda price: price[1])
     min_volatility = [el for el, _ in groupby(min_volatility)]
     max_volatility = sorted(volatility_stat, key=lambda price: price[1], reverse=True)
-    for ticker in volatility_stat:  # TODO мне показалось так красивее чем filter
+    for ticker in volatility_stat:  #  мне показалось так красивее чем filter
         define_zero(ticker)
     zero_volatility = sorted(zero_volatility)
 
