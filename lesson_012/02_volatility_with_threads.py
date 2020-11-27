@@ -30,9 +30,8 @@ min_volatility, max_volatility, zero_volatility, volatility_stat = [], [], [], [
 
 class Volatility(Thread):
 
-    def __init__(self, file_name):
-        # TODO При переопределении метода __init__ предка никогда нельзя забывать про его вызов
-        #  (см. также пример в python_snippets/02_threads)
+    def __init__(self, file_name, *args, **kwargs):
+        super().__init__(*args, **kwargs)
         self.file_name = file_name
         self.stat = {}
         self.volatility = 0.0
