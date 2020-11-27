@@ -18,6 +18,7 @@
 # Волатильности указывать в порядке убывания. Тикеры с нулевой волатильностью упорядочить по имени.
 #
 # TODO Внимание! это задание можно выполнять только после зачета lesson_012/01_volatility.py !!!
+# TODO Не забывайте удалять выполненные тудушки
 import csv
 import os
 from itertools import groupby
@@ -30,6 +31,8 @@ min_volatility, max_volatility, zero_volatility, volatility_stat = [], [], [], [
 class Volatility(Thread):
 
     def __init__(self, file_name):
+        # TODO При переопределении метода __init__ предка никогда нельзя забывать про его вызов
+        #  (см. также пример в python_snippets/02_threads)
         self.file_name = file_name
         self.stat = {}
         self.volatility = 0.0
