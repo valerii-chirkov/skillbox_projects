@@ -23,6 +23,7 @@ import csv
 import os
 from itertools import groupby
 from threading import Thread
+from lesson_012.python_snippets.utils import time_track
 
 DIRECTORY = 'trades'
 min_volatility, max_volatility, zero_volatility, volatility_stat = [], [], [], []
@@ -58,7 +59,7 @@ def get_tickers():
         files_list.append(Volatility(file_csv))
     return files_list
 
-
+@time_track
 def get_values():
     for ticker in get_tickers():
         ticker.run()
