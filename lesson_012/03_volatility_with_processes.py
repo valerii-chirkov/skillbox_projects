@@ -63,6 +63,8 @@ def get_tickers():
 
 @time_track
 def get_values():
+    # TODO Аналогично многопоточности, но сбор данных нужно делать через специальный инструмент - очередь Queue.
+    #  Посмотрите как это делается в python_snippets/04_queues.py
     for ticker in get_tickers():
         ticker.run()
         volatility_stat.append([ticker.ticker, ticker.volatility])
