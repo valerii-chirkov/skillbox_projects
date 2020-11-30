@@ -59,21 +59,21 @@ def get_tickers():
         files_list.append(Volatility(file_csv))
     return files_list
 
+
+tickers = get_tickers()
+
+
 @time_track
 def get_values():
-    for ticker in get_tickers():
+    for ticker in tickers:
         ticker.run()
-    # TODO Прошу прощения, что не обратил внимания прошлый раз. Правльное использование многопоточности предусматривает
-    #  запуск всех потоков в одном цикле, потом завершение всех потоков (точнее ожидание завершения) и только после
-    #  этого сбор данных. Примерно так (список объектов присвойте переменной tickers и используйте далее только её):
-    #  for ticker in tickers:
-    #      ticker.start()
-    #   for trade in tickers:
-    #      ticker.join()
-        # TODO Исправьте этот код, чтобы получать данные из списка объектов tickers:
         volatility_stat.append([ticker.ticker, ticker.volatility])
         ticker.max_price, ticker.min_price, ticker.half_sum = 0, 0, 0
         ticker.ticker, ticker.prices = '', []
+        ticker.start()
+
+    for ticker in tickers:
+        ticker.join()
 
 
 def define_zero(ticker):
