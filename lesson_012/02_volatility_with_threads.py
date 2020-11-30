@@ -66,8 +66,9 @@ tickers = get_tickers()
 @time_track
 def get_values():
     for ticker in tickers:
-        ticker.run()
-        volatility_stat.append([ticker.ticker, ticker.volatility])
+        ticker.run()  # TODO Эту функцию вызывает библиотека многопоточности, поэтому вызывать её тут не надо
+        volatility_stat.append([ticker.ticker, ticker.volatility])  # TODO сбор данных надо выполнять после завершения
+                                                                    #  всех потоков, то есть после цикла с join()
         ticker.max_price, ticker.min_price, ticker.half_sum = 0, 0, 0
         ticker.ticker, ticker.prices = '', []
         ticker.start()
