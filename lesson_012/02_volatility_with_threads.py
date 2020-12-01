@@ -52,6 +52,11 @@ class Volatility(Thread):
             half_sum = ((self.max_price + self.min_price) / 2)
             self.volatility = round((((self.max_price - self.min_price) / half_sum) * 100), 2)
 
+            # TODO так?
+            volatility_stat.append([self.ticker, self.volatility])
+            self.max_price, self.min_price, self.half_sum = 0, 0, 0
+            self.ticker, self.prices = '', []
+
 
 def get_tickers():
     files_list = []
@@ -66,11 +71,6 @@ tickers = get_tickers()
 @time_track
 def get_values():
     for ticker in tickers:
-        ticker.run()  # TODO Эту функцию вызывает библиотека многопоточности, поэтому вызывать её тут не надо
-        volatility_stat.append([ticker.ticker, ticker.volatility])  # TODO сбор данных надо выполнять после завершения
-                                                                    #  всех потоков, то есть после цикла с join()
-        ticker.max_price, ticker.min_price, ticker.half_sum = 0, 0, 0
-        ticker.ticker, ticker.prices = '', []
         ticker.start()
 
     for ticker in tickers:
