@@ -52,9 +52,13 @@ class Volatility(Thread):
             half_sum = ((self.max_price + self.min_price) / 2)
             self.volatility = round((((self.max_price - self.min_price) / half_sum) * 100), 2)
 
-            # TODO так?
+            #  так?
+            # TODO Эта глобальная переменная, а привязывать класс к глобальным переменным - плохая практика. В том же
+            #  цикле где запускали расчёт, потом дожидались пока они окончатся, добавьте третью часть - сбор данных с
+            #  объектов и именно туда поместите следующую строку:
             volatility_stat.append([self.ticker, self.volatility])
-            self.max_price, self.min_price, self.half_sum = 0, 0, 0
+            self.max_price, self.min_price, self.half_sum = 0, 0, 0  # TODO А этого делать не надо, ведь каждый объект
+                                                                     #  используем один раз
             self.ticker, self.prices = '', []
 
 
