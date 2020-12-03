@@ -111,4 +111,4 @@ print_stat(max=max_volatility,
            zero=zero_volatility)
 
 
-# TODO тут ваш код в многопоточном стиле
+# зачёт!
