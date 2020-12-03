@@ -23,8 +23,9 @@
 import csv
 import os
 from itertools import groupby
-from multiprocessing import Process
+from multiprocessing import Process, Pipe, Queue
 from lesson_012.python_snippets.utils import time_track
+import queue
 
 DIRECTORY = 'trades'
 min_volatility, max_volatility, zero_volatility, volatility_stat = [], [], [], []
@@ -38,20 +39,25 @@ class Volatility(Process):
         self.stat = {}
         self.volatility = 0.0
         self.max_price, self.min_price, self.half_sum, self.ticker, self.prices = 0, 0, 0, '', []
+        self.q = queue.Queue(maxsize=2)
 
     def run(self):
-        path = os.path.join(DIRECTORY, self.file_name)
-        with open(path, 'r') as ff:
-            reader = csv.reader(ff)
+        while True:
+            try:
+                path = os.path.join(DIRECTORY, self.file_name)
+                with open(path, 'r') as ff:
+                    reader = csv.reader(ff)
 
-            for row in reader:
-                self.ticker = row[0]
-                if not row.count('PRICE'):
-                    self.prices.append(float(row[2]))
+                    for row in reader:
+                        self.ticker = row[0]
+                        if not row.count('PRICE'):
+                            self.prices.append(float(row[2]))
 
-            self.max_price, self.min_price = float(max(self.prices)), float(min(self.prices))
-            half_sum = ((self.max_price + self.min_price) / 2)
-            self.volatility = round((((self.max_price - self.min_price) / half_sum) * 100), 2)
+                    self.max_price, self.min_price = float(max(self.prices)), float(min(self.prices))
+                    half_sum = ((self.max_price + self.min_price) / 2)
+                    self.volatility = round((((self.max_price - self.min_price) / half_sum) * 100), 2)
+            except queue.Empty:
+                pass
 
 
 def get_tickers():
@@ -61,15 +67,17 @@ def get_tickers():
     return files_list
 
 
+tickers = get_tickers()
+
+
 @time_track
 def get_values():
-    # TODO Аналогично многопоточности, но сбор данных нужно делать через специальный инструмент - очередь Queue.
-    #  Посмотрите как это делается в python_snippets/04_queues.py
-    for ticker in get_tickers():
-        ticker.run()
+    for ticker in tickers:
+        ticker.start()
+    for ticker in tickers:
+        ticker.join()
+    for ticker in tickers:
         volatility_stat.append([ticker.ticker, ticker.volatility])
-        ticker.max_price, ticker.min_price, ticker.half_sum = 0, 0, 0
-        ticker.ticker, ticker.prices = '', []
 
 
 def define_zero(ticker):
