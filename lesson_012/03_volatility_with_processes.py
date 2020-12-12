@@ -32,7 +32,6 @@ min_volatility, max_volatility, zero_volatility, volatility_stat = [], [], [], [
 
 
 class Volatility(Process):
-
     def __init__(self, file_name, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.file_name = file_name
@@ -57,7 +56,7 @@ class Volatility(Process):
                     half_sum = ((self.max_price + self.min_price) / 2)
                     self.volatility = round((((self.max_price - self.min_price) / half_sum) * 100), 2)
             except queue.Empty:
-                pass
+                break
 
 
 def get_tickers():
@@ -114,3 +113,4 @@ sort()
 print_stat(max=max_volatility,
            min=min_volatility,
            zero=zero_volatility)
+
