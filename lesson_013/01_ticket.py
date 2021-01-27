@@ -24,6 +24,8 @@ def make_ticket(fio, from_, to, date, ):
                  [45, im.size[1] - 280 + 70*2],
                  [285, im.size[1] - 280 + 70*2],)
 
+    # TODO Как можно видеть, код дублируется. Создайте подходящую структуру данных для текста и его координат и
+    #  итерируя по ней выводите текст в нужных местах билета.
     def write(position, param):
         draw.text(position, param, font=font, fill=ImageColor.colormap['black'])
 
