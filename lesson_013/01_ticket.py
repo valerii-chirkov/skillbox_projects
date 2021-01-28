@@ -22,7 +22,8 @@ def make_ticket(fio, from_, to, date, ):
     positions = list()
 
     # coordinates iteration
-    for i in range(len(params)-1):  # TODO так?
+    for i in range(len(params)-1):  #  так?
+        # TODO Значительно удобнее был бы список словарей с ключами "текст" и "координаты"
         positions.append([45, im.size[1] - 280 + 70*i])
     positions.append([285, im.size[1] - 280 + 70*2])
 
