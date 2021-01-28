@@ -19,13 +19,13 @@ def make_ticket(fio, from_, to, date, ):
     draw = ImageDraw.Draw(im)
     font = ImageFont.truetype(font_path, size=16)
     params = fio, from_, to, date
-    positions = ([45, im.size[1] - 280],
-                 [45, im.size[1] - 280 + 70*1],
-                 [45, im.size[1] - 280 + 70*2],
-                 [285, im.size[1] - 280 + 70*2],)
+    positions = list()
 
-    # TODO Как можно видеть, код дублируется. Создайте подходящую структуру данных для текста и его координат и
-    #  итерируя по ней выводите текст в нужных местах билета.
+    # coordinates iteration
+    for i in range(len(params)-1):  # TODO так?
+        positions.append([45, im.size[1] - 280 + 70*i])
+    positions.append([285, im.size[1] - 280 + 70*2])
+
     def write(position, param):
         draw.text(position, param, font=font, fill=ImageColor.colormap['black'])
 
