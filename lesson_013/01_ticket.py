@@ -9,32 +9,24 @@
 # Подходящий шрифт искать на сайте ofont.ru
 from PIL import Image, ImageDraw, ImageFont, ImageColor
 
-template = 'images/ticket_template.png'
-font_path = 'font_dud.ttf'
-# TODO 1) чуть точнее назовите "шаблон" - "шаблон_билета", к примеру
-#  2) Не забываем про РЕР8: имена констант пишутся большими буквами
+TEMPLATE_TICKET = 'images/ticket_template.png'
+FONT_PATH = 'font_dud.ttf'
+TICKET_OUT_PATH = ''
 
 
 def make_ticket(fio, from_, to, date):
     # default_size = (672, 401)
-    im = Image.open(template)
+    im = Image.open(TEMPLATE_TICKET)
     draw = ImageDraw.Draw(im)
-    font = ImageFont.truetype(font_path, size=16)
-    params = 'fio', 'from_', 'to', 'date'  #  меня смущает, что без этого ничего не работает, можно же как-то
-    #  обойтись без этого и просто брать название аргументов?
+    font = ImageFont.truetype(FONT_PATH, size=16)
 
     # coordinates iteration
     filling_data = [
-        {'fio': fio, 'cords': (45, im.size[1] - 280 + 70*0)},
-        {'from_': from_, 'cords': (45, im.size[1] - 280 + 70 * 1)},
-        {'to': to, 'cords': (45, im.size[1] - 280 + 70 * 2)},
-        {'date': date, 'cords': (285, im.size[1] - 280 + 70*2)},
+        {'text': fio, 'cords': (45, im.size[1] - 280 + 70*0)},
+        {'text': from_, 'cords': (45, im.size[1] - 280 + 70 * 1)},
+        {'text': to, 'cords': (45, im.size[1] - 280 + 70 * 2)},
+        {'text': date, 'cords': (285, im.size[1] - 280 + 70*2)},
     ]
-    # TODO Всё неудобство происходит из-за уникальности названий ключей, а они должны быть стандартными:
-    # filling_data = [
-    #     {'text': fio, 'coords': (45, im.size[1] - 280 + 70*0)},
-    #     ....
-    # ]
 
     # define a function to write information
     def write(position, param):
@@ -43,14 +35,13 @@ def make_ticket(fio, from_, to, date):
     # write each line
     for i in range(len(filling_data)):
         line = filling_data[i]
-        key = params[i]
-        _param = line.get(key)
-        write(position=filling_data[i]['cords'], param=_param)
+        key = line.get('text')
+        write(position=filling_data[i]['cords'], param=key)
 
     # save
-    out_path = 'img.jpg'  # TODO сделайте константу для имени файла
+    TICKET_OUT_PATH = 'img.jpg'
     im = im.convert('RGB')
-    im.save(out_path)
+    im.save(TICKET_OUT_PATH)
 
 
 make_ticket(fio='Valerii Chirkov', from_='Barnaul, Russia', to='Moscow, Russia', date='27 Jan 2021')
