@@ -1,8 +1,9 @@
-from chatbot._token import token
+from chatbot._token import token  # TODO константа (имя большими буквами)
 import vk_api
 from vk_api import vk_api, bot_longpoll
 
 group_id = 202152694
+# TODO Это констант. Удобно её хранить там же, где и токен
 
 
 class Bot:
