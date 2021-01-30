@@ -1,16 +1,12 @@
-from chatbot._token import token  # TODO константа (имя большими буквами)
+from chatbot._token import TOKEN, GROUP_ID
 import vk_api
 from vk_api import vk_api, bot_longpoll
-
-group_id = 202152694
-# TODO Это констант. Удобно её хранить там же, где и токен
 
 
 class Bot:
     def __init__(self, group_id, token):
         self.group_id = group_id
         self.token = token
-
         self.vk = vk_api.VkApi(token=token)
         self.long_poller = bot_longpoll.VkBotLongPoll(self.vk, self.group_id)
 
@@ -30,5 +26,5 @@ class Bot:
 
 
 if __name__ == '__main__':
-    bot = Bot(group_id, token)
+    bot = Bot(GROUP_ID, TOKEN)
     bot.run()
