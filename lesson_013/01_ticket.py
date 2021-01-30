@@ -11,6 +11,8 @@ from PIL import Image, ImageDraw, ImageFont, ImageColor
 
 template = 'images/ticket_template.png'
 font_path = 'font_dud.ttf'
+# TODO 1) чуть точнее назовите "шаблон" - "шаблон_билета", к примеру
+#  2) Не забываем про РЕР8: имена констант пишутся большими буквами
 
 
 def make_ticket(fio, from_, to, date):
@@ -18,8 +20,8 @@ def make_ticket(fio, from_, to, date):
     im = Image.open(template)
     draw = ImageDraw.Draw(im)
     font = ImageFont.truetype(font_path, size=16)
-    params = 'fio', 'from_', 'to', 'date'  # TODO меня смущает, что без этого ничего не работает, можно же как-то
-    # TODO обойтись без этого и просто брать название аргументов?
+    params = 'fio', 'from_', 'to', 'date'  #  меня смущает, что без этого ничего не работает, можно же как-то
+    #  обойтись без этого и просто брать название аргументов?
 
     # coordinates iteration
     filling_data = [
@@ -28,6 +30,11 @@ def make_ticket(fio, from_, to, date):
         {'to': to, 'cords': (45, im.size[1] - 280 + 70 * 2)},
         {'date': date, 'cords': (285, im.size[1] - 280 + 70*2)},
     ]
+    # TODO Всё неудобство происходит из-за уникальности названий ключей, а они должны быть стандартными:
+    # filling_data = [
+    #     {'text': fio, 'coords': (45, im.size[1] - 280 + 70*0)},
+    #     ....
+    # ]
 
     # define a function to write information
     def write(position, param):
@@ -41,7 +48,7 @@ def make_ticket(fio, from_, to, date):
         write(position=filling_data[i]['cords'], param=_param)
 
     # save
-    out_path = 'img.jpg'
+    out_path = 'img.jpg'  # TODO сделайте константу для имени файла
     im = im.convert('RGB')
     im.save(out_path)
 
