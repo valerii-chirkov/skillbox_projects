@@ -39,7 +39,8 @@ def make_ticket(fio, from_, to, date):
         write(position=filling_data[i]['cords'], param=key)
 
     # save
-    TICKET_OUT_PATH = 'img.jpg'
+    TICKET_OUT_PATH = 'img.jpg'  # TODO Все константы должны быть расположены в своём вместе -- в начале модуля, после
+                                 #  импортов
     im = im.convert('RGB')
     im.save(TICKET_OUT_PATH)
 
