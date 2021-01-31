@@ -13,18 +13,17 @@ import argparse
 TEMPLATE_TICKET = '/Users/valeriichirkov/PycharmProjects/python_base/lesson_013/images/ticket_template.png'
 FONT_PATH = '/Users/valeriichirkov/PycharmProjects/python_base/lesson_013/font_dud.ttf'
 # TODO без абсолютного пути не видит файлы
-TICKET_OUT_PATH = 'ticket_out.jpg'
 
 parser = argparse.ArgumentParser(description='Filling a ticket')
 parser.add_argument('-q', '--fio', metavar='', type=str, required=True, help='Your full name.')
 parser.add_argument('-w', '--from_', metavar='', type=str, required=True, help='Departure')
 parser.add_argument('-e', '--to', metavar='', type=str, required=True, help='Destination')
 parser.add_argument('-r', '--date', metavar='', type=str, required=True, help='Flight date.')
-parser.add_argument('-t', '--name', metavar='', type=str, required=False, help='Ticket path')
+parser.add_argument('-t', '--save_to', metavar='', type=str, required=False, help='Ticket path', default='ticket_out.jpg')
 args = parser.parse_args()
 
 
-def make_ticket(fio, from_, to, date):
+def make_ticket(fio, from_, to, date, save_to):
     # default_size = (672, 401)
     im = Image.open(TEMPLATE_TICKET)
     draw = ImageDraw.Draw(im)
@@ -50,12 +49,12 @@ def make_ticket(fio, from_, to, date):
 
     # save
     im = im.convert('RGB')
-    im.save(TICKET_OUT_PATH)
+    im.save(args.save_to)
 
 
 # TODO приходится писать в консоли без пробелов, потому что он слова после пробела воспринимает за другие аргументы,
 # TODO как можно это исправить?
-make_ticket(fio=args.fio, from_=args.from_, to=args.to, date=args.date)
+make_ticket(fio=args.fio, from_=args.from_, to=args.to, date=args.date, save_to=args.save_to)
 # Усложненное задание (делать по желанию).
 # Написать консольный скрипт c помощью встроенного python-модуля argparse.
 # Скрипт должен принимать параметры:
