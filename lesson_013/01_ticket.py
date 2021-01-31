@@ -8,6 +8,7 @@
 # Пример заполнения lesson_013/images/ticket_sample.png
 # Подходящий шрифт искать на сайте ofont.ru
 from PIL import Image, ImageDraw, ImageFont, ImageColor
+import argparse
 
 TEMPLATE_TICKET = 'images/ticket_template.png'
 FONT_PATH = 'font_dud.ttf'
@@ -54,3 +55,10 @@ make_ticket(fio='Valerii Chirkov', from_='Barnaul, Russia', to='Moscow, Russia',
 #   --save_to - необязательный, путь для сохранения заполненнего билета.
 # и заполнять билет.
 
+# parser = argparse.ArgumentParser(description='Filling a ticket')
+# parser.add_argument('--fio', metavar='N', type=str, nargs='+', help='What is your full name?')
+# parser.add_argument('--from', metavar='N', type=str, nargs='+', help='Where are you coming from?')
+# parser.add_argument('--to', metavar='N', type=str, nargs='+', help='Where are you going?')
+# parser.add_argument('--date', metavar='N', type=str, nargs='+', help='When do you want to go?')
+# parser.add_argument('--name', metavar='N', type=str, nargs='+',
+#                     help='Where do you want to save the ticket? (It is not necessary).')
