@@ -10,9 +10,18 @@
 from PIL import Image, ImageDraw, ImageFont, ImageColor
 import argparse
 
-TEMPLATE_TICKET = 'images/ticket_template.png'
-FONT_PATH = 'font_dud.ttf'
+TEMPLATE_TICKET = '/Users/valeriichirkov/PycharmProjects/python_base/lesson_013/images/ticket_template.png'
+FONT_PATH = '/Users/valeriichirkov/PycharmProjects/python_base/lesson_013/font_dud.ttf'
+# TODO без абсолютного пути не видит файлы
 TICKET_OUT_PATH = 'ticket_out.jpg'
+
+parser = argparse.ArgumentParser(description='Filling a ticket')
+parser.add_argument('-q', '--fio', metavar='', type=str, required=True, help='Your full name.')
+parser.add_argument('-w', '--from_', metavar='', type=str, required=True, help='Departure')
+parser.add_argument('-e', '--to', metavar='', type=str, required=True, help='Destination')
+parser.add_argument('-r', '--date', metavar='', type=str, required=True, help='Flight date.')
+parser.add_argument('-t', '--name', metavar='', type=str, required=False, help='Ticket path')
+args = parser.parse_args()
 
 
 def make_ticket(fio, from_, to, date):
@@ -44,7 +53,9 @@ def make_ticket(fio, from_, to, date):
     im.save(TICKET_OUT_PATH)
 
 
-make_ticket(fio='Valerii Chirkov', from_='Barnaul, Russia', to='Moscow, Russia', date='31 Jan 2021')
+# TODO приходится писать в консоли без пробелов, потому что он слова после пробела воспринимает за другие аргументы,
+# TODO как можно это исправить?
+make_ticket(fio=args.fio, from_=args.from_, to=args.to, date=args.date)
 # Усложненное задание (делать по желанию).
 # Написать консольный скрипт c помощью встроенного python-модуля argparse.
 # Скрипт должен принимать параметры:
@@ -55,10 +66,4 @@ make_ticket(fio='Valerii Chirkov', from_='Barnaul, Russia', to='Moscow, Russia',
 #   --save_to - необязательный, путь для сохранения заполненнего билета.
 # и заполнять билет.
 
-# parser = argparse.ArgumentParser(description='Filling a ticket')
-# parser.add_argument('--fio', metavar='N', type=str, nargs='+', help='What is your full name?')
-# parser.add_argument('--from', metavar='N', type=str, nargs='+', help='Where are you coming from?')
-# parser.add_argument('--to', metavar='N', type=str, nargs='+', help='Where are you going?')
-# parser.add_argument('--date', metavar='N', type=str, nargs='+', help='When do you want to go?')
-# parser.add_argument('--name', metavar='N', type=str, nargs='+',
-#                     help='Where do you want to save the ticket? (It is not necessary).')
+
