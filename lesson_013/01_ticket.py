@@ -11,7 +11,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageColor
 
 TEMPLATE_TICKET = 'images/ticket_template.png'
 FONT_PATH = 'font_dud.ttf'
-TICKET_OUT_PATH = ''
+TICKET_OUT_PATH = 'ticket_out.jpg'
 
 
 def make_ticket(fio, from_, to, date):
@@ -39,13 +39,11 @@ def make_ticket(fio, from_, to, date):
         write(position=filling_data[i]['cords'], param=key)
 
     # save
-    TICKET_OUT_PATH = 'img.jpg'  # TODO Все константы должны быть расположены в своём вместе -- в начале модуля, после
-                                 #  импортов
     im = im.convert('RGB')
     im.save(TICKET_OUT_PATH)
 
 
-make_ticket(fio='Valerii Chirkov', from_='Barnaul, Russia', to='Moscow, Russia', date='27 Jan 2021')
+make_ticket(fio='Valerii Chirkov', from_='Barnaul, Russia', to='Moscow, Russia', date='31 Jan 2021')
 # Усложненное задание (делать по желанию).
 # Написать консольный скрипт c помощью встроенного python-модуля argparse.
 # Скрипт должен принимать параметры:
