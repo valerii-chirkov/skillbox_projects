@@ -1,6 +1,7 @@
 from chatbot._token import TOKEN, GROUP_ID
 import vk_api
 from vk_api import vk_api, bot_longpoll
+import random
 
 
 class Bot:
@@ -9,6 +10,7 @@ class Bot:
         self.token = token
         self.vk = vk_api.VkApi(token=token)
         self.long_poller = bot_longpoll.VkBotLongPoll(self.vk, self.group_id)
+        self.api = self.vk.get_api()
 
     def run(self):
         for event in self.long_poller.listen():
@@ -20,7 +22,11 @@ class Bot:
 
     def on_event(self, event):
         if event.type == bot_longpoll.VkBotEventType.MESSAGE_NEW:
-            print(event.object.text)
+            back_message = f'Привет, ты написал: {event.object.text}'
+            self.api.messages.send(message=back_message,
+                                   random_id=random.randint(0, 2 ** 20),
+                                   peer_id=event.object.peer_id),
+
         else:
             print('Мы пока не умеем обрабатывать события такого типа.', event.type)
 
