@@ -10,9 +10,10 @@
 from PIL import Image, ImageDraw, ImageFont, ImageColor
 import argparse
 
-TEMPLATE_TICKET = '/Users/valeriichirkov/PycharmProjects/python_base/lesson_013/images/ticket_template.png'
-FONT_PATH = '/Users/valeriichirkov/PycharmProjects/python_base/lesson_013/font_dud.ttf'
-# TODO без абсолютного пути не видит файлы
+TEMPLATE_TICKET = 'images/ticket_template.png'
+FONT_PATH = 'font_dud.ttf'
+#  без абсолютного пути не видит файлы
+# todo Поправил пути, должно находить
 
 parser = argparse.ArgumentParser(description='Filling a ticket')
 parser.add_argument('-q', '--fio', metavar='', type=str, required=True, help='Your full name.')
@@ -52,8 +53,9 @@ def make_ticket(fio, from_, to, date, save_to):
     im.save(args.save_to)
 
 
-# TODO приходится писать в консоли без пробелов, потому что он слова после пробела воспринимает за другие аргументы,
-# TODO как можно это исправить?
+#  приходится писать в консоли без пробелов, потому что он слова после пробела воспринимает за другие аргументы,
+#  как можно это исправить?
+# todo используйте кавычки: python 01_ticket.py -q "Имя Отчество Фамилия" ...
 make_ticket(fio=args.fio, from_=args.from_, to=args.to, date=args.date, save_to=args.save_to)
 # Усложненное задание (делать по желанию).
 # Написать консольный скрипт c помощью встроенного python-модуля argparse.
