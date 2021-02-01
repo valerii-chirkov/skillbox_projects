@@ -53,9 +53,6 @@ def make_ticket(fio, from_, to, date, save_to):
     im.save(args.save_to)
 
 
-#  приходится писать в консоли без пробелов, потому что он слова после пробела воспринимает за другие аргументы,
-#  как можно это исправить?
-# todo используйте кавычки: python 01_ticket.py -q "Имя Отчество Фамилия" ...
 make_ticket(fio=args.fio, from_=args.from_, to=args.to, date=args.date, save_to=args.save_to)
 # Усложненное задание (делать по желанию).
 # Написать консольный скрипт c помощью встроенного python-модуля argparse.
