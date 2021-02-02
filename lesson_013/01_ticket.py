@@ -10,11 +10,11 @@
 from PIL import Image, ImageDraw, ImageFont, ImageColor
 import argparse
 
-TEMPLATE_TICKET = 'images/ticket_template.png'
-FONT_PATH = 'font_dud.ttf'
-#  без абсолютного пути не видит файлы
-# todo Поправил пути, должно находить
+# constants (may be changed)
+TEMPLATE_TICKET = 'lesson_013/images/ticket_template.png'
+FONT_PATH = 'lesson_013/font_dud.ttf'
 
+# using argparse module
 parser = argparse.ArgumentParser(description='Filling a ticket')
 parser.add_argument('-q', '--fio', metavar='', type=str, required=True, help='Your full name.')
 parser.add_argument('-w', '--from_', metavar='', type=str, required=True, help='Departure')
@@ -64,4 +64,5 @@ make_ticket(fio=args.fio, from_=args.from_, to=args.to, date=args.date, save_to=
 #   --save_to - необязательный, путь для сохранения заполненнего билета.
 # и заполнять билет.
 
-
+# python3 /Users/valeriichirkov/PycharmProjects/python_base/lesson_013/01_ticket.py -q ValeriiChirkov
+# -w Barnaul,Russia -e Moscow,Russia -r 25Feb2021
