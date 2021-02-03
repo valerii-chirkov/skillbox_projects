@@ -64,5 +64,8 @@ make_ticket(fio=args.fio, from_=args.from_, to=args.to, date=args.date, save_to=
 #   --save_to - необязательный, путь для сохранения заполненнего билета.
 # и заполнять билет.
 
-# python3 /Users/valeriichirkov/PycharmProjects/python_base/lesson_013/01_ticket.py -q ValeriiChirkov
-# -w Barnaul,Russia -e Moscow,Russia -r 25Feb2021
+# python3 lesson_013/01_ticket.py -q ValeriiChirkov -w Barnaul,Russia -e Moscow,Russia -r 25Feb2021
+# TODO так тоже запускается
+
+# python3 01_ticket.py -q ValeriiChirkov -w Barnaul,Russia -e Moscow,Russia -r 25Feb2021
+# TODO так нет
