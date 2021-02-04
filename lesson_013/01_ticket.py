@@ -65,7 +65,11 @@ make_ticket(fio=args.fio, from_=args.from_, to=args.to, date=args.date, save_to=
 # и заполнять билет.
 
 # python3 lesson_013/01_ticket.py -q ValeriiChirkov -w Barnaul,Russia -e Moscow,Russia -r 25Feb2021
-# TODO так тоже запускается
+#  тоже запускается
 
 # python3 01_ticket.py -q ValeriiChirkov -w Barnaul,Russia -e Moscow,Russia -r 25Feb2021
-# TODO так нет
+#  так нет
+# -- Так изначально подразумевался запуск из папки программы. Но если вам удобно из корневой папки репозитория
+# запускать, то ОК, пусть так будет
+
+# зачет!
