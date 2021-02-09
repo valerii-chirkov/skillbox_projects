@@ -32,7 +32,16 @@
 # Скрипт должен принимать параметр --result и печатать на консоль:
 #   Количество очков для результатов ХХХ - УУУ.
 
-# TODO тут ваш код
+
+import argparse
+import logging
+from lesson_014.bowling import get_score
+
+# score = 'Х4/34-4'
+parser = argparse.ArgumentParser(description='Count score of a bowling frame')
+parser.add_argument('-r', '--result', metavar='', type=str, required=True, help='Write you result (no spaces)')
+args = parser.parse_args()
+
 
 # При написании кода помнить, что заказчик может захотеть доработок и новых возможностей...
 # И, возможно, вам пригодится паттерн проектирования "Состояние",
