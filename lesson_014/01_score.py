@@ -34,15 +34,67 @@
 
 
 import argparse
-import logging
-from lesson_014.bowling import get_score
 
-# score = 'Х4/34-4'
+
+possible_symbols = '123456789-/XХxх'
+points = 0
 parser = argparse.ArgumentParser(description='Count score of a bowling frame')
 parser.add_argument('-r', '--result', metavar='', type=str, required=True, help='Write you result (no spaces)')
 args = parser.parse_args()
 
 
+def get_score(game_score):
+    global points
+    # amount_x counts both cyrillic and latin letters "X" (ex in Eng, ha in Rus) as well as capital and small ones.
+    amount_x = game_score.count('X') + game_score.count('Х') + game_score.count('x') + game_score.count('х')
+    amount_letters = len(game_score)
+
+    even_number = amount_x % 2 == 0 and amount_letters % 2 == 0
+    odd_number = amount_x % 2 != 0 and amount_letters % 2 != 0
+
+    # the amount of X's and symbols in a string should be both either odd or even.
+    if even_number or odd_number:
+        # if statement is True, we should check for game_score containing valid values
+        for char in game_score:
+            if char not in possible_symbols:
+                raise TypeError('There are some not acceptable symbols')
+
+        # if values are valid we remove "X" numbers, because they are already 20 points each
+        game_score = game_score.translate({ord(i): None for i in 'XХxх'})
+        split_by_two = [game_score[i:i + 2] for i in range(0, len(game_score), 2)]
+
+        # for the case of more than 10 frames
+        frame_length = len(split_by_two) + amount_x
+        if frame_length > 10:
+            raise TypeError('There are only 10 frames possible')
+
+        points += 20 * amount_x
+
+        # then we split our row for pairs and check them for possible TypeErrors
+        for frame in split_by_two:
+            if frame.count('/'):
+                if frame[0] == '/':
+                    raise TypeError('Slash symbol cannot be first')
+                else:
+                    points += 15
+            elif frame.count('-'):
+                frame = frame.translate({ord(i): None for i in '-'})
+                # in the case of '1234XХ-135--'
+                if frame == '':
+                    pass
+                else:
+                    points += int(frame)
+            else:
+                two_numbers = int(frame[0]) + int(frame[1])
+                if two_numbers >= 10:
+                    raise ValueError
+                points += int(frame[0]) + int(frame[1])
+        return points
+    else:
+        raise ValueError('There are not appropriate quantity of numbers')
+
+
+get_score(game_score=args.result)
 # При написании кода помнить, что заказчик может захотеть доработок и новых возможностей...
 # И, возможно, вам пригодится паттерн проектирования "Состояние",
 #   см https://clck.ru/Fudd8 и https://refactoring.guru/ru/design-patterns/state
