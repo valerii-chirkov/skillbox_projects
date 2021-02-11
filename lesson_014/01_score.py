@@ -41,10 +41,11 @@ points = 0
 parser = argparse.ArgumentParser(description='Count score of a bowling frame')
 parser.add_argument('-r', '--result', metavar='', type=str, required=True, help='Write you result (no spaces)')
 args = parser.parse_args()
+# TODO перенесите основной код в конец модуля, после определения функций
 
 
-def get_score(game_score):
-    global points
+def get_score(game_score):  # TODO эта функция должна быть расположена в модуле bowling
+    global points  # TODO постарайтесь обойтись без глобальных переменных
     # amount_x counts both cyrillic and latin letters "X" (ex in Eng, ha in Rus) as well as capital and small ones.
     amount_x = game_score.count('X') + game_score.count('Х') + game_score.count('x') + game_score.count('х')
     amount_letters = len(game_score)
@@ -87,14 +88,14 @@ def get_score(game_score):
             else:
                 two_numbers = int(frame[0]) + int(frame[1])
                 if two_numbers >= 10:
-                    raise ValueError
+                    raise ValueError  # TODO Сделайте пояснение к ошибке. Ещё лучше - создать кастомные исключения
                 points += int(frame[0]) + int(frame[1])
         return points
     else:
         raise ValueError('There are not appropriate quantity of numbers')
 
 
-get_score(game_score=args.result)
+print(get_score(game_score=args.result))
 # При написании кода помнить, что заказчик может захотеть доработок и новых возможностей...
 # И, возможно, вам пригодится паттерн проектирования "Состояние",
 #   см https://clck.ru/Fudd8 и https://refactoring.guru/ru/design-patterns/state
