@@ -2,6 +2,8 @@
 
 **probe.py
 **_token.py
+**settings.py
+*.log
 
 # User-specific stuff:
 .idea/
