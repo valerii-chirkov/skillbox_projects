@@ -29,6 +29,6 @@ class ScoreTest(unittest.TestCase):
             get_score('XXXXXXXXXXX')
             get_score('1122334411223344-1--11')
 
-
+    # TODO Нужно проверить и то, что разные варианты результатов игры считаются верно
 if __name__ == '__main__':
     unittest.main()
