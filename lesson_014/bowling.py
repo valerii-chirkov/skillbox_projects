@@ -26,12 +26,12 @@
 # когда game_result содержит некорректные данные. Использовать стандартные исключения по максимуму,
 # если не хватает - создать свои.
 
-possible_symbols = '123456789-/XХxх'
-points = 0
+from lesson_014.custom_exceptions import *
+POSSIBLE_SYMBOLS = '123456789-/XХxх'
 
 
 def get_score(game_score):
-    global points
+    points = 0
     # amount_x counts both cyrillic and latin letters "X" (ex in Eng, ha in Rus) as well as capital and small ones.
     amount_x = game_score.count('X') + game_score.count('Х') + game_score.count('x') + game_score.count('х')
     amount_letters = len(game_score)
@@ -43,8 +43,8 @@ def get_score(game_score):
     if even_number or odd_number:
         # if statement is True, we should check for game_score containing valid values
         for char in game_score:
-            if char not in possible_symbols:
-                raise TypeError('There are some not acceptable symbols')
+            if char not in POSSIBLE_SYMBOLS:
+                raise ValidSymbolsError('There are some not acceptable symbols')
 
         # if values are valid we remove "X" numbers, because they are already 20 points each
         game_score = game_score.translate({ord(i): None for i in 'XХxх'})
@@ -53,7 +53,7 @@ def get_score(game_score):
         # for the case of more than 10 frames
         frame_length = len(split_by_two) + amount_x
         if frame_length > 10:
-            raise TypeError('There are only 10 frames possible')
+            raise TenFramesError('There are only 10 frames possible')
 
         points += 20 * amount_x
 
@@ -61,7 +61,7 @@ def get_score(game_score):
         for frame in split_by_two:
             if frame.count('/'):
                 if frame[0] == '/':
-                    raise TypeError('Slash symbol cannot be first')
+                    raise SlashFirstError('Slash symbol cannot be first')
                 else:
                     points += 15
             elif frame.count('-'):
@@ -74,11 +74,11 @@ def get_score(game_score):
             else:
                 two_numbers = int(frame[0]) + int(frame[1])
                 if two_numbers >= 10:
-                    raise ValueError
+                    raise TenPointsFrameError('There are more than 10 points in a frame')
                 points += int(frame[0]) + int(frame[1])
         return points
     else:
-        raise ValueError('There are not appropriate quantity of numbers')
+        raise OddEvenEqualityError('There are not appropriate quantity of numbers')
 
 
-print(get_score('1234XХ-135'))
+# print(get_score('1234XХ-135'))
