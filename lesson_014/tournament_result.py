@@ -1,13 +1,14 @@
 from lesson_014 import bowling
 
-FILENAME = 'tournament.txt'
-FILENAME_OUT = 'tournament_result.txt'
+# FILENAME = 'tournament.txt'
+# FILENAME_OUT = 'tournament_result.txt'
 
 
-def tournament_results_file():
+def tournament_results_file(filename, filename_out):
     tournament_stat = {}
+    participated = {}
 
-    with open(FILENAME, 'r') as ff_in, open(FILENAME_OUT, 'w') as ff_out:
+    with open(filename, 'r') as ff_in, open(filename_out, 'w') as ff_out:
         tour_stat = {}
         previous_score, previous_winner = 0, ''
 
@@ -30,6 +31,12 @@ def tournament_results_file():
                 ff_out.write(line[:-1] + ' ' + str(current_score) + '\n')
                 current_winner = line.split()[0]
 
+                # count how many games the player participated
+                if current_winner in participated:
+                    participated[current_winner] += 1
+                else:
+                    participated[current_winner] = 1
+
                 # fill the dict for defining the winner of 1 game
                 tour_stat[current_winner] = current_score
 
@@ -48,11 +55,15 @@ def tournament_results_file():
                     ff_out.write('winner is ' + current_winner + '\n')
                     previous_score = 0
                     previous_winner = ''
+                    # add the winner to the tuple
+                    if current_winner in tournament_stat:
+                        tournament_stat[current_winner] += 1
+                    else:
+                        tournament_stat[current_winner] = 1
                 tour_stat = {}  # clear it for a new tour
 
-    return tournament_stat
+    return tournament_stat, participated
 
 
-tournament_results_file()
 
 
