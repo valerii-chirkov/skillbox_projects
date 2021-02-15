@@ -25,8 +25,21 @@
 #
 # Из текущего файла сделать консольный скрипт для формирования файла с результатами турнира.
 # Параметры скрипта: --input <файл протокола турнира> и --output <файл результатов турнира>
+import _io
 
-# TODO тут ваш код
+from lesson_014.tournament_result import *
+from lesson_014 import tournament_result
+import argparse
+
+
+parser = argparse.ArgumentParser(description='Count score of a bowling frame')
+parser.add_argument('-i', '--input', type=str, default='tournament.txt', help='Input file')
+parser.add_argument('-o', '--output', type=str, default='tournament_result.txt', help='Output file')
+
+args = parser.parse_args()
+
+tournament_results_file(filename=args.input, filename_out=args.output)
+
 
 # Усложненное задание (делать по желанию)
 #
@@ -39,3 +52,16 @@
 # ...
 # | Алексей  |        20        |       5      |
 # +----------+------------------+--------------+
+
+tournament_stat, _ = tournament_results_file(filename=args.input, filename_out=args.output)
+_, participated = tournament_results_file(filename=args.input, filename_out=args.output)
+
+print('+----------+------------------+--------------+')
+print('| Игрок    |  сыграно матчей  |  всего побед |')
+print('+----------+------------------+--------------+')
+for player in tournament_stat:
+    games = participated.get(player)
+    wins = tournament_stat.get(player)
+    print(f'| {player.center(8)} | {str(games).center(16)} | {str(wins).center(12)} |')
+
+print('+----------+------------------+--------------+')
