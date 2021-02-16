@@ -26,7 +26,8 @@
 # когда game_result содержит некорректные данные. Использовать стандартные исключения по максимуму,
 # если не хватает - создать свои.
 
-from lesson_014.custom_exceptions import *
+from lesson_014.custom_exceptions import *  # TODO Это не хорошая практика, явно импортируйте только используемые
+                                            #  объекты
 POSSIBLE_SYMBOLS = '123456789-/XХxх'
 
 

@@ -27,8 +27,9 @@
 # Параметры скрипта: --input <файл протокола турнира> и --output <файл результатов турнира>
 import _io
 
-from lesson_014.tournament_result import *
-from lesson_014 import tournament_result
+from lesson_014.tournament_result import *  # TODO Это не хорошая практика, явно импортируйте только используемые
+                                            #  объекты
+from lesson_014 import tournament_result  # TODO убирайте неиспользуемые импорты
 import argparse
 
 
