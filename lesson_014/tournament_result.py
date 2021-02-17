@@ -1,4 +1,4 @@
-from lesson_014 import bowling
+from lesson_014.bowling import get_score_rules, get_score
 
 # FILENAME = 'tournament.txt'
 # FILENAME_OUT = 'tournament_result.txt'
@@ -22,7 +22,7 @@ def tournament_results_file(filename, filename_out):
             if line[0].isupper():
                 # we are trying to get a score unless there're a mistake in a row
                 try:
-                    current_score = bowling.get_score(line.split()[1])
+                    current_score = get_score_rules(line.split()[1])
                 # if we get an exception - the player gets zero points for the game
                 except Exception:
                     current_score = 0
@@ -65,5 +65,5 @@ def tournament_results_file(filename, filename_out):
     return tournament_stat, participated
 
 
-
+# tournament_results_file(FILENAME, FILENAME_OUT)
 
