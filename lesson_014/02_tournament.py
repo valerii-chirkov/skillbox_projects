@@ -25,13 +25,9 @@
 #
 # Из текущего файла сделать консольный скрипт для формирования файла с результатами турнира.
 # Параметры скрипта: --input <файл протокола турнира> и --output <файл результатов турнира>
-import _io
 
-from lesson_014.tournament_result import *  # TODO Это не хорошая практика, явно импортируйте только используемые
-                                            #  объекты
-from lesson_014 import tournament_result  # TODO убирайте неиспользуемые импорты
+from lesson_014.tournament_result import tournament_results_file
 import argparse
-
 
 parser = argparse.ArgumentParser(description='Count score of a bowling frame')
 parser.add_argument('-i', '--input', type=str, default='tournament.txt', help='Input file')
