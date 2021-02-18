@@ -18,10 +18,6 @@ class OddEvenEqualityError(ValueError):
     pass
 
 
-class DashSlashAfterX(TypeError):
-    pass
-
-
 class XAfterNumber(TypeError):
     pass
 
