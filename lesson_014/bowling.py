@@ -26,8 +26,8 @@
 # когда game_result содержит некорректные данные. Использовать стандартные исключения по максимуму,
 # если не хватает - создать свои.
 
-from lesson_014.custom_exceptions import ValidSymbolsError, TenFramesError, SlashFirstError, TenPointsFrameError
-from lesson_014.custom_exceptions import OddEvenEqualityError, DashSlashAfterX, XAfterNumber
+from custom_exceptions import ValidSymbolsError, TenFramesError, SlashFirstError, TenPointsFrameError
+from custom_exceptions import OddEvenEqualityError, DashSlashAfterX, XAfterNumber
 POSSIBLE_SYMBOLS = '123456789-/XХxх'
 
 
@@ -84,7 +84,7 @@ def get_score(game_score):
 
 # print(get_score('1234XХ-135'))
 
-def get_score_rules(game_score):
+def get_score_rules(game_score):  # TODO черезвычайно сложная фукнция, требуется её декомпозиция на более мелкие функции
     points = 0
     # amount_x counts both cyrillic and latin letters "X" (ex in Eng, ha in Rus) as well as capital and small ones.
     amount_x = game_score.count('X') + game_score.count('Х') + game_score.count('x') + game_score.count('х')

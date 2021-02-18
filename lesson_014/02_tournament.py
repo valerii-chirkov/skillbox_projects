@@ -26,7 +26,7 @@
 # Из текущего файла сделать консольный скрипт для формирования файла с результатами турнира.
 # Параметры скрипта: --input <файл протокола турнира> и --output <файл результатов турнира>
 
-from lesson_014.tournament_result import tournament_results_file
+from tournament_result import tournament_results_file
 import argparse
 
 parser = argparse.ArgumentParser(description='Count score of a bowling frame')

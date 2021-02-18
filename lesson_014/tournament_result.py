@@ -1,4 +1,4 @@
-from lesson_014.bowling import get_score_rules, get_score
+from bowling import get_score_rules, get_score
 
 # FILENAME = 'tournament.txt'
 # FILENAME_OUT = 'tournament_result.txt'
