@@ -85,210 +85,127 @@ def get_score(game_score):
 # print(get_score('1234XХ-135'))
 
 
-def check_equality(game_score):
+def get_score_american(game_score):
+    points = 0
     # amount_x counts both cyrillic and latin letters "X" (ex in Eng, ha in Rus) as well as capital and small ones.
     amount_x = game_score.count('X') + game_score.count('Х') + game_score.count('x') + game_score.count('х')
     amount_letters = len(game_score)
 
-    # one should be True and one is False, otherwise the game_score is wrong
     even_number = amount_x % 2 == 0 and amount_letters % 2 == 0
     odd_number = amount_x % 2 != 0 and amount_letters % 2 != 0
 
     # the amount of X's and symbols in a string should be both either odd or even.
     if even_number or odd_number:
-        return True
+        # if statement is True, we should check for game_score containing valid values
+        for char in game_score:
+            if char not in POSSIBLE_SYMBOLS:
+                raise ValidSymbolsError('There are some not acceptable symbols')
 
+        # if values are valid we remove "X" numbers, because they are already 20 points each
+        game_score_no_x = game_score.translate({ord(i): None for i in 'XХxх'})
+        split_by_two = [game_score_no_x[i:i + 2] for i in range(0, len(game_score_no_x), 2)]
 
-def check_symbols(game_score):
-    # if statement is True, we should check for game_score containing valid values
-    for char in game_score:
-        if char not in POSSIBLE_SYMBOLS:
-            raise ValidSymbolsError('There are some not acceptable symbols')
-        else:
-            return True
+        # for the case of more than 10 frames
+        frame_length = len(split_by_two) + amount_x
+        if frame_length > 10:
+            raise TenFramesError('There are only 10 frames possible')
 
-
-def check_length(game_score):
-    amount_x = game_score.count('X') + game_score.count('Х') + game_score.count('x') + game_score.count('х')
-    # if values are valid we remove "X" numbers, because they are already 20 points each
-    game_score_no_x = game_score.translate({ord(i): None for i in 'XХxх'})
-    split_by_two = [game_score_no_x[i:i + 2] for i in range(0, len(game_score_no_x), 2)]
-
-    # for the case of more than 10 frames
-    frame_length = len(split_by_two) + amount_x
-    if frame_length > 10:
-        raise TenFramesError('There are only 10 frames possible')
-    else:
-        return True
-
-
-def check_slash_first(throw):
-    if throw == '/':
-        raise SlashFirstError('Slash symbol cannot be first in a frame')
-
-
-def check_last_throw(index, max_index, throw):
-    internal_points = 0
-    if index == max_index:
-        if throw in 'XxХх':
-            internal_points += 10
-        elif throw == '-':
-            internal_points += 0
-        else:
-            internal_points += throw
-        return internal_points
-
-
-def check_penultimate_throw(index, max_index, throw, game_score):
-    internal_points = 0
-    if index == max_index - 1:
-        next_throw1 = game_score[index + 1]
-        if throw in '123456789':
-            if next_throw1 == '/':
-                internal_points += 10
-            elif next_throw1 == '-':
-                internal_points += int(throw)
-            elif next_throw1 in '123456789':
-                if int(throw) + int(next_throw1) >= 10:
-                    raise TenPointsFrameError('There are more than 10 points in a frame')
-                else:
-                    internal_points += int(throw) + int(next_throw1)
-            elif next_throw1 in 'XxХх':
-                raise XAfterNumber('There cannot be X after a number in the end of the frames')
-            else:
-                raise ValidSymbolsError('There could be only / or - or a number')
-        elif throw in 'XxХх':
-            if next_throw1 in 'XxХх':
-                internal_points += 30
-            else:
-                internal_points += 10 + next_throw1
-        elif throw == '-':
-            if next_throw1 == '-':
-                internal_points += 0
-            elif next_throw1 == '/':
-                internal_points += 10
-            elif next_throw1 in 'XxХх':
-                raise XAfterNumber('There cannot be X after slash in the end of the frames')
-            else:
-                internal_points += int(next_throw1)
-        else:
-            internal_points += int(throw) + int(next_throw1)
-        return internal_points
-
-
-def check_throw_dash(throw, next_throw1):
-    internal_points = 0
-    if throw == '-':
-        if next_throw1 == '-':
-            internal_points += 0
-        elif next_throw1 == '/':
-            internal_points += 10
-        elif next_throw1 in 'XxХх':
-            raise XAfterNumber('There cannot be X after slash in the end of the frames')
-        else:
-            internal_points += int(next_throw1)
-
-
-def check_xxx(throw, next_throw1, next_throw2):
-    internal_points = 0
-    if throw in 'XxХх':
-        internal_points += 10
-        if next_throw1 in 'XxХх':
-            internal_points += 10
-            if next_throw2 in 'XxХх':
-                internal_points += 10
-            elif next_throw2 == '-':
-                internal_points += 0
-            else:
-                internal_points += int(next_throw2)
-        elif (next_throw1 and next_throw2).count('/'):
-            internal_points += 10
-        elif next_throw1.count('-') and next_throw2.count('-'):
-            internal_points += 0
-        else:
-            if (next_throw1 or next_throw2).count('-'):
-                try:
-                    internal_points += int(next_throw1)
-                except ValueError:
-                    internal_points += int(next_throw2)
-            elif int(next_throw1) + int(next_throw2) >= 10:
-                raise TenPointsFrameError('There are more than 10 points in a frame')
-            else:
-                internal_points += int(next_throw1) + int(next_throw2)
-        return internal_points
-
-
-def check_slash(next_throw1, next_throw2):
-    internal_points = 0
-    if next_throw1.count('/'):
-        internal_points += 10
-        if next_throw2 in 'XxХх':
-            internal_points += 10
-        elif next_throw2 == '-':
-            internal_points += 0
-        else:
-            internal_points += int(next_throw2)
-    return internal_points
-
-
-def check_throw_with_next(next_throw1, throw):
-    internal_points = 0
-    if throw == '-' and next_throw1 == '-':
-        internal_points += 0
-    elif throw == '-' and next_throw1 in '123456789':
-        internal_points += int(next_throw1)
-    elif throw and next_throw1 in '123456789':
-        internal_points += int(throw) + int(next_throw1)
-    elif throw == '-':
-        if next_throw1 == '-':
-            internal_points += 0
-        elif next_throw1 == '/':
-            internal_points += 10
-        elif next_throw1 in 'XxХх':
-            raise XAfterNumber('There cannot be X after slash in the end of the frames')
-        else:
-            internal_points += int(next_throw1)
-    elif next_throw1 == '-':
-        internal_points += int(throw)
-    elif next_throw1 in 'XxХх':
-        raise OddEvenEqualityError('It is not possible to have X after a number')
-    return internal_points
-
-
-def get_score_american(game_score):
-    points = 0
-    index, max_index = 0, len(game_score) - 1
-
-    # preparing for main loop, if there are any mistakes - the reason is syntax
-    if check_equality(game_score) and check_symbols(game_score) and check_length(game_score):
-        # the main loop, if there are any mistakes - the reason is representing of the score
+        index = 0
+        max_index = len(game_score)-1
         while index <= max_index:
             throw = game_score[index]
-            check_slash_first(throw)
-            if check_last_throw(index, max_index, throw):
-                points += check_last_throw(index, max_index, throw)
+            if throw == '/':
+                raise SlashFirstError('Slash symbol cannot be first in a frame')
+            if index == max_index:
+                if throw in 'XxХх':
+                    points += 10
+                elif throw == '-':
+                    points += 0
+                else:
+                    points += throw
                 break
-            elif check_penultimate_throw(index, max_index, throw, game_score):
-                points += check_penultimate_throw(index, max_index, throw, game_score)
+            elif index == max_index-1:
+                next_throw1 = game_score[index + 1]
+                if throw in '123456789':
+                    if next_throw1 == '/':
+                        points += 10
+                    elif next_throw1 == '-':
+                        points += int(throw)
+                    elif next_throw1 in '123456789':
+                        if int(throw) + int(next_throw1) >= 10:
+                            raise TenPointsFrameError('There are more than 10 points in a frame')
+                        else:
+                            points += int(throw) + int(next_throw1)
+                    elif next_throw1 in 'XxХх':
+                        raise XAfterNumber('There cannot be X after a number in the end of the frames')
+                    else:
+                        raise ValidSymbolsError('There could be only / or - or a number')
+                elif throw in 'XxХх':
+                    if next_throw1 in 'XxХх':
+                        points += 30
+                    else:
+                        points += 10 + next_throw1
+                elif throw == '-':
+                    if next_throw1 == '-':
+                        points += 0
+                    elif next_throw1 == '/':
+                        points += 10
+                    elif next_throw1 in 'XxХх':
+                        raise XAfterNumber('There cannot be X after slash in the end of the frames')
+                    else:
+                        points += int(next_throw1)
+                else:
+                    points += int(throw) + int(next_throw1)
                 break
+
             next_throw1 = game_score[index + 1]
             next_throw2 = game_score[index + 2]
-            if check_xxx(throw, next_throw1, next_throw2):
-                index += 1
-                points += check_xxx(throw, next_throw1, next_throw2)
-                continue
-            if check_slash(next_throw1, next_throw2):
-                index += 2
-                points += check_slash(next_throw1, next_throw2)
-                continue
-            if check_throw_with_next(next_throw1, throw):
-                index += 2
-                points += check_throw_with_next(next_throw1, throw)
-                continue
 
+            if throw in 'XxХх':
+                points += 10
+                if next_throw1 in 'XxХх':
+                    points += 10
+                    if next_throw2 in 'XxХх':
+                        points += 10
+
+                    elif next_throw2 == '-':
+                        points += 0
+
+                    else:
+                        points += int(next_throw2)
+
+                elif (next_throw1 and next_throw2).count('/'):
+                    points += 10
+
+                else:
+                    points += int(next_throw1) + int(next_throw2)
+                    if int(next_throw1) + int(next_throw2) >= 10:
+                        raise TenPointsFrameError('There are more than 10 points in a frame')
+                index += 1
+            elif next_throw1 == '/':
+                points += 10
+                if next_throw2 in 'XxХх':
+                    points += 10
+                elif next_throw2 == '-':
+                    points += 0
+                else:
+                    points += int(next_throw2)
+                index += 2
+            elif next_throw1 in 'XxХх':
+                raise XAfterNumber('It is not possible to have X after a number')
+            else:
+                if throw == '-' and next_throw1 == '-':
+                    points += 0
+                elif throw == '-' and next_throw1 in '123456789':
+                    points += int(next_throw1)
+                elif throw and next_throw1 in '123456789':
+                    points += int(throw) + int(next_throw1)
+                else:
+                    points += int(throw)
+                index += 2
         return points
     else:
         raise OddEvenEqualityError('There are not appropriate quantity of numbers')
 
-# print(get_score_rules(game_score='-9-9-9-9-9-9-7'))
-# print(get_score_american(game_score='-9-9-9-9-9-9-7'))
+
+print(get_score_american(game_score='XX9/4-4--3'))
