@@ -124,6 +124,12 @@ class Bowling:
             self.dash_next_throw1()
         elif self.next_throw1 in 'XxХх':
             raise XAfterNumber('It is not possible to have X after a number')
+        elif self.throw.isdigit() and self.next_throw1.isdigit():
+            if int(self.throw) + int(self.next_throw1) >= 10:
+                raise TenPointsFrameError('There are more than 10 points in a frame')
+            else:
+                self.points += int(self.throw) + int(self.next_throw1)
+                self.index += 2
         else:
             if self.throw == '-' and self.next_throw1 == '-':
                 self.points += 0
@@ -154,15 +160,8 @@ class Bowling:
         else:
             raise OddEvenEqualityError('There are not appropriate quantity of numbers')
 
-#  ошибки выходят как надо
-# bowling = Bowling(game_score='/51234XХ-1')
-# get_score = bowling.run()
-# print(get_score)
-# TODO Согласно заданию интерфейсом модуля должна являться функция get_score - создавайте в ней нужные объекты и
-#  запускайте расчёт внутри этой функции
 
-#  не понимаю как создать объект класса, чтобы он принимал значения из тестов, приходится импортировать класс
-#  в тестах и когда идет сравнение, то понятное дело что два объекта с одинаковыми значениями будут все равно разные
-# bowling = Bowling(game_score)
-# get_score = bowling.run()
-# TODO Ответ выше
+def get_score(game_score):
+    bowling = Bowling(game_score=game_score)
+    bowling.run()
+
