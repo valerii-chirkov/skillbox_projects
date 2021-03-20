@@ -1,12 +1,10 @@
 from chatbot import handlers
-from _token import GROUP_ID, TOKEN
 try:
     import settings
 except ImportError:
     exit('Do cp settings.py.default settings.py and set token!')
 
-import vk_api
-from vk_api import vk_api
+from vk_api import VkApi
 from vk_api.bot_longpoll import VkBotLongPoll, VkBotEventType
 
 import random
@@ -50,8 +48,8 @@ class Bot:
         """
         self.group_id = group_id
         self.token = token
-        self.vk = vk_api.VkApi(token=token)
-        self.long_poller = VkBotLongPoll(self.vk, self.group_id)
+        self.vk = VkApi(token=self.token)
+        self.long_poller = VkBotLongPoll(vk=self.vk, group_id=self.group_id)
         self.api = self.vk.get_api()
         self.user_states = dict()  # user_id -> UserState
 

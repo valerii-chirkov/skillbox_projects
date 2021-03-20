@@ -4,7 +4,7 @@ from unittest.mock import patch, Mock
 from vk_api.bot_longpoll import VkBotMessageEvent
 
 from chatbot import settings
-from chatbot.bot import Bot
+from bot import Bot
 
 
 class Test1(TestCase):
@@ -23,7 +23,7 @@ class Test1(TestCase):
         long_poller_listen_mock = Mock()
         long_poller_listen_mock.listen = long_poller_mock
 
-        with patch('bot.vk_api.VkApi'):
+        with patch('bot.VkApi'):
             with patch('bot.VkBotLongPoll', return_value=long_poller_listen_mock):
                 bot = Bot('', '')
                 bot.on_event = Mock()
