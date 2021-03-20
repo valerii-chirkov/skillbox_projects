@@ -22,95 +22,88 @@
 # TODO тут ваш код в многопроцессном стиле
 import csv
 import os
-from itertools import groupby
-from multiprocessing import Process, Pipe, Queue
-from lesson_012.python_snippets.utils import time_track
-import queue
-
-DIRECTORY = 'trades'
-min_volatility, max_volatility, zero_volatility, volatility_stat = [], [], [], []
+from collections import OrderedDict
+from multiprocessing import Process, Queue
+from queue import Empty
 
 
-class Volatility(Process):
-    def __init__(self, file_name, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.file_name = file_name
-        self.stat = {}
-        self.volatility = 0.0
-        self.max_price, self.min_price, self.half_sum, self.ticker, self.prices = 0, 0, 0, '', []
-        self.q = queue.Queue(maxsize=2)
+class TickerVolatility(Process):
+
+    def __init__(self, file_path, tickers_queue):
+        super().__init__()
+        if os.path.exists(file_path):
+            self.file_path = file_path
+        else:
+            raise FileExistsError('Каталог с файлами отсутствует')
+        self.tickers_queue = tickers_queue
+
+    def get_tickers_info_from_file(self):
+        prices = []
+        ticker = None
+        with open(file=self.file_path, mode='r', encoding='utf8') as csv_file:
+            csv_dict = csv.DictReader(csv_file, delimiter=',')
+            for line in csv_dict:
+                ticker = line['SECID']
+                prices.append(float(line['PRICE']))
+        return ticker, prices
 
     def run(self):
-        while True:
-            try:
-                path = os.path.join(DIRECTORY, self.file_name)
-                with open(path, 'r') as ff:
-                    reader = csv.reader(ff)
+        try:
+            self.calculate_volatility()
+        except Exception as exc:
+            print(f'Error - {self.name} - {exc}')
 
-                    for row in reader:
-                        self.ticker = row[0]
-                        if not row.count('PRICE'):
-                            self.prices.append(float(row[2]))
+    def calculate_volatility(self):
+        ticker, prices = self.get_tickers_info_from_file()
+        max_price, min_price = max(prices), min(prices)
+        average_price = (max_price + min_price) / 2
+        volatility = ((max_price - min_price) / average_price) * 100
+        self.tickers_queue.put((ticker, volatility))
 
-                    self.max_price, self.min_price = float(max(self.prices)), float(min(self.prices))
-                    half_sum = ((self.max_price + self.min_price) / 2)
-                    self.volatility = round((((self.max_price - self.min_price) / half_sum) * 100), 2)
-            except queue.Empty:
+
+def get_next_file(file_path):
+    for dirpath, dirnames, filenames in os.walk(file_path):
+        for filename in filenames:
+            file_name = os.path.join(dirpath, filename)
+            yield file_name
+
+
+def print_report(tickers_dict):
+    zero_tickers = {}
+    tickers = {}
+    for ticker, volatility in tickers_dict.items():
+        if volatility == 0:
+            zero_tickers[ticker] = volatility
+        else:
+            tickers[ticker] = volatility
+    ordered_tickers = OrderedDict(sorted(tickers.items(), key=lambda x: x[1], reverse=True))
+    tickers_list = list(ordered_tickers.keys())
+    print('Максимальная волатильность:')
+    for secid in tickers_list[:3]:
+        print(f'\t{secid} - {ordered_tickers[secid]:2.2f} %')
+    print('Минимальная волатильность:')
+    for secid in tickers_list[-3:]:
+        print(f'\t{secid} - {ordered_tickers[secid]:2.2f} %')
+    print('Нулевая волатильность:')
+    print('\t', ', '.join(sorted(zero_tickers.keys())), sep='')
+
+
+def main(tickers_path):
+    tickers = {}
+    collector = Queue(maxsize=2)
+    processes = [TickerVolatility(file_path=fname, tickers_queue=collector) for fname in get_next_file(tickers_path)]
+    [process.start() for process in processes]
+    while True:
+        try:
+            ticker, volatility = collector.get(timeout=1)
+            tickers[ticker] = volatility
+        except Empty:
+            if not any(process.is_alive() for process in processes):
                 break
+    [process.join() for process in processes]
+    print_report(tickers)
 
 
-def get_tickers():
-    files_list = []
-    for file_csv in os.listdir(DIRECTORY):
-        files_list.append(Volatility(file_csv))
-    return files_list
-
-
-tickers = get_tickers()
-
-
-@time_track
-def get_values():
-    for ticker in tickers:
-        ticker.start()
-    for ticker in tickers:
-        ticker.join()
-    for ticker in tickers:
-        volatility_stat.append([ticker.ticker, ticker.volatility])
-
-
-def define_zero(ticker):
-    if ticker[1] == 0.0:
-        zero_volatility.append(ticker[0])
-        min_volatility.remove(ticker)
-
-
-def sort():
-    global min_volatility, max_volatility, zero_volatility
-    min_volatility = sorted(volatility_stat, key=lambda price: price[1])
-    min_volatility = [el for el, _ in groupby(min_volatility)]
-    max_volatility = sorted(volatility_stat, key=lambda price: price[1], reverse=True)
-    for ticker in volatility_stat:
-        define_zero(ticker)
-    zero_volatility = sorted(zero_volatility)
-
-
-def print_stat(max, min, zero):
-    print('Max volatility: ')
-    for value in max[:3]:
-        print('   ' + str(value[0]) + ' - ' + str(value[1]))
-
-    print('Min volatility: ')
-    for value in min[:3]:
-        print('   ' + str(value[0]) + ' - ' + str(value[1]))
-
-    print('Zero volatility: ')
-    print('  ', ', '.join(zero))
-
-
-get_values()
-sort()
-print_stat(max=max_volatility,
-           min=min_volatility,
-           zero=zero_volatility)
-
+if __name__ == '__main__':
+    TRADE_FILES = './trades'
+    main(tickers_path=TRADE_FILES)
