@@ -48,7 +48,7 @@ class Test1(TestCase):
         settings.INTENTS[1]['answer'],
         settings.SCENARIOS['registration']['steps']['step1']['text'],
         settings.SCENARIOS['registration']['steps']['step2']['text'],
-        settings.SCENARIOS['registration']['steps']['step1']['failure_text'],
+        settings.SCENARIOS['registration']['steps']['step2']['failure_text'],
         settings.SCENARIOS['registration']['steps']['step3']['text'].format(name='Вениамин', email='email@email.ru'),
     ]
 
