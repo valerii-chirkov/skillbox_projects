@@ -17,9 +17,6 @@
 #       ТИКЕР7, ТИКЕР8, ТИКЕР9, ТИКЕР10, ТИКЕР11, ТИКЕР12
 # Волатильности указывать в порядке убывания. Тикеры с нулевой волатильностью упорядочить по имени.
 #
-# TODO Внимание! это задание можно выполнять только после зачета lesson_012/02_volatility_with_threads.py !!!
-
-# TODO тут ваш код в многопроцессном стиле
 import csv
 import os
 from collections import OrderedDict
@@ -92,7 +89,7 @@ def main(tickers_path):
     tickers = {}
     collector = Queue(maxsize=2)
     processes = [TickerVolatility(file_path=fname, tickers_queue=collector) for fname in get_next_file(tickers_path)]
-    [process.start() for process in processes]
+    [process.start() for process in processes]  # Это не очень хорошая практика, тут нужен просто цикл for
     while True:
         try:
             ticker, volatility = collector.get(timeout=1)
@@ -107,3 +104,5 @@ def main(tickers_path):
 if __name__ == '__main__':
     TRADE_FILES = './trades'
     main(tickers_path=TRADE_FILES)
+
+# зачет!
